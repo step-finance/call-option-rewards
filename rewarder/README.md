@@ -13,3 +13,20 @@ This solution for rewarding requires an off-chain program to run when rewards ar
 ## More Info
 
 https://dana-hanna.gitbook.io/smart-contracts/#the-rewarder
+
+## Executing
+
+This program uses [Deno](https://deno.land/) and can be run using standard `deno` commands.
+
+```bash
+deno run --allow-all mod.ts 
+```
+
+## USAGE:
+
+|Flag|Description|Default|
+|---|---|---|
+|--url|The url to the rpc node.|`https://api.mainnet-beta.solana.com/`|
+|--user|A user to authenticate (basic auth) to the node.|_none_|
+|--pass|The password to use to authenticate. Must be used in coordication with --user.|_none_|
+|--fee|The fee address to query for fees paid.|`5Cebzty8iwgAUx9jyfZVAT2iMvXBECLwEVgT6T8KYmvS`|
