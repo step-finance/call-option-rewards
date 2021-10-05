@@ -1,0 +1,12 @@
+[programs.localnet]
+merkle_call_options = "otstoZivsnAdKfcwbPY5NDfSiBxyHHu5U48pHgnXErE"
+
+[registry]
+url = "https://anchor.projectserum.com"
+
+[provider]
+cluster = "localnet"
+wallet = "~/.config/solana/id.json"
+
+[scripts]
+test = "mocha -t 1000000 tests/"
