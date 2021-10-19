@@ -21,15 +21,6 @@ pub mod merkle_call_options {
         node_count: u32,
     ) -> ProgramResult {
 
-        msg!("index {}", index);
-        msg!("bump {}", bump);
-        msg!("merkle_root {:?}", merkle_root);
-        msg!("strike_price {}", strike_price);
-        msg!("expiry {}", expiry);
-        msg!("data_location {:?}", data_location);
-        msg!("max_total_claim {}", max_total_claim);
-        msg!("node_count {}", node_count);
-
         let distributor = &mut ctx.accounts.distributor;
 
         distributor.writer = ctx.accounts.writer.key();
