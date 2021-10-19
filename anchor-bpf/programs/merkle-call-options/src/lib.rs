@@ -21,15 +21,6 @@ pub mod merkle_call_options {
         node_count: u32,
     ) -> ProgramResult {
 
-        msg!("index {}", index);
-        msg!("bump {}", bump);
-        msg!("merkle_root {:?}", merkle_root);
-        msg!("strike_price {}", strike_price);
-        msg!("expiry {}", expiry);
-        msg!("data_location {:?}", data_location);
-        msg!("max_total_claim {}", max_total_claim);
-        msg!("node_count {}", node_count);
-
         let distributor = &mut ctx.accounts.distributor;
 
         distributor.writer = ctx.accounts.writer.key();
@@ -121,20 +112,21 @@ pub struct NewDistributor<'info> {
 #[derive(Default)]
 #[repr(C)]
 pub struct CallOptionDistributor {
-    /// The pubkey of the underwriter of the options
+    /// The pubkey of the underwriter of the options. Allowed to reclaim after expiry.
     pub writer: Pubkey,
     /// [Mint] of the token to be distributed.
     pub mint: Pubkey,
-    /// Contract index for this account
+    /// Contract index for this account. This is part of the seed to derive the address, and should be a
+    /// well known incrementing number, ideally based on time. Ex. number of week/day after project launch.
     pub index: u16,
     /// Bump seed for this account
     pub bump: u8,
 
-    /// The strike price in USDC per 1e<mint decimals> (value of 1_000_000_000 would mean $1 = 1 STEP)
+    /// The strike price in USDC per 1e<mint decimals> (value of 1_000_000_000 would mean $1 = 1 token)
     pub strike_price: u64,
     /// The expiration time of the contract
     pub expiry: u64,
-    /// Arweave id
+    /// Arweave id or other unique identifier
     pub data_location: String,
 
     /// The 256-bit merkle root.
@@ -144,7 +136,7 @@ pub struct CallOptionDistributor {
     pub max_total_claim: u64,
     /// Total amount of tokens that have been claimed.
     pub total_amount_claimed: u64,
-    /// Maximum number of nodes that can ever be claimed from this [MerkleDistributor].
+    /// Maximum number of nodes that can ever claim from this [MerkleDistributor].
     pub max_num_nodes: u32,
     /// Number of nodes that have been claimed.
     pub num_nodes_claimed: u64,
