@@ -90,10 +90,11 @@ pub struct NewDistributor<'info> {
     pub from: Box<Account<'info, TokenAccount>>,
 
     /// Account to hold the tokens to sell for distribution
+    /// Authority is itself as this is a pda
     #[account(
         init,
         token::mint = mint,
-        token::authority = distributor,
+        token::authority = vault,
         seeds = [
             "vault".as_bytes()
         ],

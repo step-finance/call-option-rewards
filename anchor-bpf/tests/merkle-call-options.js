@@ -49,7 +49,6 @@ describe('merkle-call-options', () => {
     )
     distVault = _distVault;
 
-    //sample-claims merkle root is 943c96dc21e7805a9dc1f93a79e051030169c625c796c501684ba8a9b52e47b7
     await program.rpc.newDistributor(
       index, 
       distBump,
