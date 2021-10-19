@@ -177,6 +177,9 @@ const claimsInfo = Object.entries(claims).map(([authority, claim]) => {
     }
   });
 
+  console.log("merkle root:", merkleRoot.toString());
+  console.log("token total:", tokenTotal);
+
   console.log("Writing claims");
   await Deno.writeTextFile("output/claims.json", JSON.stringify(claimsInfo, null, 2));
 
