@@ -29,4 +29,6 @@ deno run --allow-all mod.ts
 |--url|The url to the rpc node.|`https://api.mainnet-beta.solana.com/`|
 |--user|A user to authenticate (basic auth) to the node.|_none_|
 |--pass|The password to use to authenticate. Must be used in coordication with --user.|_none_|
-|--fee|The fee address to query for fees paid.|`5Cebzty8iwgAUx9jyfZVAT2iMvXBECLwEVgT6T8KYmvS`|
+|--start|The unix timestamp (in seconds) for the end of the rewards period; inclusive.|_1 week ago_|
+|--end|The unix timestamp (in seconds) for the end of the rewards period; exclusive.|_now_|
+|--amt|The amount of STEP call options to distribute.|_1,000,000,000 (1 STEP)_|
