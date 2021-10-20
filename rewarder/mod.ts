@@ -37,16 +37,16 @@ import { Buffer } from "https://deno.land/std@0.76.0/node/buffer.ts";
 import { parse } from "https://deno.land/std@0.110.0/flags/mod.ts";
 
 import BN from "https://esm.sh/v53/bn.js@5.2.0/es2021/bn.development.js";
-import { web3 } from "https://esm.sh/@project-serum/anchor@0.17.0?dev&no-check";
+import { Connection, PublicKey } from "https://esm.sh/@solana/web3.js?dev&no-check";
+//import { web3 } from "https://esm.sh/@project-serum/anchor@0.17.0?dev&no-check";
 
-//import MerkleDistributor from "https://esm.sh/@saberhq/merkle-distributor?dev&no-check";
 import { parseBalanceMap } from "./utils/parse-balance-map.ts";
 
 import { getPools } from "./stepSwap.ts";
 import { getTokensAndPrice, getPayerSums } from "./payerParsing.ts";
 import { PayerAmount, PoolFeesPaid, PoolFeePayer } from "./classes.ts";
 import { asyncFilter, asyncMap, asyncUntil, asyncToArray } from "./asycIter.ts";
-import { createDistributor, CreateDistributorOptions, CreateDistributorData } from "./anchor-wrapper/index.ts";
+//import { createDistributor, CreateDistributorOptions, CreateDistributorData } from "./anchor-wrapper/index.ts";
 
 const CALL_OPTIONS_PROGRAM = 'Fg6PaFpoGXkYsidMpWTK6W2BeZ7FEfcYkg476zPFsLnS';
 const SWAP_PROGRAM = 'SSwpMgqNDsyV7mAgN9ady4bDVu5ySjmmXejXvy2vLt1';
@@ -76,7 +76,7 @@ weekAgoDate.setDate(weekAgoDate.getDate() - 7);
 const start = args['start'] ?? Math.floor(weekAgoDate.getTime() / 1000);
 
 const weekAfterEnd = new Date();
-weekAfterEnd.setDate(end.getDate() + 7);
+weekAfterEnd.setDate(new Date(end * 1000).getDate() + 7);
 const expiry = args['expiry'] ?? Math.floor(weekAfterEnd.getTime() / 1000);
 
 console.log('Using start date', new Date(start * 1000).toUTCString());
@@ -90,21 +90,21 @@ console.log('Writing for amount', amountString);
 const strikePriceString = args['price'] ?? 1_000_000_000;
 const strikePrice = new BN(strikePriceString, 10);
 console.log('Strike price', strikePriceString);
-
+/*
 const kpFile = args['key'];
 let kp;
 if (kpFile) {
     const text = await Deno.readTextFile(kpFile);
     const byteArray = JSON.parse(text);
     const buf = Buffer.from(byteArray);
-    kp = web3.Keypair.fromSecretKey(buf);
+    kp = Keypair.fromSecretKey(buf);
     console.log('will use private key to create onchain distribution')
 } else {
     console.log('no solana key provided, running for local output only')
 }
-
+*/
 //connection
-const con = new web3.Connection(nodeUrl, {
+const con = new Connection(nodeUrl, {
     commitment: 'finalized',
     httpHeaders: headers,
 });
@@ -117,7 +117,7 @@ console.log('connection test; genisis blockhash is', test);
 //LOAD
 
 //get all the pools and their value in step (technically exactly half the full value, but we're ultimately dealing in ratios anyhow)
-let iter: any = getPools(con, new web3.PublicKey(POOL_REGISTRY_OWNER), new web3.PublicKey(SWAP_PROGRAM));
+let iter: any = getPools(con, new PublicKey(POOL_REGISTRY_OWNER), new PublicKey(SWAP_PROGRAM));
 iter = asyncMap(iter, (a: any) => getTokensAndPrice(con, a, STEP_MINT));
 iter = asyncFilter(iter, (a: any) => a.stepMultiplier.toString() != '0');
 
@@ -228,7 +228,7 @@ await Deno.writeTextFile("output/claims.json", JSON.stringify(claimsInfo, null, 
 
 
 //ANCHOR CALL
-
+/*
 const weekNumber = 0;
 if (kp) {
     const idlText = await Deno.readTextFile('../anchor-bpf/target/idl/merkle_call_options.json');
@@ -251,7 +251,7 @@ if (kp) {
         } as CreateDistributorOptions
     );
 }
-
+*/
 console.log("Done");
 Deno.exit();
 
