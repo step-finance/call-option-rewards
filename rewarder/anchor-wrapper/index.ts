@@ -1,6 +1,6 @@
 import { Buffer } from "https://deno.land/std@0.76.0/node/buffer.ts";
 
-import { Program, Provider, Wallet, web3 } from "https://esm.sh/@project-serum/anchor@0.17.0?dev&no-check";
+import { Program, Provider, Wallet, web3 } from "../anchor-dev/anchor-dev.js";
 
 const TOKEN_PROGRAM_ID = new web3.PublicKey(
   'TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA',
@@ -14,13 +14,15 @@ export async function createDistributor(data: CreateDistributorData, opt: Create
     const program = new Program(
         opt.idl,
         opt.programId,
-        new Provider(opt.connection, new Wallet(opt.keypair))
+        new Provider(opt.connection, new Wallet(opt.keypair), {
+            preflightCommitment: "recent",
+            commitment: "recent",
+          })
     );
 
-    
     const [tokenATA] = await web3.PublicKey.findProgramAddress(
         [
-            program.provider.wallet.web3.PublicKey, 
+            program.provider.wallet.publicKey.toBuffer(), 
             TOKEN_PROGRAM_ID.toBuffer(), 
             data.mintPubkey.toBuffer()
         ],
@@ -33,7 +35,7 @@ export async function createDistributor(data: CreateDistributorData, opt: Create
     view.setInt16(0, index, true);
     const [distAddress, distBump] = await web3.PublicKey.findProgramAddress(
       [
-        program.provider.wallet.web3.PublicKey.toBuffer(),
+        program.provider.wallet.publicKey.toBuffer(),
         data.mintPubkey.toBuffer(),
         buff
       ],
