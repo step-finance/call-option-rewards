@@ -1,6 +1,6 @@
 import { Buffer } from "https://deno.land/std@0.76.0/node/buffer.ts";
 
-import { Program, Provider, Wallet, web3 } from "../anchor-dev/anchor-dev.js";
+import { Program, Provider, Wallet, web3 } from "../anchor-esm-fix/anchor-dev.js";
 
 const TOKEN_PROGRAM_ID = new web3.PublicKey(
   'TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA',

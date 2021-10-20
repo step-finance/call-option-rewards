@@ -37,7 +37,7 @@ import { Buffer } from "https://deno.land/std@0.76.0/node/buffer.ts";
 import { parse } from "https://deno.land/std@0.110.0/flags/mod.ts";
 
 import BN from "https://esm.sh/v53/bn.js@5.2.0/es2021/bn.development.js";
-import { web3 } from "./anchor-dev/anchor-dev.js";;
+import { web3 } from "./anchor-esm-fix/anchor-dev.js";;
 
 //import MerkleDistributor from "https://esm.sh/@saberhq/merkle-distributor?dev&no-check";
 import { parseBalanceMap } from "./utils/parse-balance-map.ts";

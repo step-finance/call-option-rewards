@@ -1,4 +1,20 @@
+
+
+
+/**
+ * 
+ * Copied from https://cdn.esm.sh/v54/@project-serum/anchor@0.17.0/deno/anchor.development.js
+ * lines 16 and 17 commented out below
+ *  
+ */
+
+
+
+
+
 /* esm.sh - esbuild bundle(@project-serum/anchor@0.17.0) deno development */
+//import __process$ from "/v54/node_process.js";
+//__process$.env.NODE_ENV="development";
 import { Buffer as __Buffer$ } from "https://cdn.esm.sh/v54/node_buffer.js";
 import __util$ from "https://cdn.esm.sh/v54/util@0.12.4/deno/util.development.js";
 import __path$ from "https://cdn.esm.sh/v54/deno_std_node_path.js";
