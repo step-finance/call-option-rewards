@@ -1,9 +1,25 @@
+
+
+
+/**
+ * 
+ * Copied from https://cdn.esm.sh/v54/@project-serum/anchor@0.17.0/deno/anchor.development.js
+ * lines 16 and 17 commented out below
+ *  
+ */
+
+
+
+
+
 /* esm.sh - esbuild bundle(@project-serum/anchor@0.17.0) deno development */
-import { Buffer as __Buffer$ } from "https://cdn.esm.sh/v54/node_buffer.js";
-import __util$ from "https://cdn.esm.sh/v54/util@0.12.4/deno/util.development.js";
-import __path$ from "https://cdn.esm.sh/v54/deno_std_node_path.js";
-import __fs$ from "https://cdn.esm.sh/v54/deno_std_node_fs.js";
-import __process$ from "https://cdn.esm.sh/v54/process@0.11.10/deno/browser.development.js";
+//import __process$ from "/v54/node_process.js";
+//__process$.env.NODE_ENV="development";
+import { Buffer as __Buffer$ } from "/v54/node_buffer.js";
+import __util$ from "/v54/util@0.12.4/deno/util.development.js";
+import __path$ from "/v54/deno_std_node_path.js";
+import __fs$ from "/v54/deno_std_node_fs.js";
+import __process$ from "/v54/process@0.11.10/deno/browser.development.js";
 var __defProp = Object.defineProperty;
 var __markAsModule = (target) => __defProp(target, "__esModule", { value: true });
 var __require = (x) => {
@@ -18,11 +34,11 @@ var __export = (target, all) => {
 };
 
 // esm-build-eaa1a07c4624cc5282f691c9aeefbec623a7c1a5/node_modules/@project-serum/anchor/dist/esm/index.js
-import { default as default2 } from "https://cdn.esm.sh/v54/bn.js@5.2.0/deno/bn.development.js";
-import * as web3_1 from "https://cdn.esm.sh/v54/@solana/web3.js@1.29.2/deno/web3.development.js";
+import { default as default2 } from "/v54/bn.js@5.2.0/deno/bn.development.js";
+import * as web3_1 from "/v54/@solana/web3.js@1.29.2/deno/web3.development.js";
 
 // esm-build-eaa1a07c4624cc5282f691c9aeefbec623a7c1a5/node_modules/@project-serum/anchor/dist/esm/provider.js
-import { Connection, Keypair, sendAndConfirmRawTransaction } from "https://cdn.esm.sh/v54/@solana/web3.js@1.29.2/deno/web3.development.js";
+import { Connection, Keypair, sendAndConfirmRawTransaction } from "/v54/@solana/web3.js@1.29.2/deno/web3.development.js";
 
 // esm-build-eaa1a07c4624cc5282f691c9aeefbec623a7c1a5/node_modules/@project-serum/anchor/dist/esm/utils/common.js
 var _a;
@@ -172,17 +188,17 @@ function getProvider() {
 var _provider = null;
 
 // esm-build-eaa1a07c4624cc5282f691c9aeefbec623a7c1a5/node_modules/@project-serum/anchor/dist/esm/coder/instruction.js
-import camelCase2 from "https://cdn.esm.sh/v54/camelcase@5.3.1/deno/camelcase.development.js";
+import camelCase2 from "/v54/camelcase@5.3.1/deno/camelcase.development.js";
 import {
   struct as struct2
-} from "https://cdn.esm.sh/v54/@project-serum/borsh@0.2.2/deno/borsh.development.js";
+} from "/v54/@project-serum/borsh@0.2.2/deno/borsh.development.js";
 import {
   decode,
   encode
-} from "https://cdn.esm.sh/v54/bs58@4.0.1/deno/bs58.development.js";
+} from "/v54/bs58@4.0.1/deno/bs58.development.js";
 
 // esm-build-eaa1a07c4624cc5282f691c9aeefbec623a7c1a5/node_modules/@project-serum/anchor/dist/esm/coder/idl.js
-import camelCase from "https://cdn.esm.sh/v54/camelcase@5.3.1/deno/camelcase.development.js";
+import camelCase from "/v54/camelcase@5.3.1/deno/camelcase.development.js";
 import {
   array,
   bool,
@@ -203,7 +219,7 @@ import {
   u8,
   vec,
   vecU8
-} from "https://cdn.esm.sh/v54/@project-serum/borsh@0.2.2/deno/borsh.development.js";
+} from "/v54/@project-serum/borsh@0.2.2/deno/borsh.development.js";
 
 // esm-build-eaa1a07c4624cc5282f691c9aeefbec623a7c1a5/node_modules/@project-serum/anchor/dist/esm/error.js
 var IdlError = class extends Error {
@@ -469,8 +485,8 @@ var IdlCoder = class {
 };
 
 // esm-build-eaa1a07c4624cc5282f691c9aeefbec623a7c1a5/node_modules/@project-serum/anchor/dist/esm/coder/common.js
-import { snakeCase } from "https://cdn.esm.sh/v54/snake-case@3.0.4/deno/snake-case.development.js";
-import { sha256 } from "https://cdn.esm.sh/v54/js-sha256@0.9.0/deno/js-sha256.development.js";
+import { snakeCase } from "/v54/snake-case@3.0.4/deno/snake-case.development.js";
+import { sha256 } from "/v54/js-sha256@0.9.0/deno/js-sha256.development.js";
 function accountSize(idl, idlAccount) {
   if (idlAccount.type.kind === "enum") {
     let variantSizes = idlAccount.type.variants.map((variant) => {
@@ -764,7 +780,7 @@ function sentenceCase(field) {
 }
 
 // esm-build-eaa1a07c4624cc5282f691c9aeefbec623a7c1a5/node_modules/@project-serum/anchor/dist/esm/coder/accounts.js
-import { sha256 as sha2562 } from "https://cdn.esm.sh/v54/js-sha256@0.9.0/deno/js-sha256.development.js";
+import { sha256 as sha2562 } from "/v54/js-sha256@0.9.0/deno/js-sha256.development.js";
 var ACCOUNT_DISCRIMINATOR_SIZE = 8;
 var AccountsCoder = class {
   constructor(idl) {
@@ -836,8 +852,8 @@ var TypesCoder = class {
 import {
   fromByteArray,
   toByteArray
-} from "https://cdn.esm.sh/v54/base64-js@1.5.1/deno/base64-js.development.js";
-import { sha256 as sha2563 } from "https://cdn.esm.sh/v54/js-sha256@0.9.0/deno/js-sha256.development.js";
+} from "/v54/base64-js@1.5.1/deno/base64-js.development.js";
+import { sha256 as sha2563 } from "/v54/js-sha256@0.9.0/deno/js-sha256.development.js";
 var EventCoder = class {
   constructor(idl) {
     if (idl.events === void 0) {
@@ -887,7 +903,7 @@ function eventDiscriminator(name) {
 }
 
 // esm-build-eaa1a07c4624cc5282f691c9aeefbec623a7c1a5/node_modules/@project-serum/anchor/dist/esm/coder/state.js
-import { sha256 as sha2564 } from "https://cdn.esm.sh/v54/js-sha256@0.9.0/deno/js-sha256.development.js";
+import { sha256 as sha2564 } from "/v54/js-sha256@0.9.0/deno/js-sha256.development.js";
 
 // esm-build-eaa1a07c4624cc5282f691c9aeefbec623a7c1a5/node_modules/@project-serum/anchor/dist/esm/utils/features.js
 var features_exports = {};
@@ -949,22 +965,22 @@ var Coder = class {
 };
 
 // esm-build-eaa1a07c4624cc5282f691c9aeefbec623a7c1a5/node_modules/@project-serum/anchor/dist/esm/workspace.js
-import camelCase6 from "https://cdn.esm.sh/v54/camelcase@5.3.1/deno/camelcase.development.js";
+import camelCase6 from "/v54/camelcase@5.3.1/deno/camelcase.development.js";
 import {
   parse
-} from "https://cdn.esm.sh/v54/toml@3.0.0/deno/toml.development.js";
-import { PublicKey as PublicKey5 } from "https://cdn.esm.sh/v54/@solana/web3.js@1.29.2/deno/web3.development.js";
+} from "/v54/toml@3.0.0/deno/toml.development.js";
+import { PublicKey as PublicKey5 } from "/v54/@solana/web3.js@1.29.2/deno/web3.development.js";
 
 // esm-build-eaa1a07c4624cc5282f691c9aeefbec623a7c1a5/node_modules/@project-serum/anchor/dist/esm/program/index.js
-import { inflate } from "https://cdn.esm.sh/v54/pako@2.0.4/deno/pako.development.js";
+import { inflate } from "/v54/pako@2.0.4/deno/pako.development.js";
 
 // esm-build-eaa1a07c4624cc5282f691c9aeefbec623a7c1a5/node_modules/@project-serum/anchor/dist/esm/idl.js
-import { PublicKey } from "https://cdn.esm.sh/v54/@solana/web3.js@1.29.2/deno/web3.development.js";
+import { PublicKey } from "/v54/@solana/web3.js@1.29.2/deno/web3.development.js";
 import {
   publicKey as publicKey2,
   struct as struct3,
   vecU8 as vecU82
-} from "https://cdn.esm.sh/v54/@project-serum/borsh@0.2.2/deno/borsh.development.js";
+} from "/v54/@project-serum/borsh@0.2.2/deno/borsh.development.js";
 async function idlAddress(programId) {
   const base = (await PublicKey.findProgramAddress([], programId))[0];
   return await PublicKey.createWithSeed(base, seed(), programId);
@@ -981,15 +997,15 @@ function decodeIdlAccount(data) {
 }
 
 // esm-build-eaa1a07c4624cc5282f691c9aeefbec623a7c1a5/node_modules/@project-serum/anchor/dist/esm/program/namespace/index.js
-import camelCase5 from "https://cdn.esm.sh/v54/camelcase@5.3.1/deno/camelcase.development.js";
+import camelCase5 from "/v54/camelcase@5.3.1/deno/camelcase.development.js";
 
 // esm-build-eaa1a07c4624cc5282f691c9aeefbec623a7c1a5/node_modules/@project-serum/anchor/dist/esm/program/namespace/state.js
-import EventEmitter from "https://cdn.esm.sh/v54/eventemitter3@4.0.7/deno/eventemitter3.development.js";
-import camelCase3 from "https://cdn.esm.sh/v54/camelcase@5.3.1/deno/camelcase.development.js";
-import { SystemProgram } from "https://cdn.esm.sh/v54/@solana/web3.js@1.29.2/deno/web3.development.js";
+import EventEmitter from "/v54/eventemitter3@4.0.7/deno/eventemitter3.development.js";
+import camelCase3 from "/v54/camelcase@5.3.1/deno/camelcase.development.js";
+import { SystemProgram } from "/v54/@solana/web3.js@1.29.2/deno/web3.development.js";
 
 // esm-build-eaa1a07c4624cc5282f691c9aeefbec623a7c1a5/node_modules/@project-serum/anchor/dist/esm/program/common.js
-import { PublicKey as PublicKey2 } from "https://cdn.esm.sh/v54/@solana/web3.js@1.29.2/deno/web3.development.js";
+import { PublicKey as PublicKey2 } from "/v54/@solana/web3.js@1.29.2/deno/web3.development.js";
 function parseIdlErrors(idl) {
   const errors = new Map();
   if (idl.errors) {
@@ -1041,9 +1057,9 @@ __export(pubkey_exports, {
   createWithSeedSync: () => createWithSeedSync,
   findProgramAddressSync: () => findProgramAddressSync
 });
-import BN from "https://cdn.esm.sh/v54/bn.js@5.2.0/deno/bn.development.js";
-import { sha256 as sha256Sync } from "https://cdn.esm.sh/v54/js-sha256@0.9.0/deno/js-sha256.development.js";
-import { PublicKey as PublicKey3 } from "https://cdn.esm.sh/v54/@solana/web3.js@1.29.2/deno/web3.development.js";
+import BN from "/v54/bn.js@5.2.0/deno/bn.development.js";
+import { sha256 as sha256Sync } from "/v54/js-sha256@0.9.0/deno/js-sha256.development.js";
+import { PublicKey as PublicKey3 } from "/v54/@solana/web3.js@1.29.2/deno/web3.development.js";
 function createWithSeedSync(fromPublicKey, seed2, programId) {
   const buffer = __Buffer$.concat([
     fromPublicKey.toBuffer(),
@@ -1111,7 +1127,7 @@ async function associated(programId, ...args) {
 }
 
 // esm-build-eaa1a07c4624cc5282f691c9aeefbec623a7c1a5/node_modules/@project-serum/anchor/dist/esm/program/namespace/instruction.js
-import { TransactionInstruction } from "https://cdn.esm.sh/v54/@solana/web3.js@1.29.2/deno/web3.development.js";
+import { TransactionInstruction } from "/v54/@solana/web3.js@1.29.2/deno/web3.development.js";
 
 // esm-build-eaa1a07c4624cc5282f691c9aeefbec623a7c1a5/node_modules/@project-serum/anchor/dist/esm/program/context.js
 function splitArgsAndCtx(idlIx, args) {
@@ -1197,7 +1213,7 @@ var RpcFactory = class {
 };
 
 // esm-build-eaa1a07c4624cc5282f691c9aeefbec623a7c1a5/node_modules/@project-serum/anchor/dist/esm/program/namespace/transaction.js
-import { Transaction } from "https://cdn.esm.sh/v54/@solana/web3.js@1.29.2/deno/web3.development.js";
+import { Transaction } from "/v54/@solana/web3.js@1.29.2/deno/web3.development.js";
 var TransactionFactory = class {
   static build(idlIx, ixFn) {
     const txFn = (...args) => {
@@ -1338,12 +1354,12 @@ function stateInstructionKeys(programId, provider, m, accounts) {
 }
 
 // esm-build-eaa1a07c4624cc5282f691c9aeefbec623a7c1a5/node_modules/@project-serum/anchor/dist/esm/program/namespace/account.js
-import camelCase4 from "https://cdn.esm.sh/v54/camelcase@5.3.1/deno/camelcase.development.js";
-import EventEmitter2 from "https://cdn.esm.sh/v54/eventemitter3@4.0.7/deno/eventemitter3.development.js";
+import camelCase4 from "/v54/camelcase@5.3.1/deno/camelcase.development.js";
+import EventEmitter2 from "/v54/eventemitter3@4.0.7/deno/eventemitter3.development.js";
 import {
   encode as encode2
-} from "https://cdn.esm.sh/v54/bs58@4.0.1/deno/bs58.development.js";
-import { SystemProgram as SystemProgram2 } from "https://cdn.esm.sh/v54/@solana/web3.js@1.29.2/deno/web3.development.js";
+} from "/v54/bs58@4.0.1/deno/bs58.development.js";
+import { SystemProgram as SystemProgram2 } from "/v54/@solana/web3.js@1.29.2/deno/web3.development.js";
 
 // esm-build-eaa1a07c4624cc5282f691c9aeefbec623a7c1a5/node_modules/@project-serum/anchor/dist/esm/utils/rpc.js
 var rpc_exports = {};
@@ -1351,8 +1367,8 @@ __export(rpc_exports, {
   getMultipleAccounts: () => getMultipleAccounts,
   invoke: () => invoke
 });
-import assert from "https://cdn.esm.sh/v54/assert@2.0.0/deno/assert.development.js";
-import { PublicKey as PublicKey4, Transaction as Transaction2, TransactionInstruction as TransactionInstruction2 } from "https://cdn.esm.sh/v54/@solana/web3.js@1.29.2/deno/web3.development.js";
+import assert from "/v54/assert@2.0.0/deno/assert.development.js";
+import { PublicKey as PublicKey4, Transaction as Transaction2, TransactionInstruction as TransactionInstruction2 } from "/v54/@solana/web3.js@1.29.2/deno/web3.development.js";
 async function invoke(programId, accounts, data, provider) {
   programId = translateAddress(programId);
   if (!provider) {
@@ -1553,7 +1569,7 @@ var subscriptions = new Map();
 // esm-build-eaa1a07c4624cc5282f691c9aeefbec623a7c1a5/node_modules/@project-serum/anchor/dist/esm/program/event.js
 import {
   ok
-} from "https://cdn.esm.sh/v54/assert@2.0.0/deno/assert.development.js";
+} from "/v54/assert@2.0.0/deno/assert.development.js";
 var LOG_START_INDEX = "Program log: ".length;
 var EventManager = class {
   constructor(programId, provider, coder) {
@@ -1828,7 +1844,7 @@ __export(bs58_exports, {
 import {
   decode as decode4,
   encode as encode5
-} from "https://cdn.esm.sh/v54/bs58@4.0.1/deno/bs58.development.js";
+} from "/v54/bs58@4.0.1/deno/bs58.development.js";
 function encode6(data) {
   return encode5(data);
 }
@@ -1845,7 +1861,7 @@ __export(base64_exports, {
 import {
   fromByteArray as fromByteArray2,
   toByteArray as toByteArray2
-} from "https://cdn.esm.sh/v54/base64-js@1.5.1/deno/base64-js.development.js";
+} from "/v54/base64-js@1.5.1/deno/base64-js.development.js";
 function encode7(data) {
   return fromByteArray2(data);
 }
@@ -1985,7 +2001,7 @@ var sha256_exports = {};
 __export(sha256_exports, {
   hash: () => hash
 });
-import { sha256 as sha2565 } from "https://cdn.esm.sh/v54/js-sha256@0.9.0/deno/js-sha256.development.js";
+import { sha256 as sha2565 } from "/v54/js-sha256@0.9.0/deno/js-sha256.development.js";
 function hash(data) {
   return sha2565(data);
 }
@@ -1995,7 +2011,7 @@ var token_exports = {};
 __export(token_exports, {
   associatedAddress: () => associatedAddress
 });
-import { PublicKey as PublicKey6 } from "https://cdn.esm.sh/v54/@solana/web3.js@1.29.2/deno/web3.development.js";
+import { PublicKey as PublicKey6 } from "/v54/@solana/web3.js@1.29.2/deno/web3.development.js";
 var TOKEN_PROGRAM_ID = new PublicKey6("TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA");
 var ASSOCIATED_PROGRAM_ID = new PublicKey6("ATokenGPvbdGVxr1b2hvZbsiqW5xWH25efTNsLJA8knL");
 async function associatedAddress({ mint, owner }) {
