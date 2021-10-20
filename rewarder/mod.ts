@@ -37,7 +37,7 @@ import { Buffer } from "https://deno.land/std@0.76.0/node/buffer.ts";
 import { parse } from "https://deno.land/std@0.110.0/flags/mod.ts";
 
 import BN from "https://esm.sh/v53/bn.js@5.2.0/es2021/bn.development.js";
-import { web3 } from "https://esm.sh/@project-serum/anchor@0.17.0?dev&no-check";
+import { web3 } from "./anchor-dev/anchor-dev.js";;
 
 //import MerkleDistributor from "https://esm.sh/@saberhq/merkle-distributor?dev&no-check";
 import { parseBalanceMap } from "./utils/parse-balance-map.ts";
@@ -52,7 +52,6 @@ const CALL_OPTIONS_PROGRAM = 'Fg6PaFpoGXkYsidMpWTK6W2BeZ7FEfcYkg476zPFsLnS';
 const SWAP_PROGRAM = 'SSwpMgqNDsyV7mAgN9ady4bDVu5ySjmmXejXvy2vLt1';
 const POOL_REGISTRY_OWNER = 'GkT2mRSujbydLUmA178ykHe7hZtaUpkmX2sfwS8suWb3'
 const STEP_MINT = 'StepAscQoEioFxxWGnh2sLBDFp9d8rvKz2Yp39iDpyT'
-
 
 //SETUP
 
@@ -76,19 +75,19 @@ weekAgoDate.setDate(weekAgoDate.getDate() - 7);
 const start = args['start'] ?? Math.floor(weekAgoDate.getTime() / 1000);
 
 const weekAfterEnd = new Date();
-weekAfterEnd.setDate(end.getDate() + 7);
+weekAfterEnd.setDate(new Date(end * 1000).getDate() + 7);
 const expiry = args['expiry'] ?? Math.floor(weekAfterEnd.getTime() / 1000);
 
 console.log('Using start date', new Date(start * 1000).toUTCString());
 console.log('Using end date', new Date(end * 1000).toUTCString());
 console.log('Using expiry date', new Date(expiry * 1000).toUTCString());
 
-const amountString = args['amt'] ?? '1_000_000_000';
+const amountString = args['amt'] ?? 1_000_000_000;
 const amountToWriteFor = new BN(amountString, 10);
 console.log('Writing for amount', amountString);
 
-const strikePriceString = args['price'] ?? '1_000_000_000';
-const strikePrice = new BN(amountString, 10);
+const strikePriceString = args['price'] ?? 1_000_000_000;
+const strikePrice = new BN(strikePriceString, 10);
 console.log('Strike price', strikePriceString);
 
 const kpFile = args['key'];
@@ -235,6 +234,7 @@ if (kp) {
     const idl = JSON.parse(idlText);
     await createDistributor(
         {
+            mintPubkey: new web3.PublicKey(STEP_MINT),
             index: weekNumber,
             merkleRoot: merkleRoot,
             expiry: new BN(expiry, 10),
