@@ -24,11 +24,16 @@
  *      The unix timestamp (in seconds) for the end of the rewards period; inclusive (default 1 week ago)
  * --end
  *      The unix timestamp (in seconds) for the end of the rewards period; exclusive (default now)
+ * --testing-limit
+ *      The number of pools to include (default all)
+ * --key
+ *      The path to a keypair to use for writing to the solana chain. (default empty; no onchain creation)
  */
 
 
 import "https://deno.land/x/xhr@0.1.0/mod.ts";
 import "https://deno.land/std@0.110.0/io/mod.ts";
+import { Buffer } from "https://deno.land/std@0.76.0/node/buffer.ts";
 import { parse } from "https://deno.land/std@0.110.0/flags/mod.ts";
 
 import BN from "https://esm.sh/v53/bn.js@5.2.0/es2021/bn.development.js";
@@ -41,12 +46,16 @@ import { getPools } from "./stepSwap.ts";
 import { getTokensAndPrice, getPayerSums } from "./payerParsing.ts";
 import { PayerAmount, PoolFeesPaid, PoolFeePayer } from "./classes.ts";
 import { asyncFilter, asyncMap, asyncUntil, asyncToArray } from "./asycIter.ts";
+import { createDistributor, CreateDistributorOptions, CreateDistributorData } from "./anchor-wrapper/index.ts";
 
+const CALL_OPTIONS_PROGRAM = 'Fg6PaFpoGXkYsidMpWTK6W2BeZ7FEfcYkg476zPFsLnS';
 const SWAP_PROGRAM = 'SSwpMgqNDsyV7mAgN9ady4bDVu5ySjmmXejXvy2vLt1';
 const POOL_REGISTRY_OWNER = 'GkT2mRSujbydLUmA178ykHe7hZtaUpkmX2sfwS8suWb3'
 const STEP_MINT = 'StepAscQoEioFxxWGnh2sLBDFp9d8rvKz2Yp39iDpyT'
 
+
 //SETUP
+
 //parse cli args
 const args = parse(Deno.args);
 const nodeUrl = args['url'] ?? 'https://api.mainnet-beta.solana.com/';
@@ -104,13 +113,15 @@ const con = new web3.Connection(nodeUrl, {
 const test = await con.getGenesisHash();
 console.log('connection test; genisis blockhash is', test);
 
+
+//LOAD
+
 //get all the pools and their value in step (technically exactly half the full value, but we're ultimately dealing in ratios anyhow)
 let iter: any = getPools(con, new web3.PublicKey(POOL_REGISTRY_OWNER), new web3.PublicKey(SWAP_PROGRAM));
 iter = asyncMap(iter, (a: any) => getTokensAndPrice(con, a, STEP_MINT));
 iter = asyncFilter(iter, (a: any) => a.stepMultiplier.toString() != '0');
 
-//TESTING ONLY
-//test, limit results
+//if testing, limit results
 let limit = parseInt(args['testing-limit'] ?? '9999999999999');
 iter = asyncUntil(iter, a => limit-- == 0);
 
@@ -191,6 +202,9 @@ const output = {
 console.log("Writing all-payers");
 await Deno.writeTextFile("output/all-payers.json", JSON.stringify(output, null, 2));
 
+
+//MERKLE
+
 //create merkle tree
 const { claims, merkleRoot, tokenTotal } = parseBalanceMap(finalPayerTotals);
 
@@ -204,10 +218,14 @@ const claimsInfo = Object.entries(claims).map(([authority, claim]) => {
             proof: claimA.proof.map((proof: any) => proof.toString("hex")),
         }
     }
-  });
+});
 
-  console.log("merkle root:", merkleRoot.toString());
-  console.log("token total:", tokenTotal);
+console.log("merkle root:", merkleRoot.toString());
+console.log("token total:", tokenTotal);
+
+console.log("Writing claims");
+await Deno.writeTextFile("output/claims.json", JSON.stringify(claimsInfo, null, 2));
+
 
 //ANCHOR CALL
 
