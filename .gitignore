@@ -6,3 +6,5 @@ target
 node_modules
 .vscode
 .code-workspace
+output/
+test-ledger/
