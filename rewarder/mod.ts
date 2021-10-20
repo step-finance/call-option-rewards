@@ -48,7 +48,7 @@ import { PayerAmount, PoolFeesPaid, PoolFeePayer } from "./classes.ts";
 import { asyncFilter, asyncMap, asyncUntil, asyncToArray } from "./asycIter.ts";
 import { createDistributor, CreateDistributorOptions, CreateDistributorData } from "./anchor-wrapper/index.ts";
 
-const CALL_OPTIONS_PROGRAM = 'Fg6PaFpoGXkYsidMpWTK6W2BeZ7FEfcYkg476zPFsLnS';
+const CALL_OPTIONS_PROGRAM = 'B9WjjujXFUZUMfqKRTg5wutnVexM2nfpTL7LumWZKbT4';
 const SWAP_PROGRAM = 'SSwpMgqNDsyV7mAgN9ady4bDVu5ySjmmXejXvy2vLt1';
 const POOL_REGISTRY_OWNER = 'GkT2mRSujbydLUmA178ykHe7hZtaUpkmX2sfwS8suWb3'
 const STEP_MINT = 'StepAscQoEioFxxWGnh2sLBDFp9d8rvKz2Yp39iDpyT'
@@ -219,7 +219,7 @@ const claimsInfo = Object.entries(claims).map(([authority, claim]) => {
     }
 });
 
-console.log("merkle root:", merkleRoot.toString());
+console.log("merkle root:", merkleRoot.toString("hex"));
 console.log("token total:", tokenTotal);
 
 console.log("Writing claims");
@@ -230,6 +230,8 @@ await Deno.writeTextFile("output/claims.json", JSON.stringify(claimsInfo, null, 
 
 const weekNumber = 0;
 if (kp) {
+    console.log("Writing contract account to chain");
+
     const idlText = await Deno.readTextFile('../anchor-bpf/target/idl/merkle_call_options.json');
     const idl = JSON.parse(idlText);
     await createDistributor(
