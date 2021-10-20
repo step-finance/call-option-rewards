@@ -28,6 +28,8 @@
  *      The number of pools to include (default all)
  * --key
  *      The path to a keypair to use for writing to the solana chain. (default empty; no onchain creation)
+ * --arkey
+ *      The path to a keypair to use for writing to the arweave chain. (default empty; no onchain creation)
  */
 
 
@@ -47,6 +49,7 @@ import { getTokensAndPrice, getPayerSums } from "./payerParsing.ts";
 import { PayerAmount, PoolFeesPaid, PoolFeePayer } from "./classes.ts";
 import { asyncFilter, asyncMap, asyncUntil, asyncToArray } from "./asycIter.ts";
 import { createDistributor, CreateDistributorOptions, CreateDistributorData } from "./anchor-wrapper/index.ts";
+import { uploadToArweave } from "./arweave/index.ts";
 
 const CALL_OPTIONS_PROGRAM = 'B9WjjujXFUZUMfqKRTg5wutnVexM2nfpTL7LumWZKbT4';
 const SWAP_PROGRAM = 'SSwpMgqNDsyV7mAgN9ady4bDVu5ySjmmXejXvy2vLt1';
@@ -100,6 +103,16 @@ if (kpFile) {
     console.log('will use private key to create onchain distribution')
 } else {
     console.log('no solana key provided, running for local output only')
+}
+
+const arkpFile = args['arkey'];
+let arkp;
+if (arkpFile) {
+    const text = await Deno.readTextFile(arkpFile);
+    arkp = JSON.parse(text);
+    console.log('will use private key to create arweave file')
+} else {
+    console.log('no arweave key provided, running for local output only')
 }
 
 //connection
@@ -223,12 +236,23 @@ console.log("merkle root:", merkleRoot.toString("hex"));
 console.log("token total:", tokenTotal);
 
 console.log("Writing claims");
-await Deno.writeTextFile("output/claims.json", JSON.stringify(claimsInfo, null, 2));
+const claimsInfoString = JSON.stringify(claimsInfo, null, 2)
+await Deno.writeTextFile("output/claims.json", claimsInfoString);
+
+
+//ARWEAVE
+
+let txid = 'unknown';
+if (arkp) {
+    console.log("Writing contract detail and proofs to arweave");
+    txid = await uploadToArweave(arkp, claimsInfoString)
+}
 
 
 //ANCHOR CALL
 
 const weekNumber = 0;
+
 if (kp) {
     console.log("Writing contract account to chain");
 
@@ -240,7 +264,7 @@ if (kp) {
             index: weekNumber,
             merkleRoot: merkleRoot,
             expiry: new BN(expiry, 10),
-            dataLocation: '012345678901234567890123456789012345678901234567890123456789',
+            dataLocation: txid,
             strikePrice: new BN(strikePrice, 10),
             totalAmount: amountToWriteFor,
             totalCount: finalPayerTotals.length,
