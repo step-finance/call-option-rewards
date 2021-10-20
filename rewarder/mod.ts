@@ -83,12 +83,12 @@ console.log('Using start date', new Date(start * 1000).toUTCString());
 console.log('Using end date', new Date(end * 1000).toUTCString());
 console.log('Using expiry date', new Date(expiry * 1000).toUTCString());
 
-const amountString = args['amt'] ?? '1_000_000_000';
+const amountString = args['amt'] ?? 1_000_000_000;
 const amountToWriteFor = new BN(amountString, 10);
 console.log('Writing for amount', amountString);
 
-const strikePriceString = args['price'] ?? '1_000_000_000';
-const strikePrice = new BN(amountString, 10);
+const strikePriceString = args['price'] ?? 1_000_000_000;
+const strikePrice = new BN(strikePriceString, 10);
 console.log('Strike price', strikePriceString);
 
 const kpFile = args['key'];
