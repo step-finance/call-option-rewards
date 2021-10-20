@@ -4,7 +4,7 @@ use std::mem;
 
 pub mod merkle_proof;
 
-declare_id!("Fg6PaFpoGXkYsidMpWTK6W2BeZ7FEfcYkg476zPFsLnS");
+declare_id!("B9WjjujXFUZUMfqKRTg5wutnVexM2nfpTL7LumWZKbT4");
 
 #[program]
 pub mod merkle_call_options {
