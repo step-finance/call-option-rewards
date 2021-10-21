@@ -43,6 +43,7 @@ describe('merkle-call-options', () => {
 
     [_distVault, _] = await anchor.web3.PublicKey.findProgramAddress(
       [
+        distAddress.toBuffer(),
         Buffer.from("vault", "utf-8"),
       ],
       program.programId,
@@ -64,6 +65,7 @@ describe('merkle-call-options', () => {
           mint: rewardMint,
           distributor: distAddress,
           payer: program.provider.wallet.publicKey,
+          fromAuthority: program.provider.wallet.publicKey,
           from: rewardVault,
           vault: distVault,
           rent: anchor.web3.SYSVAR_RENT_PUBKEY,

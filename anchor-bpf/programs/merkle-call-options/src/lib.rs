@@ -45,7 +45,7 @@ pub mod merkle_call_options {
         let cpi_accounts = Transfer {
             from: ctx.accounts.from.to_account_info(),
             to: ctx.accounts.vault.to_account_info(),
-            authority: ctx.accounts.payer.to_account_info(),
+            authority: ctx.accounts.from_authority.to_account_info(),
         };
         let cpi_program = ctx.accounts.token_program.to_account_info();
         let cpi_ctx = CpiContext::new(cpi_program, cpi_accounts);
@@ -85,6 +85,9 @@ pub struct NewDistributor<'info> {
     /// Payer to create the distributor.
     pub payer: Signer<'info>,
 
+    /// Authority to transfer from the "from" token account.
+    pub from_authority: Signer<'info>,
+
     /// Account to fund the distribution.
     #[account(mut)]
     pub from: Box<Account<'info, TokenAccount>>,
@@ -96,6 +99,7 @@ pub struct NewDistributor<'info> {
         token::mint = mint,
         token::authority = vault,
         seeds = [
+            distributor.key().as_ref(),
             "vault".as_bytes()
         ],
         bump,
