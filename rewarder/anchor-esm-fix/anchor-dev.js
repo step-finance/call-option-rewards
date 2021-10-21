@@ -5,7 +5,7 @@
  * 
  * Copied from https://cdn.esm.sh/v54/@project-serum/anchor@0.17.0/deno/anchor.development.js
  * lines 16 and 17 commented out below
- *  
+ * references to web3 changed to local
  */
 
 
@@ -35,10 +35,10 @@ var __export = (target, all) => {
 
 // esm-build-eaa1a07c4624cc5282f691c9aeefbec623a7c1a5/node_modules/@project-serum/anchor/dist/esm/index.js
 import { default as default2 } from "https://cdn.esm.sh/v54/bn.js@5.2.0/deno/bn.development.js";
-import * as web3_1 from "https://cdn.esm.sh/v54/@solana/web3.js@1.29.2/deno/web3.development.js";
+import * as web3_1 from "./web3-dev.js";
 
 // esm-build-eaa1a07c4624cc5282f691c9aeefbec623a7c1a5/node_modules/@project-serum/anchor/dist/esm/provider.js
-import { Connection, Keypair, sendAndConfirmRawTransaction } from "https://cdn.esm.sh/v54/@solana/web3.js@1.29.2/deno/web3.development.js";
+import { Connection, Keypair, sendAndConfirmRawTransaction } from "./web3-dev.js";
 
 // esm-build-eaa1a07c4624cc5282f691c9aeefbec623a7c1a5/node_modules/@project-serum/anchor/dist/esm/utils/common.js
 var _a;
@@ -969,13 +969,13 @@ import camelCase6 from "https://cdn.esm.sh/v54/camelcase@5.3.1/deno/camelcase.de
 import {
   parse
 } from "https://cdn.esm.sh/v54/toml@3.0.0/deno/toml.development.js";
-import { PublicKey as PublicKey5 } from "https://cdn.esm.sh/v54/@solana/web3.js@1.29.2/deno/web3.development.js";
+import { PublicKey as PublicKey5 } from "./web3-dev.js";
 
 // esm-build-eaa1a07c4624cc5282f691c9aeefbec623a7c1a5/node_modules/@project-serum/anchor/dist/esm/program/index.js
 import { inflate } from "https://cdn.esm.sh/v54/pako@2.0.4/deno/pako.development.js";
 
 // esm-build-eaa1a07c4624cc5282f691c9aeefbec623a7c1a5/node_modules/@project-serum/anchor/dist/esm/idl.js
-import { PublicKey } from "https://cdn.esm.sh/v54/@solana/web3.js@1.29.2/deno/web3.development.js";
+import { PublicKey } from "./web3-dev.js";
 import {
   publicKey as publicKey2,
   struct as struct3,
@@ -1002,10 +1002,10 @@ import camelCase5 from "https://cdn.esm.sh/v54/camelcase@5.3.1/deno/camelcase.de
 // esm-build-eaa1a07c4624cc5282f691c9aeefbec623a7c1a5/node_modules/@project-serum/anchor/dist/esm/program/namespace/state.js
 import EventEmitter from "https://cdn.esm.sh/v54/eventemitter3@4.0.7/deno/eventemitter3.development.js";
 import camelCase3 from "https://cdn.esm.sh/v54/camelcase@5.3.1/deno/camelcase.development.js";
-import { SystemProgram } from "https://cdn.esm.sh/v54/@solana/web3.js@1.29.2/deno/web3.development.js";
+import { SystemProgram } from "./web3-dev.js";
 
 // esm-build-eaa1a07c4624cc5282f691c9aeefbec623a7c1a5/node_modules/@project-serum/anchor/dist/esm/program/common.js
-import { PublicKey as PublicKey2 } from "https://cdn.esm.sh/v54/@solana/web3.js@1.29.2/deno/web3.development.js";
+import { PublicKey as PublicKey2 } from "./web3-dev.js";
 function parseIdlErrors(idl) {
   const errors = new Map();
   if (idl.errors) {
@@ -1059,7 +1059,7 @@ __export(pubkey_exports, {
 });
 import BN from "https://cdn.esm.sh/v54/bn.js@5.2.0/deno/bn.development.js";
 import { sha256 as sha256Sync } from "https://cdn.esm.sh/v54/js-sha256@0.9.0/deno/js-sha256.development.js";
-import { PublicKey as PublicKey3 } from "https://cdn.esm.sh/v54/@solana/web3.js@1.29.2/deno/web3.development.js";
+import { PublicKey as PublicKey3 } from "./web3-dev.js";
 function createWithSeedSync(fromPublicKey, seed2, programId) {
   const buffer = __Buffer$.concat([
     fromPublicKey.toBuffer(),
@@ -1127,7 +1127,7 @@ async function associated(programId, ...args) {
 }
 
 // esm-build-eaa1a07c4624cc5282f691c9aeefbec623a7c1a5/node_modules/@project-serum/anchor/dist/esm/program/namespace/instruction.js
-import { TransactionInstruction } from "https://cdn.esm.sh/v54/@solana/web3.js@1.29.2/deno/web3.development.js";
+import { TransactionInstruction } from "./web3-dev.js";
 
 // esm-build-eaa1a07c4624cc5282f691c9aeefbec623a7c1a5/node_modules/@project-serum/anchor/dist/esm/program/context.js
 function splitArgsAndCtx(idlIx, args) {
@@ -1213,7 +1213,7 @@ var RpcFactory = class {
 };
 
 // esm-build-eaa1a07c4624cc5282f691c9aeefbec623a7c1a5/node_modules/@project-serum/anchor/dist/esm/program/namespace/transaction.js
-import { Transaction } from "https://cdn.esm.sh/v54/@solana/web3.js@1.29.2/deno/web3.development.js";
+import { Transaction } from "./web3-dev.js";
 var TransactionFactory = class {
   static build(idlIx, ixFn) {
     const txFn = (...args) => {
@@ -1359,7 +1359,7 @@ import EventEmitter2 from "https://cdn.esm.sh/v54/eventemitter3@4.0.7/deno/event
 import {
   encode as encode2
 } from "https://cdn.esm.sh/v54/bs58@4.0.1/deno/bs58.development.js";
-import { SystemProgram as SystemProgram2 } from "https://cdn.esm.sh/v54/@solana/web3.js@1.29.2/deno/web3.development.js";
+import { SystemProgram as SystemProgram2 } from "./web3-dev.js";
 
 // esm-build-eaa1a07c4624cc5282f691c9aeefbec623a7c1a5/node_modules/@project-serum/anchor/dist/esm/utils/rpc.js
 var rpc_exports = {};
@@ -1368,7 +1368,7 @@ __export(rpc_exports, {
   invoke: () => invoke
 });
 import assert from "https://cdn.esm.sh/v54/assert@2.0.0/deno/assert.development.js";
-import { PublicKey as PublicKey4, Transaction as Transaction2, TransactionInstruction as TransactionInstruction2 } from "https://cdn.esm.sh/v54/@solana/web3.js@1.29.2/deno/web3.development.js";
+import { PublicKey as PublicKey4, Transaction as Transaction2, TransactionInstruction as TransactionInstruction2 } from "./web3-dev.js";
 async function invoke(programId, accounts, data, provider) {
   programId = translateAddress(programId);
   if (!provider) {
@@ -2011,7 +2011,7 @@ var token_exports = {};
 __export(token_exports, {
   associatedAddress: () => associatedAddress
 });
-import { PublicKey as PublicKey6 } from "https://cdn.esm.sh/v54/@solana/web3.js@1.29.2/deno/web3.development.js";
+import { PublicKey as PublicKey6 } from "./web3-dev.js";
 var TOKEN_PROGRAM_ID = new PublicKey6("TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA");
 var ASSOCIATED_PROGRAM_ID = new PublicKey6("ATokenGPvbdGVxr1b2hvZbsiqW5xWH25efTNsLJA8knL");
 async function associatedAddress({ mint, owner }) {
