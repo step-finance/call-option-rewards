@@ -8,7 +8,7 @@
  * 
  * USAGE:
  * 
- * --url 
+ * --url
  *      The url to the rpc node. Default https://api.mainnet-beta.solana.com/.
  * --user
  *      A user to authenticate (basic auth) to the node. Default no authentication.
@@ -17,15 +17,19 @@
  * --amt
  *      The amount of STEP call options to distribute. (default 1_000_000_000)
  * --price
- *      The strike price in USDC per 1e<mint decimals> (value of 1_000_000_000 would mean $1 = 1 token)
+ *      The strike price in USDC per 1e<mint decimals>. (value of 1_000_000_000 would mean $1 = 1 token)
  * --expiry
  *      The unix timestamp (in seconds) for the expiry of the call option. (default end + 1 week)
  * --start
  *      The unix timestamp (in seconds) for the end of the rewards period; inclusive (default 1 week ago)
  * --end
  *      The unix timestamp (in seconds) for the end of the rewards period; exclusive (default now)
+ * --index
+ *      The unique identifier number for this contract on the solana chain (key is [writer, mint, index]). Required when writing to solana.
+ * ---resume
+ *      A pool-fees-paid.json file from a prior run to resume using.
  * --testing-limit
- *      The number of pools to include (default all)
+ *      The number of pools to include. (default all)
  * --key
  *      The path to a keypair to use for writing to the solana chain. (default empty; no onchain creation)
  * --arkey
@@ -38,7 +42,7 @@ import "https://deno.land/std@0.110.0/io/mod.ts";
 import { Buffer } from "https://deno.land/std@0.76.0/node/buffer.ts";
 import { parse } from "https://deno.land/std@0.110.0/flags/mod.ts";
 
-import BN from "https://esm.sh/v53/bn.js@5.2.0/es2021/bn.development.js";
+import BN from "https://esm.sh/v54/bn.js@5.2.0/es2021/bn.development.js";
 import { web3 } from "./anchor-esm-fix/anchor-dev.js";;
 
 //import MerkleDistributor from "https://esm.sh/@saberhq/merkle-distributor?dev&no-check";
@@ -49,7 +53,7 @@ import { getTokensAndPrice, getPayerSums } from "./payerParsing.ts";
 import { PayerAmount, PoolFeesPaid, PoolFeePayer } from "./classes.ts";
 import { asyncFilter, asyncMap, asyncUntil, asyncToArray } from "./asycIter.ts";
 import { createDistributor, CreateDistributorOptions, CreateDistributorData } from "./anchor-wrapper/index.ts";
-import { uploadToArweave } from "./arweave/index.ts";
+import { uploadToArweave, testArkbInstalled } from "./arweave/index.ts";
 
 const CALL_OPTIONS_PROGRAM = 'B9WjjujXFUZUMfqKRTg5wutnVexM2nfpTL7LumWZKbT4';
 const SWAP_PROGRAM = 'SSwpMgqNDsyV7mAgN9ady4bDVu5ySjmmXejXvy2vLt1';
@@ -93,23 +97,43 @@ const strikePriceString = args['price'] ?? 1_000_000_000;
 const strikePrice = new BN(strikePriceString, 10);
 console.log('Strike price', strikePriceString);
 
+const resumeFile = args['resume'];
+let resume;
+if (resumeFile) {
+    resume = JSON.parse(await Deno.readTextFile(resumeFile));
+    console.log('Will resume using', resumeFile);
+}
+
+const indexArg = args['index'];
+const index = parseInt(indexArg);
+
 const kpFile = args['key'];
 let kp;
+let idlText;
 if (kpFile) {
+    if (!index) {
+        throw "--index is required when creating a Solana distributor";
+    }
+
     const text = await Deno.readTextFile(kpFile);
     const byteArray = JSON.parse(text);
     const buf = Buffer.from(byteArray);
     kp = web3.Keypair.fromSecretKey(buf);
     console.log('will use private key to create onchain distribution')
+    
+    try {
+        //try reading this now to hit any error that might happen later
+        idlText = await Deno.readTextFile('../anchor-bpf/target/idl/merkle_call_options.json');
+    } catch (e) {
+        console.error("The IDL for the anchor program must exist. Run anchor build in the anchor-bpf folder.")
+    }
 } else {
     console.log('no solana key provided, running for local output only')
 }
 
 const arkpFile = args['arkey'];
-let arkp;
 if (arkpFile) {
-    const text = await Deno.readTextFile(arkpFile);
-    arkp = JSON.parse(text);
+    testArkbInstalled();
     console.log('will use private key to create arweave file')
 } else {
     console.log('no arweave key provided, running for local output only')
@@ -128,43 +152,49 @@ console.log('connection test; genisis blockhash is', test);
 
 //LOAD
 
-//get all the pools and their value in step (technically exactly half the full value, but we're ultimately dealing in ratios anyhow)
-let iter: any = getPools(con, new web3.PublicKey(POOL_REGISTRY_OWNER), new web3.PublicKey(SWAP_PROGRAM));
-iter = asyncMap(iter, (a: any) => getTokensAndPrice(con, a, STEP_MINT));
-iter = asyncFilter(iter, (a: any) => a.stepMultiplier.toString() != '0');
+let poolFeesPaid: PoolFeesPaid[];
+if (resume) {
+    poolFeesPaid = resume;
+} else {
+    poolFeesPaid = [];
 
-//if testing, limit results
-let limit = parseInt(args['testing-limit'] ?? '9999999999999');
-iter = asyncUntil(iter, a => limit-- == 0);
+    //get all the pools and their value in step (technically exactly half the full value, but we're ultimately dealing in ratios anyhow)
+    let iter: any = getPools(con, new web3.PublicKey(POOL_REGISTRY_OWNER), new web3.PublicKey(SWAP_PROGRAM));
+    iter = asyncMap(iter, (a: any) => getTokensAndPrice(con, a, STEP_MINT));
+    iter = asyncFilter(iter, (a: any) => a.stepMultiplier.toString() != '0');
 
-//put into an array, do not lazy iterate this
-const tokensAndPrices: any = await asyncToArray(iter);
+    //if testing, limit results
+    let limit = parseInt(args['testing-limit'] ?? '9999999999999');
+    iter = asyncUntil(iter, a => limit-- == 0);
 
-//one big array of reduction promises
-const promises: Promise<PayerAmount[]>[] = 
-    tokensAndPrices.map((tokensAndPrice: any) => getPayerSums(con, start, end, tokensAndPrice, SWAP_PROGRAM));
+    //put into an array, do not lazy iterate this
+    const tokensAndPrices: any = await asyncToArray(iter);
 
-console.log("Hard at work");
+    //one big array of reduction promises
+    const promises: Promise<PayerAmount[]>[] = 
+        tokensAndPrices.map((tokensAndPrice: any) => getPayerSums(con, start, end, tokensAndPrice, SWAP_PROGRAM));
 
-//can change this to iterate one at a time if errors from rpc node due to hitting with all at once
-const results = await Promise.all(promises);
+    console.log("Hard at work");
 
-//for each pool, build a summary PoolFeesPaid containing PoolFeePayers
-const poolFeesPaid: PoolFeesPaid[] = [];
-for (const poolResult of results) {
-    if (poolResult.length == 0)
-        continue;
-    const total = poolResult.reduce((prev: any, cur: any) => prev.add(cur.stepAmount), new BN(0, 10));
-    const pool = new PoolFeesPaid(poolResult[0].pool, poolResult[0].nonStepMint, total.toString());
-    for (const payerResult of poolResult) {
-        pool.addPayer(payerResult.payer, payerResult.stepAmount);
+    //can change this to iterate one at a time if errors from rpc node due to hitting with all at once
+    const results = await Promise.all(promises);
+
+    //for each pool, build a summary PoolFeesPaid containing PoolFeePayers
+    for (const poolResult of results) {
+        if (poolResult.length == 0)
+            continue;
+        const total = poolResult.reduce((prev: any, cur: any) => prev.add(cur.stepAmount), new BN(0, 10));
+        const pool = new PoolFeesPaid(poolResult[0].pool, poolResult[0].nonStepMint, total.toString());
+        for (const payerResult of poolResult) {
+            pool.addPayer(payerResult.payer, payerResult.stepAmount);
+        }
+        poolFeesPaid.push(pool);
     }
-    poolFeesPaid.push(pool);
-}
 
-//for reference
-console.log("Writing pool-fees-paid for", poolFeesPaid.length, "pools");
-await Deno.writeTextFile("output/pool-fees-paid.json", JSON.stringify(poolFeesPaid, null, 2));
+    //for reference
+    console.log("Writing pool-fees-paid for", poolFeesPaid.length, "pools");
+    await Deno.writeTextFile("output/pool-fees-paid.json", JSON.stringify(poolFeesPaid, null, 2));
+}
 
 //now need to aggregate all payers across all pools; we reuse the PoolFeePayer object
 const payerTotals = poolFeesPaid.map((a: any) => a.payers).flat().reduce((prev: any, cur: any) => {
@@ -242,29 +272,34 @@ await Deno.writeTextFile("output/claims.json", claimsInfoString);
 
 //ARWEAVE
 
-let txid = 'unknown';
-if (arkp) {
+let dataLocation = 'unknown';
+if (arkpFile) {
     console.log("Writing contract detail and proofs to arweave");
-    txid = await uploadToArweave(arkp, claimsInfoString)
+    try {
+        dataLocation = await uploadToArweave(arkpFile, "./output/claims.json");
+    } catch (e) {
+        console.error(e);
+        throw "Error from arkb execution. Do you have arkb installed? Is the AR wallet valid?"
+    }
+    if (!dataLocation || dataLocation.trim().length == 0) {
+        throw "Arweave failed uploading - check the log in ouput/arweave.log";
+    }
 }
 
 
 //ANCHOR CALL
 
-const weekNumber = 0;
-
 if (kp) {
     console.log("Writing contract account to chain");
 
-    const idlText = await Deno.readTextFile('../anchor-bpf/target/idl/merkle_call_options.json');
-    const idl = JSON.parse(idlText);
-    await createDistributor(
+    const idl = JSON.parse(idlText as string);
+    const dist = await createDistributor(
         {
             mintPubkey: new web3.PublicKey(STEP_MINT),
-            index: weekNumber,
+            index: index,
             merkleRoot: merkleRoot,
             expiry: new BN(expiry, 10),
-            dataLocation: txid,
+            dataLocation: dataLocation,
             strikePrice: new BN(strikePrice, 10),
             totalAmount: amountToWriteFor,
             totalCount: finalPayerTotals.length,
@@ -276,6 +311,7 @@ if (kp) {
             idl: idl,
         } as CreateDistributorOptions
     );
+    console.log("Created distributor", dist.toString());
 }
 
 console.log("Done");

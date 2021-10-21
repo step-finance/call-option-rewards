@@ -1,44 +1,79 @@
-import { Buffer } from "https://deno.land/std@0.76.0/node/buffer.ts";
-
-//import Arweave from "https://cdn.skypack.dev/arweave?dts"
-//import { ArweaveSigner, bundleAndSignData, createData } from "https://cdn.skypack.dev/arbundles?dts";
-import Arweave from "https://esm.sh/arweave?dev&no-check"
-import { ArweaveSigner, bundleAndSignData, createData, DataItem } from "https://esm.sh/arbundles?dev&no-check";
-
-const arweave = Arweave.init({
-    host: 'arweave.net',
-    port: 443,
-    protocol: 'https'
-});
-
-const myTags = [
-        { name: 'App-Vendor', value: 'Step' },
-        { name: 'App-Name', value: 'Step-Call-Option' },
-        { name: 'App-Version', value: '0.1.0' },
-        { name: 'Content-Type', value: 'application/json' },
-];
-
-export async function uploadToArweave(key: any, data: any) {
-	const signer: typeof ArweaveSigner = new ArweaveSigner(key);
-
-    signer.sign(Buffer.from("test"));
-
-    const dataItem: typeof DataItem = createData(
-        data, 
-        signer,
-        { tags: myTags },
-    );
-    await dataItem.sign(signer);
-
-    const tx = dataItem.sendToBundler();
-
-	// const myBundle = await bundleAndSignData(d, key);
-	// const tx = await myBundle.toTransaction(arweave, key);
-	// await arweave.transactions.sign(tx, key);
-	// console.log(`Posting bundle with tx id: ${tx.id}`);
-	// console.log(await arweave.transactions.post(tx));
-	// console.log(`Posted bundle with tx id: ${tx.id}`);
-	// console.log(await arweave.transactions.getStatus(tx.id))
-
-    return tx.id;
+export async function testArkbInstalled() {
+    try {
+        const p = Deno.run({cmd:["arkb"], stdout: 'piped', stderr: 'piped', stdin: 'null'});
+        const stat = await p.status();
+        if (!stat.success) {
+            const output = new TextDecoder().decode(await p.output());
+            console.log("arweave output", output);
+            throw "Arweave Error";
+        }
+    } catch (e) {
+        console.error(e);
+        throw "Error from arkb execution. Do you have arkb installed? See https://github.com/textury/arkb."
+    }
 }
+
+export async function uploadToArweave(keyFile: any, dataFile: any) {
+    /*
+    arkb deploy ./output/claims.json -w 
+    ~/keys/programs/step/arweave-keyfile-72VjoqyIw72wf1TjNVL2mhuEvFRrGFsd5Od-TXY7x34.json  
+    --tag-name App-Vendor --tag-value Step --tag-name App-Name --tag-value Step-Call-Option 
+    --tag-name App-Version --tag-value 0.1.0 --tag-name Content-Type --tag-value application/json
+    */
+    const p = Deno.run(
+        { 
+            cmd: [ 
+                "arkb", 
+                "deploy", 
+                dataFile, 
+                "--auto-confirm",
+                "-w", 
+                keyFile,
+                "--tag-name",
+                "App-Vendor",
+                "--tag-value",
+                "Step",
+                "--tag-name",
+                "App-Name",
+                "--tag-value",
+                "Step-Call-Option",
+                "--tag-name",
+                "App-Version",
+                "--tag-value",
+                "0.1.0",
+                "--tag-name",
+                "Content-Type",
+                "--tag-value",
+                "application/json",
+            ],
+            stdout: 'piped',
+            stderr: 'piped',
+            stdin: 'null',
+        }
+    );
+    const stat = await p.status();
+    const output = new TextDecoder().decode(await p.output());
+    await Deno.writeTextFile("output/arweave.log", output);
+
+    if (!stat.success) {
+        console.log("arweave output", output);
+        throw "Arweave Error";
+    }
+
+    //arkb output, last line is blank, second to last is our url
+    const lines = output.split(/\r?\n/);
+    let url = lines[lines.length-2];
+    //arweave ouput has color codes - this trims them out
+    url = url.replace(/[\u001b\u009b][[()#;?]*(?:[0-9]{1,4}(?:;[0-9]{0,4})*)?[0-9A-ORZcf-nqry=><]/g, '');
+
+    console.log("arweave url", url);
+
+    if (!stat.success) {
+        throw "Arweave Error";
+    }
+    return url;
+    
+}
+
+
+//Error from arkb execution. Do you have arkb installed? Is the AR wallet valid?

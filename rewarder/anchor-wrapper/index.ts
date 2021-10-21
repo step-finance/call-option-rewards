@@ -29,10 +29,9 @@ export async function createDistributor(data: CreateDistributorData, opt: Create
         ASSOCIATED_TOKEN_PROGRAM_ID,
     );
 
-    const index = 0;
     const buff = new ArrayBuffer(2);
     const view = new DataView(buff);
-    view.setInt16(0, index, true);
+    view.setInt16(0, data.index, true);
     const [distAddress, distBump] = await web3.PublicKey.findProgramAddress(
       [
         program.provider.wallet.publicKey.toBuffer(),
@@ -50,6 +49,9 @@ export async function createDistributor(data: CreateDistributorData, opt: Create
     )
 
     const claimsBitmaskAccountKey = web3.Keypair.generate();
+
+    console.log("Will create distributor", distAddress.toString());
+    console.log("With claims bitmask", claimsBitmaskAccountKey.publicKey.toString());
 
     await (program.rpc as any).newDistributor(
       data.index, 
@@ -81,6 +83,8 @@ export async function createDistributor(data: CreateDistributorData, opt: Create
         signers: [claimsBitmaskAccountKey],
       }
     );
+
+    return distAddress;
 }
 
 export class CreateDistributorData {
