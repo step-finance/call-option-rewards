@@ -163,6 +163,8 @@ if (resume) {
 } else {
     poolFeesPaid = [];
 
+    console.log("Looking up all pool token prices");
+
     //get all the pools and their value in step (technically exactly half the full value, but we're ultimately dealing in ratios anyhow)
     let iter: any = getPools(con, new web3.PublicKey(POOL_REGISTRY_OWNER), new web3.PublicKey(SWAP_PROGRAM));
     iter = asyncMap(iter, (a: any) => getTokensAndPrice(con, a, STEP_MINT));
@@ -176,16 +178,21 @@ if (resume) {
     const tokensAndPrices: any = await asyncToArray(iter);
 
     //one big array of reduction promises
-    const promises: Promise<PayerAmount[]>[] = 
-        tokensAndPrices.map((tokensAndPrice: any) => getPayerSums(con, start, end, tokensAndPrice, SWAP_PROGRAM));
+    // const promises: Promise<PayerAmount[]>[] = 
+    //     tokensAndPrices.map((tokensAndPrice: any) => getPayerSums(con, start, end, tokensAndPrice, SWAP_PROGRAM));
 
     console.log("Hard at work");
 
     //can change this to iterate one at a time if errors from rpc node due to hitting with all at once
-    const results = await Promise.all(promises);
+    // let results: any = asyncBatches(promises as any, MAX_CONCURRENT);
+    // results = asyncMap(results, async a => await Promise.all(a as Promise<any>[]));
+    // results = asyncFlat(results);
+    //const results = await Promise.all(promises);
 
     //for each pool, build a summary PoolFeesPaid containing PoolFeePayers
-    for (const poolResult of results) {
+    for (const tokensAndPrice of tokensAndPrices) {
+        const poolResult = await getPayerSums(con, start, end, tokensAndPrice, SWAP_PROGRAM);
+
         if (poolResult.length == 0)
             continue;
         const total = poolResult.reduce((prev: any, cur: any) => prev.add(cur.stepAmount), new BN(0, 10));
