@@ -70,6 +70,7 @@ export async function createDistributor(data: CreateDistributorData, opt: Create
           mint: data.mintPubkey,
           distributor: distAddress,
           payer: program.provider.wallet.publicKey,
+          fromAuthority: program.provider.wallet.publicKey,
           from: tokenATA,
           vault: distVault,
           rent: web3.SYSVAR_RENT_PUBKEY,

@@ -33,7 +33,7 @@
  * --key
  *      The path to a keypair to use for writing to the solana chain. (default empty; no onchain creation)
  * --arkey
- *      The path to a keypair to use for writing to the arweave chain. (default empty; no onchain creation)
+ *      The path to an arweave keypair to use for writing to the arweave chain. (default empty; no onchain creation)
  */
 
 
