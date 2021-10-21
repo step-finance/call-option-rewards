@@ -190,7 +190,10 @@ if (resume) {
     //const results = await Promise.all(promises);
 
     //for each pool, build a summary PoolFeesPaid containing PoolFeePayers
+    let current = 1;
+    const len = tokensAndPrices.length;
     for (const tokensAndPrice of tokensAndPrices) {
+        console.log("pool", current++, "of", len);
         const poolResult = await getPayerSums(con, start, end, tokensAndPrice, SWAP_PROGRAM);
 
         if (poolResult.length == 0)
