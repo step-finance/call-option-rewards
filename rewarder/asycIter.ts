@@ -23,13 +23,13 @@ export async function* asyncBatches<T>(iter: AsyncIterable<T>, size: number) {
     for await (const i of iter) {
         list.push(await i);
         if (list.length == size) {
-            console.info("batching iterator", count++);
+            //console.info("batching iterator", count++);
             yield list;
             list = Array.of<T>();
         }
     }
     if (list.length > 0)
-        console.info("batching iterator", count++);
+        //console.info("batching iterator", count++);
         yield list;
 }
 

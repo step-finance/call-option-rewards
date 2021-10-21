@@ -15,8 +15,8 @@ export async function createDistributor(data: CreateDistributorData, opt: Create
         opt.idl,
         opt.programId,
         new Provider(opt.connection, new Wallet(opt.keypair), {
-            preflightCommitment: "recent",
-            commitment: "recent",
+            preflightCommitment: "confirmed",
+            commitment: "confirmed",
           })
     );
 

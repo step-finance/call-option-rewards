@@ -28,7 +28,7 @@ This program uses [Deno](https://deno.land/) and can be run using standard `deno
 Example:
 
 ```bash
-deno run --allow-all --location https://step.finance ./mod.ts --url https://api.devnet.solana.com --amt 10000000 --testing-limit 5 --start 1634750421 --end 1634751421 --arkey /home/danah/keys/programs/step/arweave-keyfile-72VjoqyIw72wf1TjNVL2mhuEvFRrGFsd5Od-TXY7x34.json --key /home/danah/keys/DANaDcytXrsCDtEfTRVZGzw2MfC2CijdW4tkGfP74iwL.json --index 2
+deno run --unstable --inspect --allow-all --location https://step.finance ./mod.ts --url-anchor https://api.devnet.solana.com --url https://step-history.rpcpool.com --user step --pass redacted --amt 1000000000000 --start 1633838400 --end 1634443200 --arkey /home/danah/keys/programs/step/arweave-keyfile-72VjoqyIw72wf1TjNVL2mhuEvFRrGFsd5Od-TXY7x34.json --key /home/danah/keys/DANaDcytXrsCDtEfTRVZGzw2MfC2CijdW4tkGfP74iwL.json --index 3
 ```
 
 ## USAGE:
@@ -38,6 +38,7 @@ deno run --allow-all --location https://step.finance ./mod.ts --url https://api.
 |--url|The url to the rpc node.|`https://api.mainnet-beta.solana.com/`|
 |--user|A user to authenticate (basic auth) to the node.|_optional_|
 |--pass|The password to use to authenticate. Must be used in coordication with --user.|_optional_|
+|--url-anchor|The url to the rpc node for use with anchor (when writing).|_same as url_|
 |--amt|The amount of STEP call options to distribute.|_1,000,000,000 (1 STEP)_|
 |--price|The strike price in USDC per 1e<mint decimals>. (value of 1_000_000_000 would mean $1 = 1 token)|_1,000,000,000_|
 |--expiry|The unix timestamp (in seconds) for the expiry of the call option.|_end + 1 week_|

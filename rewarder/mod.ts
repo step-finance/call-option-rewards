@@ -14,6 +14,8 @@
  *      A user to authenticate (basic auth) to the node. Default no authentication.
  * --pass
  *      The password to use to authenticate. Must be used in coordication with --user. Default no authentication.
+ * --url-anchor
+ *      The url to the rpc node for use with anchor (when writing). Default same as url.
  * --amt
  *      The amount of STEP call options to distribute. (default 1_000_000_000)
  * --price
@@ -73,6 +75,9 @@ if (args['user'] && args['pass']) {
         Authorization: 'Basic ' + btoa(args['user']+':'+args['pass'])
     };
 }
+
+const anchorNodeUrl = args['url-anchor'] ?? nodeUrl;
+console.log('Anchor using rpc node', anchorNodeUrl);
 
 //cli date args, default now and 1 week prior
 const end = args['end'] ?? Math.floor(Date.now() / 1000);
@@ -305,7 +310,7 @@ if (kp) {
             totalCount: finalPayerTotals.length,
         } as CreateDistributorData,
         {
-            connection: con,
+            connection: new web3.Connection(anchorNodeUrl, 'confirmed'),
             keypair: kp,
             programId: CALL_OPTIONS_PROGRAM,
             idl: idl,
