@@ -178,24 +178,16 @@ if (resume) {
     const tokensAndPrices: any = await asyncToArray(iter);
 
     //one big array of reduction promises
-    // const promises: Promise<PayerAmount[]>[] = 
-    //     tokensAndPrices.map((tokensAndPrice: any) => getPayerSums(con, start, end, tokensAndPrice, SWAP_PROGRAM));
+    const promises: Promise<PayerAmount[]>[] = 
+        tokensAndPrices.map((tokensAndPrice: any) => getPayerSums(con, start, end, tokensAndPrice, SWAP_PROGRAM));
 
     console.log("Hard at work");
 
     //can change this to iterate one at a time if errors from rpc node due to hitting with all at once
-    // let results: any = asyncBatches(promises as any, MAX_CONCURRENT);
-    // results = asyncMap(results, async a => await Promise.all(a as Promise<any>[]));
-    // results = asyncFlat(results);
-    //const results = await Promise.all(promises);
+    const results = await Promise.all(promises);
 
     //for each pool, build a summary PoolFeesPaid containing PoolFeePayers
-    let current = 1;
-    const len = tokensAndPrices.length;
-    for (const tokensAndPrice of tokensAndPrices) {
-        console.log("pool", current++, "of", len);
-        const poolResult = await getPayerSums(con, start, end, tokensAndPrice, SWAP_PROGRAM);
-
+    for (const poolResult of results) {
         if (poolResult.length == 0)
             continue;
         const total = poolResult.reduce((prev: any, cur: any) => prev.add(cur.stepAmount), new BN(0, 10));

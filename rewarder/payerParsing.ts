@@ -1,7 +1,7 @@
 
 import BN from "https://esm.sh/v53/bn.js@5.2.0/es2021/bn.development.js";
 
-import { getTransactionHistory } from "./txHistory.ts";
+import { getTransactionHistory, getParsedConfirmedTransactions } from "./txHistory.ts";
 import { PayerAmount } from "./classes.ts";
 import { asyncFilter, asyncMap, asyncUntil, asyncBatches, asyncFlat, asyncReduce } from "./asycIter.ts";
 
@@ -123,13 +123,4 @@ function payerIntoMap(map: Map<string, PayerAmount>, payer: PayerAmount) {
         p.amount = p.amount.add(payer.amount);
     }
     return map;
-}
-
-function getParsedConfirmedTransactions(con: any, pubkey: any) {
-    try {
-        return con.getParsedConfirmedTransactions(pubkey);
-    } catch (ex) {
-        console.error("error with", pubkey.toString(), ex);
-        throw ex;
-    }
 }
