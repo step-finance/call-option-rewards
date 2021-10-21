@@ -43,6 +43,7 @@ export async function createDistributor(data: CreateDistributorData, opt: Create
 
     const [distVault] = await web3.PublicKey.findProgramAddress(
       [
+        (distAddress as any).toBuffer(),
         Buffer.from("vault", "utf-8"),
       ],
       program.programId,
@@ -52,6 +53,7 @@ export async function createDistributor(data: CreateDistributorData, opt: Create
 
     console.log("Will create distributor", distAddress.toString());
     console.log("With claims bitmask", claimsBitmaskAccountKey.publicKey.toString());
+    console.log("And vault", distVault.toString());
 
     await (program.rpc as any).newDistributor(
       data.index, 
