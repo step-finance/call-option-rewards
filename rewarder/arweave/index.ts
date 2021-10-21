@@ -1,4 +1,4 @@
-//import { Buffer } from "https://deno.land/std@0.76.0/node/buffer.ts";
+import { Buffer } from "https://deno.land/std@0.76.0/node/buffer.ts";
 
 //import Arweave from "https://cdn.skypack.dev/arweave?dts"
 //import { ArweaveSigner, bundleAndSignData, createData } from "https://cdn.skypack.dev/arbundles?dts";
@@ -20,9 +20,16 @@ const myTags = [
 
 export async function uploadToArweave(key: any, data: any) {
 	const signer: typeof ArweaveSigner = new ArweaveSigner(key);
-    
-    const dataItem: typeof DataItem = createData("some message", signer);
-    await dataItem.sign(key);
+
+    signer.sign(Buffer.from("test"));
+
+    const dataItem: typeof DataItem = createData(
+        data, 
+        signer,
+        { tags: myTags },
+    );
+    await dataItem.sign(signer);
+
     const tx = dataItem.sendToBundler();
 
 	// const myBundle = await bundleAndSignData(d, key);
