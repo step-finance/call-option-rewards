@@ -24,9 +24,12 @@ pub mod merkle_call_options {
         let distributor = &mut ctx.accounts.distributor;
 
         distributor.writer = ctx.accounts.writer.key();
-        distributor.mint = ctx.accounts.mint.key();
+        distributor.reward_mint = ctx.accounts.reward_mint.key();
         distributor.index = index;
         distributor.bump = bump;
+
+        distributor.decimals_price = ctx.accounts.price_mint.decimals;
+        distributor.decimals_reward = ctx.accounts.reward_mint.decimals;
 
         distributor.strike_price = strike_price;
         distributor.expiry = expiry;
@@ -63,7 +66,7 @@ pub struct NewDistributor<'info> {
     pub writer: Signer<'info>,
 
     /// The mint to distribute.
-    pub mint: Box<Account<'info, Mint>>,
+    pub reward_mint: Box<Account<'info, Mint>>,
 
     /// The mint used to exercise the contract.
     pub price_mint: Box<Account<'info, Mint>>,
@@ -72,7 +75,7 @@ pub struct NewDistributor<'info> {
         init,
         seeds = [
             writer.key().as_ref(),
-            mint.key().as_ref(),
+            reward_mint.key().as_ref(),
             &index.to_le_bytes()
         ],
         bump = bump,
@@ -98,7 +101,7 @@ pub struct NewDistributor<'info> {
     /// Authority is itself as this is a pda
     #[account(
         init,
-        token::mint = mint,
+        token::mint = reward_mint,
         token::authority = distributor,
         seeds = [
             distributor.key().as_ref(),
@@ -122,7 +125,7 @@ pub struct NewDistributor<'info> {
         bump,
         payer = payer,
     )]
-    pub payment_vault: Box<Account<'info, TokenAccount>>,
+    pub price_vault: Box<Account<'info, TokenAccount>>,
 
     pub rent: Sysvar<'info, Rent>,
     pub system_program: Program<'info, System>,
@@ -150,6 +153,12 @@ pub struct Claim<'info> {
     )]
     pub vault: Box<Account<'info, TokenAccount>>,
 
+    //we need the price_mint to get the decimals that the price represents
+    #[account(
+        address = price_vault.mint,
+    )]
+    pub price_mint: Box<Account<'info, Mint>>,
+
     #[account(
         mut,
         seeds = [
@@ -158,7 +167,7 @@ pub struct Claim<'info> {
         ],
         bump,
     )]
-    pub payment_vault: Box<Account<'info, TokenAccount>>,
+    pub price_vault: Box<Account<'info, TokenAccount>>,
 
     /// Account to send the purchased tokens to.
     #[account(mut)]
@@ -182,14 +191,18 @@ pub struct CallOptionDistributor {
     /// The pubkey of the underwriter of the options. Allowed to reclaim after expiry.
     pub writer: Pubkey,
     /// [Mint] of the token to be distributed.
-    pub mint: Pubkey,
+    pub reward_mint: Pubkey,
     /// Contract index for this account. This is part of the seed to derive the address, and should be a
     /// well known incrementing number, ideally based on time. Ex. number of week/day after project launch.
     pub index: u16,
     /// Bump seed for this account
     pub bump: u8,
 
-    /// The strike price in USDC per 1e<mint decimals> (value of 1_000_000_000 would mean $1 = 1 token)
+    /// we store the decimals of the mints so our maths during claim doesn't need the mints
+    pub decimals_price: u8,
+    pub decimals_reward: u8,
+
+    /// The strike price in price_mint per 1e<mint decimals> (value of 1_000_000 USDC (6 decimals) would mean $1 = 1 full token (N decimals))
     pub strike_price: u64,
     /// The expiration time of the contract
     pub expiry: u64,
