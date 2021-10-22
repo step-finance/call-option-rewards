@@ -10,6 +10,8 @@ describe('merkle-call-options', () => {
 
   let rewardMint;
   let rewardVault;
+  let priceMint;
+  let priceVault;
 
   it('Setup', async () => {
     const [_rewardMint, _rewardVault] = await serumCmn.createMintAndVault(
@@ -18,6 +20,16 @@ describe('merkle-call-options', () => {
     );
     rewardMint = _rewardMint;
     rewardVault = _rewardVault;
+
+    const [_priceMint, _priceVault] = await serumCmn.createMintAndVault(
+      program.provider,
+      new anchor.BN(1_000_000_000_000),
+      program.provider.wallet.publicKey,
+      6,
+    );
+    
+    priceMint = _priceMint;
+    priceVault = _priceVault;
   });
   
   let distAddress1;
@@ -29,6 +41,7 @@ describe('merkle-call-options', () => {
       program, 
       rewardMint, 
       rewardVault, 
+      priceMint,
       "012345678901234567890123456789012345678901234567890123456789", 
       "lDyW3CHngFqdwfk6eeBRAwFpxiXHlsUBaEuoqbUuR7c="
     );
@@ -38,6 +51,7 @@ describe('merkle-call-options', () => {
       program, 
       rewardMint, 
       rewardVault, 
+      priceMint,
       "https://arweave.net/KlfUivzatC1gz2g1L3kqrZ5Rnw-94sYosRnugBHF7kM", 
       "MjVkYjEzYjhiNjBlMTZhYjNjNmViMDg5NzJlNDQzMTVjNjcyZjRlMTFlMmJhMTVjZGRlZTBiZGY4NGFhYzg2YQ=="
     );
@@ -45,7 +59,7 @@ describe('merkle-call-options', () => {
   });
 });
 
-async function createDistributor(index, program, rewardMint, rewardVault, dataLocation, merkle) {
+async function createDistributor(index, program, rewardMint, rewardVault, priceMint, dataLocation, merkle) {
   const buff = new ArrayBuffer(2);
   const view = new DataView(buff);
   view.setInt16(0, index, true);
@@ -57,8 +71,8 @@ async function createDistributor(index, program, rewardMint, rewardVault, dataLo
     ],
     program.programId,
   )
-  distAddress = _distAddress;
-  distBump = _distBump;
+  const distAddress = _distAddress;
+  const distBump = _distBump;
 
   [_distVault, _] = await anchor.web3.PublicKey.findProgramAddress(
     [
@@ -67,7 +81,16 @@ async function createDistributor(index, program, rewardMint, rewardVault, dataLo
     ],
     program.programId,
   )
-  distVault = _distVault;
+  const distVault = _distVault;
+
+  [_distPaymentVault, _] = await anchor.web3.PublicKey.findProgramAddress(
+    [
+      distAddress.toBuffer(),
+      Buffer.from("payment", "utf-8"),
+    ],
+    program.programId,
+  )
+  const distPaymentVault = _distPaymentVault;
   
   const claimsBitmaskAccountKey = anchor.web3.Keypair.generate();
 
@@ -84,11 +107,13 @@ async function createDistributor(index, program, rewardMint, rewardVault, dataLo
       accounts: {
         writer: program.provider.wallet.publicKey,
         mint: rewardMint,
+        priceMint: priceMint,
         distributor: distAddress,
         payer: program.provider.wallet.publicKey,
         fromAuthority: program.provider.wallet.publicKey,
         from: rewardVault,
         vault: distVault,
+        paymentVault: distPaymentVault,
         rent: anchor.web3.SYSVAR_RENT_PUBKEY,
         systemProgram: anchor.web3.SystemProgram.programId,
         tokenProgram: TOKEN_PROGRAM_ID,

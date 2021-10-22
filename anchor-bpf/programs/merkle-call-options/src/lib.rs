@@ -65,6 +65,9 @@ pub struct NewDistributor<'info> {
     /// The mint to distribute.
     pub mint: Box<Account<'info, Mint>>,
 
+    /// The mint used to exercise the contract.
+    pub price_mint: Box<Account<'info, Mint>>,
+
     #[account(
         init,
         seeds = [
@@ -96,7 +99,7 @@ pub struct NewDistributor<'info> {
     #[account(
         init,
         token::mint = mint,
-        token::authority = vault,
+        token::authority = distributor,
         seeds = [
             distributor.key().as_ref(),
             "vault".as_bytes()
@@ -106,12 +109,12 @@ pub struct NewDistributor<'info> {
     )]
     pub vault: Box<Account<'info, TokenAccount>>,
 
-    /// Account to hold the tokens to sell for distribution
+    /// Account to hold the price_mint when contracts are exercised
     /// Authority is itself as this is a pda
     #[account(
         init,
-        token::mint = mint,
-        token::authority = vault,
+        token::mint = price_mint,
+        token::authority = distributor,
         seeds = [
             distributor.key().as_ref(),
             "payment".as_bytes()
@@ -131,13 +134,7 @@ pub struct NewDistributor<'info> {
 pub struct Claim<'info> {
     #[account(
         mut,
-        has_one = claims_bitmask_account,
-        seeds = [
-            writer.key().as_ref(),
-            mint.key().as_ref(),
-            &index.to_le_bytes()
-        ],
-        bump = distributor.bump,
+        has_one = claims_bitmask_account
     )]
     pub distributor: Box<Account<'info, CallOptionDistributor>>,
 
