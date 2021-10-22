@@ -7,7 +7,15 @@ export async function* getTransactionHistory(con: InstanceType<typeof Connection
     let txs: any;
     let last;
     do {
-        txs = await con.getConfirmedSignaturesForAddress2(pubkey, { before: last, limit: pageSize });
+        let retry = 1;
+        while (true) {
+            try {
+                txs = await con.getConfirmedSignaturesForAddress2(pubkey, { before: last, limit: pageSize });
+                break;
+            } catch (_ex) {
+                console.error("getConfirmedSignaturesForAddress2 error retry", retry++);
+            }
+        }
         console.log('history for', pubkey.toString(), 'page', page++);
         for (const tx of txs) {
             last = tx.signature;
@@ -17,3 +25,13 @@ export async function* getTransactionHistory(con: InstanceType<typeof Connection
     console.log('history for', pubkey.toString(), 'ended');
 }
 
+export async function getParsedConfirmedTransactions(con: any, pubkeys: any) {
+    let retry = 1;
+    while (true) {
+        try {
+            return await con.getParsedConfirmedTransactions(pubkeys);
+        } catch (_ex) {
+            console.error("getParsedConfirmedTransactions error retry", retry++);
+        }
+    }
+}

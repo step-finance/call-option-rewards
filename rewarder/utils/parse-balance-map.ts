@@ -14,13 +14,13 @@ import { BalanceTree } from "./balance-tree.ts";
 // Anyone can verify that all air drops are included in the tree,
 // and the tree has no additional distributions.
 export interface MerkleDistributorInfo {
-  merkleRoot: any; //Buffer;
+  merkleRoot: Buffer;
   tokenTotal: string;
   claims: {
     [account: string]: {
       index: number;
-      amount: any; //u64;
-      proof: any; //Buffer[];
+      amount: typeof u64;
+      proof: Buffer[]; 
     };
   };
 }
@@ -30,7 +30,7 @@ export type NewFormat = { pubkey: string; amount: string };
 export function parseBalanceMap(balances: NewFormat[]): MerkleDistributorInfo {
   const dataByAddress = balances.reduce<{
     [address: string]: {
-      amount: any; //BN;
+      amount: typeof BN;
       flags?: { [flag: string]: boolean };
     };
   }>((memo, { pubkey: account, amount }) => {
@@ -64,9 +64,9 @@ export function parseBalanceMap(balances: NewFormat[]): MerkleDistributorInfo {
   // generate claims
   const claims = sortedAddresses.reduce<{
     [address: string]: {
-      amount: any; //u64;
+      amount: typeof u64;
       index: number;
-      proof: any; //Buffer[];
+      proof: Buffer[];
       flags?: { [flag: string]: boolean };
     };
   }>((memo, address, index) => {
@@ -81,7 +81,7 @@ export function parseBalanceMap(balances: NewFormat[]): MerkleDistributorInfo {
     return memo;
   }, {});
 
-  const tokenTotal: any /*BN*/ = sortedAddresses.reduce(
+  const tokenTotal: typeof BN = sortedAddresses.reduce(
     (memo, key) => memo.add(dataByAddress[key]?.amount ?? new BN(0)),
     new BN(0)
   );

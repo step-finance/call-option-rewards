@@ -14,6 +14,8 @@
  *      A user to authenticate (basic auth) to the node. Default no authentication.
  * --pass
  *      The password to use to authenticate. Must be used in coordication with --user. Default no authentication.
+ * --url-anchor
+ *      The url to the rpc node for use with anchor (when writing). Default same as url.
  * --amt
  *      The amount of STEP call options to distribute. (default 1_000_000_000)
  * --price
@@ -33,7 +35,7 @@
  * --key
  *      The path to a keypair to use for writing to the solana chain. (default empty; no onchain creation)
  * --arkey
- *      The path to a keypair to use for writing to the arweave chain. (default empty; no onchain creation)
+ *      The path to an arweave keypair to use for writing to the arweave chain. (default empty; no onchain creation)
  */
 
 
@@ -73,6 +75,9 @@ if (args['user'] && args['pass']) {
         Authorization: 'Basic ' + btoa(args['user']+':'+args['pass'])
     };
 }
+
+const anchorNodeUrl = args['url-anchor'] ?? nodeUrl;
+console.log('Anchor using rpc node', anchorNodeUrl);
 
 //cli date args, default now and 1 week prior
 const end = args['end'] ?? Math.floor(Date.now() / 1000);
@@ -158,6 +163,8 @@ if (resume) {
 } else {
     poolFeesPaid = [];
 
+    console.log("Looking up all pool token prices");
+
     //get all the pools and their value in step (technically exactly half the full value, but we're ultimately dealing in ratios anyhow)
     let iter: any = getPools(con, new web3.PublicKey(POOL_REGISTRY_OWNER), new web3.PublicKey(SWAP_PROGRAM));
     iter = asyncMap(iter, (a: any) => getTokensAndPrice(con, a, STEP_MINT));
@@ -179,6 +186,7 @@ if (resume) {
     //can change this to iterate one at a time if errors from rpc node due to hitting with all at once
     const results = await Promise.all(promises);
 
+    const zero = new BN(0);
     //for each pool, build a summary PoolFeesPaid containing PoolFeePayers
     for (const poolResult of results) {
         if (poolResult.length == 0)
@@ -186,7 +194,9 @@ if (resume) {
         const total = poolResult.reduce((prev: any, cur: any) => prev.add(cur.stepAmount), new BN(0, 10));
         const pool = new PoolFeesPaid(poolResult[0].pool, poolResult[0].nonStepMint, total.toString());
         for (const payerResult of poolResult) {
-            pool.addPayer(payerResult.payer, payerResult.stepAmount);
+            if (payerResult.stepAmount.gt(zero)) {
+                pool.addPayer(payerResult.payer, payerResult.stepAmount);
+            }
         }
         poolFeesPaid.push(pool);
     }
@@ -197,7 +207,7 @@ if (resume) {
 }
 
 //now need to aggregate all payers across all pools; we reuse the PoolFeePayer object
-const payerTotals = poolFeesPaid.map((a: any) => a.payers).flat().reduce((prev: any, cur: any) => {
+const payerTotals = poolFeesPaid.map(a => a.payers).flat().filter(a=>a.percentage > 0).reduce((prev: any, cur: any) => {
         const pp = prev.get(cur.pubkey);
         if (!pp) {
             prev.set(cur.pubkey, new PoolFeePayer(cur.pubkey, cur.amount, 0));
@@ -257,12 +267,12 @@ const claimsInfo = Object.entries(claims).map(([authority, claim]) => {
         [authority]: {
             index: claimA.index,
             amount: claimA.amount.toString(),
-            proof: claimA.proof.map((proof: any) => proof.toString("hex")),
+            proof: claimA.proof.map((proof: any) => proof.toString("base64")),
         }
     }
 });
 
-console.log("merkle root:", merkleRoot.toString("hex"));
+console.log("merkle root:", merkleRoot.toString("base64"));
 console.log("token total:", tokenTotal);
 
 console.log("Writing claims");
@@ -305,7 +315,7 @@ if (kp) {
             totalCount: finalPayerTotals.length,
         } as CreateDistributorData,
         {
-            connection: con,
+            connection: new web3.Connection(anchorNodeUrl, 'confirmed'),
             keypair: kp,
             programId: CALL_OPTIONS_PROGRAM,
             idl: idl,
