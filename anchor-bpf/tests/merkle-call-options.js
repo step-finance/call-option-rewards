@@ -74,19 +74,19 @@ async function createDistributor(index, program, rewardMint, rewardVault, priceM
   const distAddress = _distAddress;
   const distBump = _distBump;
 
-  [_distVault, _] = await anchor.web3.PublicKey.findProgramAddress(
+  [_distRewardVault, _] = await anchor.web3.PublicKey.findProgramAddress(
     [
       distAddress.toBuffer(),
-      Buffer.from("vault", "utf-8"),
+      Buffer.from("reward", "utf-8"),
     ],
     program.programId,
   )
-  const distVault = _distVault;
+  const distRewardVault = _distRewardVault;
 
   [_distPriceVault, _] = await anchor.web3.PublicKey.findProgramAddress(
     [
       distAddress.toBuffer(),
-      Buffer.from("payment", "utf-8"),
+      Buffer.from("price", "utf-8"),
     ],
     program.programId,
   )
@@ -112,7 +112,7 @@ async function createDistributor(index, program, rewardMint, rewardVault, priceM
         payer: program.provider.wallet.publicKey,
         fromAuthority: program.provider.wallet.publicKey,
         from: rewardVault,
-        vault: distVault,
+        rewardVault: distRewardVault,
         priceVault: distPriceVault,
         rent: anchor.web3.SYSVAR_RENT_PUBKEY,
         systemProgram: anchor.web3.SystemProgram.programId,

@@ -47,7 +47,7 @@ pub mod merkle_call_options {
         //xfer max_total_claim to vault
         let cpi_accounts = Transfer {
             from: ctx.accounts.from.to_account_info(),
-            to: ctx.accounts.vault.to_account_info(),
+            to: ctx.accounts.reward_vault.to_account_info(),
             authority: ctx.accounts.from_authority.to_account_info(),
         };
         let cpi_program = ctx.accounts.token_program.to_account_info();
@@ -105,12 +105,12 @@ pub struct NewDistributor<'info> {
         token::authority = distributor,
         seeds = [
             distributor.key().as_ref(),
-            "vault".as_bytes()
+            "reward".as_bytes()
         ],
         bump,
         payer = payer,
     )]
-    pub vault: Box<Account<'info, TokenAccount>>,
+    pub reward_vault: Box<Account<'info, TokenAccount>>,
 
     /// Account to hold the price_mint when contracts are exercised
     /// Authority is itself as this is a pda
@@ -120,7 +120,7 @@ pub struct NewDistributor<'info> {
         token::authority = distributor,
         seeds = [
             distributor.key().as_ref(),
-            "payment".as_bytes()
+            "price".as_bytes()
         ],
         bump,
         payer = payer,
@@ -147,11 +147,11 @@ pub struct Claim<'info> {
         mut,
         seeds = [
             distributor.key().as_ref(),
-            "vault".as_bytes()
+            "reward".as_bytes()
         ],
         bump,
     )]
-    pub vault: Box<Account<'info, TokenAccount>>,
+    pub reward_vault: Box<Account<'info, TokenAccount>>,
 
     //we need the price_mint to get the decimals that the price represents
     #[account(
@@ -163,7 +163,7 @@ pub struct Claim<'info> {
         mut,
         seeds = [
             distributor.key().as_ref(),
-            "payment".as_bytes()
+            "price".as_bytes()
         ],
         bump,
     )]
