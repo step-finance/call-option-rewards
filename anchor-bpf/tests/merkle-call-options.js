@@ -76,7 +76,7 @@ async function createDistributor(index, program, rewardMint, rewardVault, dataLo
     distBump,
     dataLocation,
     Buffer.from(merkle, "base64"),
-    new anchor.BN(1_000_000_000),
+    new anchor.BN(1_000_000),
     new anchor.BN(Math.floor(Date.now() / 1000) + 10),
     new anchor.BN(500),
     10,

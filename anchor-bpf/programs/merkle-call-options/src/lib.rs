@@ -65,7 +65,6 @@ pub struct NewDistributor<'info> {
     /// The mint to distribute.
     pub mint: Box<Account<'info, Mint>>,
 
-    /// [MerkleDistributor].
     #[account(
         init,
         seeds = [
@@ -107,7 +106,73 @@ pub struct NewDistributor<'info> {
     )]
     pub vault: Box<Account<'info, TokenAccount>>,
 
+    /// Account to hold the tokens to sell for distribution
+    /// Authority is itself as this is a pda
+    #[account(
+        init,
+        token::mint = mint,
+        token::authority = vault,
+        seeds = [
+            distributor.key().as_ref(),
+            "payment".as_bytes()
+        ],
+        bump,
+        payer = payer,
+    )]
+    pub payment_vault: Box<Account<'info, TokenAccount>>,
+
     pub rent: Sysvar<'info, Rent>,
+    pub system_program: Program<'info, System>,
+    pub token_program: Program<'info, Token>,
+}
+
+#[derive(Accounts)]
+#[instruction(index: u64)]
+pub struct Claim<'info> {
+    #[account(
+        mut,
+        has_one = claims_bitmask_account,
+        seeds = [
+            writer.key().as_ref(),
+            mint.key().as_ref(),
+            &index.to_le_bytes()
+        ],
+        bump = distributor.bump,
+    )]
+    pub distributor: Box<Account<'info, CallOptionDistributor>>,
+
+    pub claims_bitmask_account: Loader<'info, CallOptionDistributorClaimsMask>,
+
+    #[account(
+        mut,
+        seeds = [
+            distributor.key().as_ref(),
+            "vault".as_bytes()
+        ],
+        bump,
+    )]
+    pub vault: Box<Account<'info, TokenAccount>>,
+
+    #[account(
+        mut,
+        seeds = [
+            distributor.key().as_ref(),
+            "payment".as_bytes()
+        ],
+        bump,
+    )]
+    pub payment_vault: Box<Account<'info, TokenAccount>>,
+
+    /// Account to send the purchased tokens to.
+    #[account(mut)]
+    pub to: Account<'info, TokenAccount>,
+
+    /// Who is claiming the tokens.
+    pub claimant: Signer<'info>,
+
+    /// Payer of the claim.
+    pub payer: Signer<'info>,
+
     pub system_program: Program<'info, System>,
     pub token_program: Program<'info, Token>,
 }
