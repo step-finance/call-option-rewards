@@ -40,7 +40,7 @@ deno run --unstable --inspect --allow-all --location https://step.finance ./mod.
 |--pass|The password to use to authenticate. Must be used in coordication with --user.|_optional_|
 |--url-anchor|The url to the rpc node for use with anchor (when writing).|_same as url_|
 |--amt|The amount of STEP call options to distribute.|_1,000,000,000 (1 STEP)_|
-|--price|The strike price in USDC per 1e<mint decimals>. (value of 1_000_000_000 would mean $1 = 1 token)|_1,000,000,000_|
+|--price|The strike price in USDC per 1e<mint decimals>. (value of 1_000_000 would mean $1 = 1 token)|_1,000,000_|
 |--expiry|The unix timestamp (in seconds) for the expiry of the call option.|_end + 1 week_|
 |--start|The unix timestamp (in seconds) for the end of the rewards period; inclusive.|_1 week ago_|
 |--end|The unix timestamp (in seconds) for the end of the rewards period; exclusive.|_now_|
