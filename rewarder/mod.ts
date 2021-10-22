@@ -186,6 +186,7 @@ if (resume) {
     //can change this to iterate one at a time if errors from rpc node due to hitting with all at once
     const results = await Promise.all(promises);
 
+    const zero = new BN(0);
     //for each pool, build a summary PoolFeesPaid containing PoolFeePayers
     for (const poolResult of results) {
         if (poolResult.length == 0)
@@ -193,7 +194,9 @@ if (resume) {
         const total = poolResult.reduce((prev: any, cur: any) => prev.add(cur.stepAmount), new BN(0, 10));
         const pool = new PoolFeesPaid(poolResult[0].pool, poolResult[0].nonStepMint, total.toString());
         for (const payerResult of poolResult) {
-            pool.addPayer(payerResult.payer, payerResult.stepAmount);
+            if (payerResult.stepAmount.gt(zero)) {
+                pool.addPayer(payerResult.payer, payerResult.stepAmount);
+            }
         }
         poolFeesPaid.push(pool);
     }
@@ -204,7 +207,7 @@ if (resume) {
 }
 
 //now need to aggregate all payers across all pools; we reuse the PoolFeePayer object
-const payerTotals = poolFeesPaid.map((a: any) => a.payers).flat().reduce((prev: any, cur: any) => {
+const payerTotals = poolFeesPaid.map(a => a.payers).flat().filter(a=>a.percentage > 0).reduce((prev: any, cur: any) => {
         const pp = prev.get(cur.pubkey);
         if (!pp) {
             prev.set(cur.pubkey, new PoolFeePayer(cur.pubkey, cur.amount, 0));
@@ -264,12 +267,12 @@ const claimsInfo = Object.entries(claims).map(([authority, claim]) => {
         [authority]: {
             index: claimA.index,
             amount: claimA.amount.toString(),
-            proof: claimA.proof.map((proof: any) => proof.toString("hex")),
+            proof: claimA.proof.map((proof: any) => proof.toString("base64")),
         }
     }
 });
 
-console.log("merkle root:", merkleRoot.toString("hex"));
+console.log("merkle root:", merkleRoot.toString("base64"));
 console.log("token total:", tokenTotal);
 
 console.log("Writing claims");
