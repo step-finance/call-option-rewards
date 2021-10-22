@@ -19,7 +19,7 @@
  * --amt
  *      The amount of STEP call options to distribute. (default 1_000_000_000)
  * --price
- *      The strike price in USDC per 1e<mint decimals>. (value of 1_000_000_000 would mean $1 = 1 token)
+ *      The strike price in USDC per 1e<mint decimals>. (value of 1_000_000 would mean $1 = 1 token)
  * --expiry
  *      The unix timestamp (in seconds) for the expiry of the call option. (default end + 1 week)
  * --start
@@ -98,7 +98,7 @@ const amountString = args['amt'] ?? 1_000_000_000;
 const amountToWriteFor = new BN(amountString, 10);
 console.log('Writing for amount', amountString);
 
-const strikePriceString = args['price'] ?? 1_000_000_000;
+const strikePriceString = args['price'] ?? 1_000_000;
 const strikePrice = new BN(strikePriceString, 10);
 console.log('Strike price', strikePriceString);
 
