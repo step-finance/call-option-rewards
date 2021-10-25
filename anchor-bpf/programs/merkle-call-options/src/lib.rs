@@ -1,6 +1,7 @@
 use anchor_lang::prelude::*;
 use anchor_spl::token::{self, Mint, Token, TokenAccount, Transfer};
 use std::mem;
+use bit::BitIndex;
 
 pub mod merkle_proof;
 
@@ -28,7 +29,6 @@ pub mod merkle_call_options {
         distributor.index = index;
         distributor.bump = bump;
 
-        distributor.decimals_price = ctx.accounts.price_mint.decimals;
         distributor.decimals_reward = ctx.accounts.reward_mint.decimals;
 
         distributor.strike_price = strike_price;
@@ -53,6 +53,91 @@ pub mod merkle_call_options {
         let cpi_program = ctx.accounts.token_program.to_account_info();
         let cpi_ctx = CpiContext::new(cpi_program, cpi_accounts);
         token::transfer(cpi_ctx, max_total_claim)?;
+
+        Ok(())
+    }
+
+    pub fn claim(
+        ctx: Context<Claim>,
+        index: u64,
+        authorized_amount: u64,
+        exercise_amount: u64,
+        proof: Vec<[u8; 32]>,
+    ) -> ProgramResult {
+
+        require!(
+            exercise_amount <= authorized_amount,
+            TooManyExercising,
+        );
+
+        let distributor = &ctx.accounts.distributor;
+
+        //validate not claimed and mark as claimed
+        {
+            //0 = MSB !
+            let claim_byte = index / 8;
+            //our bitmask is index 0 = MSB and index max_num_nodes = LSB, hence the "7 - n" since bit crate is reverse (0=LSB)
+            let claim_bit = 7 - index % 8;
+
+            let claims_bitmask = &mut ctx.accounts.claims_bitmask_account.load_mut()?;
+            let byte = &mut claims_bitmask.claims_bitmask[claim_byte as usize];
+            if byte.bit(claim_bit as usize) {
+                return Err(ErrorCode::OptionAlreadyExercised.into());
+            }
+            byte.set_bit(claim_bit as usize, true);
+        }
+
+        let claimant_account = &ctx.accounts.claimant;
+
+        // Verify the merkle proof.
+        let node = solana_program::keccak::hashv(&[
+            &index.to_le_bytes(),
+            &claimant_account.key().to_bytes(),
+            &authorized_amount.to_le_bytes(),
+        ]);
+        require!(
+            merkle_proof::verify(proof, distributor.merkle_root, node.0),
+            InvalidProof,
+        );
+
+        // exercise the option
+        let one_reward_token = 1u64.checked_pow(distributor.decimals_reward.into()).unwrap();
+        let cost = exercise_amount
+            .checked_mul(distributor.strike_price).unwrap()
+            .checked_div(one_reward_token).unwrap();
+
+        //pay
+        token::transfer(
+            CpiContext::new(
+                ctx.accounts.token_program.to_account_info(),
+                Transfer {
+                    from: ctx.accounts.user_payment_account.to_account_info(),
+                    to: ctx.accounts.price_vault.to_account_info(),
+                    authority: ctx.accounts.user_payment_authority.to_account_info(),
+                }
+            ),
+            cost,
+        )?;
+
+        //send
+        let seeds = &[
+            distributor.writer.as_ref(),
+            distributor.reward_mint.as_ref(),
+            &distributor.index.to_le_bytes(),
+            &[distributor.bump],
+        ];
+        let signer = &[&seeds[..]];
+        token::transfer(
+            CpiContext::new(
+                ctx.accounts.token_program.to_account_info(),
+                Transfer {
+                    from: ctx.accounts.reward_vault.to_account_info(),
+                    to: ctx.accounts.user_reward_token_account.to_account_info(),
+                    authority: distributor.to_account_info(),
+                }
+            ).with_signer(signer),
+            exercise_amount,
+        )?;
 
         Ok(())
     }
@@ -137,7 +222,9 @@ pub struct NewDistributor<'info> {
 pub struct Claim<'info> {
     #[account(
         mut,
-        has_one = claims_bitmask_account
+        has_one = claims_bitmask_account,
+        //the index into the claims mask can't be greater than the number of nodes
+        constraint = u64::from(distributor.max_num_nodes) > index,
     )]
     pub distributor: Box<Account<'info, CallOptionDistributor>>,
 
@@ -153,12 +240,6 @@ pub struct Claim<'info> {
     )]
     pub reward_vault: Box<Account<'info, TokenAccount>>,
 
-    //we need the price_mint to get the decimals that the price represents
-    #[account(
-        address = price_vault.mint,
-    )]
-    pub price_mint: Box<Account<'info, Mint>>,
-
     #[account(
         mut,
         seeds = [
@@ -171,7 +252,15 @@ pub struct Claim<'info> {
 
     /// Account to send the purchased tokens to.
     #[account(mut)]
-    pub to: Account<'info, TokenAccount>,
+    pub user_reward_token_account: Box<Account<'info, TokenAccount>>,
+
+    /// Account to use to buy tokens at strike price.
+    #[account(mut)]
+    pub user_payment_account: Box<Account<'info, TokenAccount>>,
+
+    /// Authority allowed to withdraw from user_payment_account.
+    #[account(mut)]
+    pub user_payment_authority: Signer<'info>,
 
     /// Who is claiming the tokens.
     pub claimant: Signer<'info>,
@@ -198,8 +287,7 @@ pub struct CallOptionDistributor {
     /// Bump seed for this account
     pub bump: u8,
 
-    /// we store the decimals of the mints so our maths during claim doesn't need the mints
-    pub decimals_price: u8,
+    /// we store the decimals of the mint so our maths during claim doesn't need the mint
     pub decimals_reward: u8,
 
     /// The strike price in price_mint per 1e<mint decimals> (value of 1_000_000 USDC (6 decimals) would mean $1 = 1 full token (N decimals))
@@ -236,4 +324,14 @@ impl CallOptionDistributor {
 #[repr(C)]
 pub struct CallOptionDistributorClaimsMask {
     pub claims_bitmask: [u8; 31250],
+}
+
+#[error]
+pub enum ErrorCode {
+    #[msg("Invalid Merkle proof.")]
+    InvalidProof,
+    #[msg("Option already exercised.")]
+    OptionAlreadyExercised,
+    #[msg("Not authorized to purchase that amount.")]
+    TooManyExercising,
 }
