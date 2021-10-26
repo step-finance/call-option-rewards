@@ -119,7 +119,7 @@ pub mod merkle_call_options {
             cost,
         )?;
 
-        //send
+        //reward from vault
         let seeds = &[
             distributor.writer.as_ref(),
             distributor.reward_mint.as_ref(),
