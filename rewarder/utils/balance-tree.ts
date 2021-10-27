@@ -43,7 +43,7 @@ export class BalanceTree {
       account.toBuffer(),
       new u64(amount).toArrayLike(Buffer, "le", 8),
     ]);
-    return Buffer.from(createHash('keccak256').update(buf).toString(), "hex");
+    return Buffer.from(createHash('keccak256').update(buf).digest());
   }
 
   public getHexRoot(): string {

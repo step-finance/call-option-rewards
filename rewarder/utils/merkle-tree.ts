@@ -64,7 +64,7 @@ export class MerkleTree {
     }
 
     return Buffer.from(
-      createHash('keccak256').update(MerkleTree.sortAndConcat(first, second)).toString()
+      createHash('keccak256').update(MerkleTree.sortAndConcat(first, second)).digest()
     );
   }
 

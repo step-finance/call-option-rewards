@@ -18,7 +18,7 @@ pub mod merkle_call_options {
         merkle_root: [u8; 32],
         strike_price: u64,
         expiry: u64,
-        max_total_claim: u64,
+        max_total_amount_claim: u64,
         node_count: u32,
     ) -> ProgramResult {
 
@@ -37,7 +37,7 @@ pub mod merkle_call_options {
 
         distributor.merkle_root = merkle_root;
 
-        distributor.max_total_claim = max_total_claim;
+        distributor.max_total_amount_claim = max_total_amount_claim;
         distributor.total_amount_claimed = 0;
         distributor.max_num_nodes = node_count;
         distributor.num_nodes_claimed = 0;
@@ -52,14 +52,14 @@ pub mod merkle_call_options {
         };
         let cpi_program = ctx.accounts.token_program.to_account_info();
         let cpi_ctx = CpiContext::new(cpi_program, cpi_accounts);
-        token::transfer(cpi_ctx, max_total_claim)?;
+        token::transfer(cpi_ctx, max_total_amount_claim)?;
 
         Ok(())
     }
 
-    pub fn claim(
-        ctx: Context<Claim>,
-        index: u64,
+    pub fn exercise(
+        ctx: Context<Exercise>,
+        claim_index: u64,
         authorized_amount: u64,
         exercise_amount: u64,
         proof: Vec<[u8; 32]>,
@@ -75,9 +75,9 @@ pub mod merkle_call_options {
         //validate not claimed and mark as claimed
         {
             //0 = MSB !
-            let claim_byte = index / 8;
-            //our bitmask is index 0 = MSB and index max_num_nodes = LSB, hence the "7 - n" since bit crate is reverse (0=LSB)
-            let claim_bit = 7 - index % 8;
+            let claim_byte = claim_index / 8;
+            //our bitmask is claim_index 0 = MSB and claim_index max_num_nodes = LSB, hence the "7 - n" since bit crate is reverse (0=LSB)
+            let claim_bit = 7 - claim_index % 8;
 
             let claims_bitmask = &mut ctx.accounts.claims_bitmask_account.load_mut()?;
             let byte = &mut claims_bitmask.claims_bitmask[claim_byte as usize];
@@ -91,7 +91,7 @@ pub mod merkle_call_options {
 
         // Verify the merkle proof.
         let node = solana_program::keccak::hashv(&[
-            &index.to_le_bytes(),
+            &claim_index.to_le_bytes(),
             &claimant_account.key().to_bytes(),
             &authorized_amount.to_le_bytes(),
         ]);
@@ -218,16 +218,17 @@ pub struct NewDistributor<'info> {
 }
 
 #[derive(Accounts)]
-#[instruction(index: u64)]
-pub struct Claim<'info> {
+#[instruction(claim_index: u64)]
+pub struct Exercise<'info> {
     #[account(
         mut,
         has_one = claims_bitmask_account,
-        //the index into the claims mask can't be greater than the number of nodes
-        constraint = u64::from(distributor.max_num_nodes) > index,
+        //the claim_index into the claims mask can't be greater than the number of nodes
+        constraint = claim_index < u64::from(distributor.max_num_nodes),
     )]
     pub distributor: Box<Account<'info, CallOptionDistributor>>,
 
+    #[account(mut)]
     pub claims_bitmask_account: Loader<'info, CallOptionDistributorClaimsMask>,
 
     #[account(
@@ -301,7 +302,7 @@ pub struct CallOptionDistributor {
     pub merkle_root: [u8; 32],
 
     /// Maximum number of tokens that can ever be claimed from this [MerkleDistributor].
-    pub max_total_claim: u64,
+    pub max_total_amount_claim: u64,
     /// Total amount of tokens that have been claimed.
     pub total_amount_claimed: u64,
     /// Maximum number of nodes that can ever claim from this [MerkleDistributor].
