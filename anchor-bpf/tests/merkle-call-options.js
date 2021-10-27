@@ -45,6 +45,13 @@ describe('merkle-call-options', () => {
     priceVault = _priceVault;
     userPayAccount = await new Token(program.provider.connection, priceMint, TOKEN_PROGRAM_ID, userKeypair)
       .createAssociatedTokenAccount(userKeypair.publicKey);
+    
+    const xfer = Token.createTransferInstruction(TOKEN_PROGRAM_ID, priceVault, userPayAccount, program.provider.wallet.publicKey, [], 5_000_000_000);
+    const tx = new anchor.web3.Transaction();
+    tx.add(xfer);
+    program.provider.wallet.signTransaction(tx);
+    //tx.sign([program.provider.wallet.payer]);
+    await program.provider.send(tx);
   });
 
   const expiry = Math.floor(Date.now() / 1000) + 10;
@@ -123,7 +130,7 @@ describe('merkle-call-options', () => {
 
   it('Claim from a one node tree', async () => {
     const claimsData = JSON.parse(fs.readFileSync("tests/data/claims-YBKqO7sk+KJJC1CirbhD0czdpeDTa8aqx7BD9HtIEC4=.json"));
-    const userData = claimsData[0][userKeypair.publicKey];
+    const userData = claimsData[userKeypair.publicKey];
 
     await exerciseOption(
       1, 
@@ -138,9 +145,55 @@ describe('merkle-call-options', () => {
       userData.index, 
       userData.amount, 
       userData.amount, 
-      userData.proof,
+      userData.proof.map(a=>Buffer.from(a, "base64")),
     );
   });
+
+  it('Second claim of same node fails', async () => {
+    const claimsData = JSON.parse(fs.readFileSync("tests/data/claims-YBKqO7sk+KJJC1CirbhD0czdpeDTa8aqx7BD9HtIEC4=.json"));
+    const userData = claimsData[userKeypair.publicKey];
+
+    try {
+      await exerciseOption(
+        1, 
+        program, 
+        rewardMint, 
+        claimsMask1, 
+        distRewardsVault1, 
+        distPriceVault1, 
+        userKeypair,
+        userRewardAccount, 
+        userPayAccount, 
+        userData.index, 
+        userData.amount, 
+        userData.amount, 
+        userData.proof.map(a=>Buffer.from(a, "base64")),
+      );
+      assert(false, 'should not have allowed dupe exercise');
+    } catch { }
+  });
+
+  it('Claim from a large tree', async () => {
+    const claimsData = JSON.parse(fs.readFileSync("tests/data/claims-1arDyjoydH-rcbAUw-B3se5x+fKSjtRVQFadh1ymjSc=.json"));
+    const userData = claimsData[userKeypair.publicKey];
+
+    await exerciseOption(
+      2, 
+      program, 
+      rewardMint, 
+      claimsMask2, 
+      distRewardsVault2, 
+      distPriceVault2, 
+      userKeypair,
+      userRewardAccount, 
+      userPayAccount, 
+      userData.index, 
+      userData.amount, 
+      userData.amount, 
+      userData.proof.map(a=>Buffer.from(a, "base64")),
+    );
+  });
+
 });
 
 async function exerciseOption(index, program, rewardMint, claimsAcct, rewardVault, priceVault, userKeypair, userRewardAccount, userPaymentAccount, claimIndex, authorizedAmount, exerciseAmount, proof) {

@@ -67,7 +67,7 @@ pub mod merkle_call_options {
 
         require!(
             exercise_amount <= authorized_amount,
-            TooManyExercising,
+            TooMuchExercise,
         );
 
         let distributor = &ctx.accounts.distributor;
@@ -101,10 +101,12 @@ pub mod merkle_call_options {
         );
 
         // exercise the option
-        let one_reward_token = 1u64.checked_pow(distributor.decimals_reward.into()).unwrap();
+        let one_reward_token = 10u64.checked_pow(distributor.decimals_reward.into()).unwrap();
         let cost = exercise_amount
             .checked_mul(distributor.strike_price).unwrap()
             .checked_div(one_reward_token).unwrap();
+
+        msg!("exercise cost is {}", cost);
 
         //pay
         token::transfer(
@@ -334,5 +336,5 @@ pub enum ErrorCode {
     #[msg("Option already exercised.")]
     OptionAlreadyExercised,
     #[msg("Not authorized to purchase that amount.")]
-    TooManyExercising,
+    TooMuchExercise,
 }

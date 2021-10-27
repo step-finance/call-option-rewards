@@ -261,16 +261,18 @@ await Deno.writeTextFile("output/all-payers.json", JSON.stringify(output, null, 
 const { claims, merkleRoot, tokenTotal } = parseBalanceMap(finalPayerTotals);
 
 //create the structure for storing on arweave
-const claimsInfo = Object.entries(claims).map(([authority, claim]) => {
-    const claimA: any = claim;
-    return {
-        [authority]: {
+const claimsInfo = Object.entries(claims).reduce(
+    (prev, [authority, claim]) => {
+        const claimA: any = claim;
+        prev[authority] = {
             index: claimA.index,
             amount: claimA.amount.toString(),
             proof: claimA.proof.map((proof: any) => proof.toString("base64")),
-        }
-    }
-});
+        };
+        return prev;
+    }, 
+    {} as any,
+);
 
 console.log("merkle root:", merkleRoot.toString("base64"));
 console.log("token total:", tokenTotal);
