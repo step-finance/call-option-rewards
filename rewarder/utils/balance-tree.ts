@@ -29,9 +29,20 @@ export class BalanceTree {
     root: Buffer,
   ): boolean {
     let pair = BalanceTree.toNode(index, account, amount);
+
+    console.log(pair.toString("hex"), 'leaf');
+
     for (const item of proof) {
+
+      console.log(item.toString("hex"), 'proof');
+
       pair = MerkleTree.combinedHash(pair, item);
+
+      console.log(pair.toString("hex"), 'hash');
+
     }
+
+    console.log(root.toString("hex"), 'root');
 
     return pair.equals(root);
   }
@@ -43,7 +54,7 @@ export class BalanceTree {
       account.toBuffer(),
       new u64(amount).toArrayLike(Buffer, "le", 8),
     ]);
-    return Buffer.from(createHash('keccak256').update(buf).toString(), "hex");
+    return Buffer.from(createHash('keccak256').update(buf).digest());
   }
 
   public getHexRoot(): string {

@@ -1,6 +1,7 @@
 use anchor_lang::prelude::*;
 use anchor_spl::token::{self, Mint, Token, TokenAccount, Transfer};
 use std::mem;
+use bit::BitIndex;
 
 pub mod merkle_proof;
 
@@ -17,16 +18,18 @@ pub mod merkle_call_options {
         merkle_root: [u8; 32],
         strike_price: u64,
         expiry: u64,
-        max_total_claim: u64,
+        max_total_amount_claim: u64,
         node_count: u32,
     ) -> ProgramResult {
 
         let distributor = &mut ctx.accounts.distributor;
 
         distributor.writer = ctx.accounts.writer.key();
-        distributor.mint = ctx.accounts.mint.key();
+        distributor.reward_mint = ctx.accounts.reward_mint.key();
         distributor.index = index;
         distributor.bump = bump;
+
+        distributor.decimals_reward = ctx.accounts.reward_mint.decimals;
 
         distributor.strike_price = strike_price;
         distributor.expiry = expiry;
@@ -34,7 +37,7 @@ pub mod merkle_call_options {
 
         distributor.merkle_root = merkle_root;
 
-        distributor.max_total_claim = max_total_claim;
+        distributor.max_total_amount_claim = max_total_amount_claim;
         distributor.total_amount_claimed = 0;
         distributor.max_num_nodes = node_count;
         distributor.num_nodes_claimed = 0;
@@ -44,12 +47,99 @@ pub mod merkle_call_options {
         //xfer max_total_claim to vault
         let cpi_accounts = Transfer {
             from: ctx.accounts.from.to_account_info(),
-            to: ctx.accounts.vault.to_account_info(),
+            to: ctx.accounts.reward_vault.to_account_info(),
             authority: ctx.accounts.from_authority.to_account_info(),
         };
         let cpi_program = ctx.accounts.token_program.to_account_info();
         let cpi_ctx = CpiContext::new(cpi_program, cpi_accounts);
-        token::transfer(cpi_ctx, max_total_claim)?;
+        token::transfer(cpi_ctx, max_total_amount_claim)?;
+
+        Ok(())
+    }
+
+    pub fn exercise(
+        ctx: Context<Exercise>,
+        claim_index: u64,
+        authorized_amount: u64,
+        exercise_amount: u64,
+        proof: Vec<[u8; 32]>,
+    ) -> ProgramResult {
+
+        require!(
+            exercise_amount <= authorized_amount,
+            TooMuchExercise,
+        );
+
+        let distributor = &ctx.accounts.distributor;
+
+        //validate not claimed and mark as claimed
+        {
+            //0 = MSB !
+            let claim_byte = claim_index / 8;
+            //our bitmask is claim_index 0 = MSB and claim_index max_num_nodes = LSB, hence the "7 - n" since bit crate is reverse (0=LSB)
+            let claim_bit = 7 - claim_index % 8;
+
+            let claims_bitmask = &mut ctx.accounts.claims_bitmask_account.load_mut()?;
+            let byte = &mut claims_bitmask.claims_bitmask[claim_byte as usize];
+            if byte.bit(claim_bit as usize) {
+                return Err(ErrorCode::OptionAlreadyExercised.into());
+            }
+            byte.set_bit(claim_bit as usize, true);
+        }
+
+        let claimant_account = &ctx.accounts.claimant;
+
+        // Verify the merkle proof.
+        let node = solana_program::keccak::hashv(&[
+            &claim_index.to_le_bytes(),
+            &claimant_account.key().to_bytes(),
+            &authorized_amount.to_le_bytes(),
+        ]);
+        require!(
+            merkle_proof::verify(proof, distributor.merkle_root, node.0),
+            InvalidProof,
+        );
+
+        // exercise the option
+        let one_reward_token = 10u64.checked_pow(distributor.decimals_reward.into()).unwrap();
+        let cost = exercise_amount
+            .checked_mul(distributor.strike_price).unwrap()
+            .checked_div(one_reward_token).unwrap();
+
+        msg!("exercise cost is {}", cost);
+
+        //pay
+        token::transfer(
+            CpiContext::new(
+                ctx.accounts.token_program.to_account_info(),
+                Transfer {
+                    from: ctx.accounts.user_payment_account.to_account_info(),
+                    to: ctx.accounts.price_vault.to_account_info(),
+                    authority: ctx.accounts.user_payment_authority.to_account_info(),
+                }
+            ),
+            cost,
+        )?;
+
+        //reward from vault
+        let seeds = &[
+            distributor.writer.as_ref(),
+            distributor.reward_mint.as_ref(),
+            &distributor.index.to_le_bytes(),
+            &[distributor.bump],
+        ];
+        let signer = &[&seeds[..]];
+        token::transfer(
+            CpiContext::new(
+                ctx.accounts.token_program.to_account_info(),
+                Transfer {
+                    from: ctx.accounts.reward_vault.to_account_info(),
+                    to: ctx.accounts.user_reward_token_account.to_account_info(),
+                    authority: distributor.to_account_info(),
+                }
+            ).with_signer(signer),
+            exercise_amount,
+        )?;
 
         Ok(())
     }
@@ -63,14 +153,16 @@ pub struct NewDistributor<'info> {
     pub writer: Signer<'info>,
 
     /// The mint to distribute.
-    pub mint: Box<Account<'info, Mint>>,
+    pub reward_mint: Box<Account<'info, Mint>>,
 
-    /// [MerkleDistributor].
+    /// The mint used to exercise the contract.
+    pub price_mint: Box<Account<'info, Mint>>,
+
     #[account(
         init,
         seeds = [
             writer.key().as_ref(),
-            mint.key().as_ref(),
+            reward_mint.key().as_ref(),
             &index.to_le_bytes()
         ],
         bump = bump,
@@ -96,18 +188,89 @@ pub struct NewDistributor<'info> {
     /// Authority is itself as this is a pda
     #[account(
         init,
-        token::mint = mint,
-        token::authority = vault,
+        token::mint = reward_mint,
+        token::authority = distributor,
         seeds = [
             distributor.key().as_ref(),
-            "vault".as_bytes()
+            "reward".as_bytes()
         ],
         bump,
         payer = payer,
     )]
-    pub vault: Box<Account<'info, TokenAccount>>,
+    pub reward_vault: Box<Account<'info, TokenAccount>>,
+
+    /// Account to hold the price_mint when contracts are exercised
+    /// Authority is itself as this is a pda
+    #[account(
+        init,
+        token::mint = price_mint,
+        token::authority = distributor,
+        seeds = [
+            distributor.key().as_ref(),
+            "price".as_bytes()
+        ],
+        bump,
+        payer = payer,
+    )]
+    pub price_vault: Box<Account<'info, TokenAccount>>,
 
     pub rent: Sysvar<'info, Rent>,
+    pub system_program: Program<'info, System>,
+    pub token_program: Program<'info, Token>,
+}
+
+#[derive(Accounts)]
+#[instruction(claim_index: u64)]
+pub struct Exercise<'info> {
+    #[account(
+        mut,
+        has_one = claims_bitmask_account,
+        //the claim_index into the claims mask can't be greater than the number of nodes
+        constraint = claim_index < u64::from(distributor.max_num_nodes),
+    )]
+    pub distributor: Box<Account<'info, CallOptionDistributor>>,
+
+    #[account(mut)]
+    pub claims_bitmask_account: Loader<'info, CallOptionDistributorClaimsMask>,
+
+    #[account(
+        mut,
+        seeds = [
+            distributor.key().as_ref(),
+            "reward".as_bytes()
+        ],
+        bump,
+    )]
+    pub reward_vault: Box<Account<'info, TokenAccount>>,
+
+    #[account(
+        mut,
+        seeds = [
+            distributor.key().as_ref(),
+            "price".as_bytes()
+        ],
+        bump,
+    )]
+    pub price_vault: Box<Account<'info, TokenAccount>>,
+
+    /// Account to send the purchased tokens to.
+    #[account(mut)]
+    pub user_reward_token_account: Box<Account<'info, TokenAccount>>,
+
+    /// Account to use to buy tokens at strike price.
+    #[account(mut)]
+    pub user_payment_account: Box<Account<'info, TokenAccount>>,
+
+    /// Authority allowed to withdraw from user_payment_account.
+    #[account(mut)]
+    pub user_payment_authority: Signer<'info>,
+
+    /// Who is claiming the tokens.
+    pub claimant: Signer<'info>,
+
+    /// Payer of the claim.
+    pub payer: Signer<'info>,
+
     pub system_program: Program<'info, System>,
     pub token_program: Program<'info, Token>,
 }
@@ -120,14 +283,17 @@ pub struct CallOptionDistributor {
     /// The pubkey of the underwriter of the options. Allowed to reclaim after expiry.
     pub writer: Pubkey,
     /// [Mint] of the token to be distributed.
-    pub mint: Pubkey,
+    pub reward_mint: Pubkey,
     /// Contract index for this account. This is part of the seed to derive the address, and should be a
     /// well known incrementing number, ideally based on time. Ex. number of week/day after project launch.
     pub index: u16,
     /// Bump seed for this account
     pub bump: u8,
 
-    /// The strike price in USDC per 1e<mint decimals> (value of 1_000_000_000 would mean $1 = 1 token)
+    /// we store the decimals of the mint so our maths during claim doesn't need the mint
+    pub decimals_reward: u8,
+
+    /// The strike price in price_mint per 1e<mint decimals> (value of 1_000_000 USDC (6 decimals) would mean $1 = 1 full token (N decimals))
     pub strike_price: u64,
     /// The expiration time of the contract
     pub expiry: u64,
@@ -138,7 +304,7 @@ pub struct CallOptionDistributor {
     pub merkle_root: [u8; 32],
 
     /// Maximum number of tokens that can ever be claimed from this [MerkleDistributor].
-    pub max_total_claim: u64,
+    pub max_total_amount_claim: u64,
     /// Total amount of tokens that have been claimed.
     pub total_amount_claimed: u64,
     /// Maximum number of nodes that can ever claim from this [MerkleDistributor].
@@ -161,4 +327,14 @@ impl CallOptionDistributor {
 #[repr(C)]
 pub struct CallOptionDistributorClaimsMask {
     pub claims_bitmask: [u8; 31250],
+}
+
+#[error]
+pub enum ErrorCode {
+    #[msg("Invalid Merkle proof.")]
+    InvalidProof,
+    #[msg("Option already exercised.")]
+    OptionAlreadyExercised,
+    #[msg("Not authorized to purchase that amount.")]
+    TooMuchExercise,
 }

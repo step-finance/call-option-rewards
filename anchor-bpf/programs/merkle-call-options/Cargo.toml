@@ -11,6 +11,7 @@ name = "merkle_call_options"
 [features]
 no-entrypoint = []
 no-idl = []
+verbose = []
 cpi = ["no-entrypoint"]
 default = []
 
@@ -22,3 +23,4 @@ spl-associated-token-account = { version = "1.0.3", features = [
     "no-entrypoint"
 ] }
 bit = "0.1.1"
+hex = "0.4.3"

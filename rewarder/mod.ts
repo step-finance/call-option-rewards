@@ -47,8 +47,8 @@ import { parse } from "https://deno.land/std@0.110.0/flags/mod.ts";
 import BN from "https://esm.sh/v54/bn.js@5.2.0/es2021/bn.development.js";
 import { web3 } from "./anchor-esm-fix/anchor-dev.js";;
 
-//import MerkleDistributor from "https://esm.sh/@saberhq/merkle-distributor?dev&no-check";
 import { parseBalanceMap } from "./utils/parse-balance-map.ts";
+import { BalanceTree } from "./utils/balance-tree.ts";
 
 import { getPools } from "./stepSwap.ts";
 import { getTokensAndPrice, getPayerSums } from "./payerParsing.ts";
@@ -261,19 +261,40 @@ await Deno.writeTextFile("output/all-payers.json", JSON.stringify(output, null, 
 const { claims, merkleRoot, tokenTotal } = parseBalanceMap(finalPayerTotals);
 
 //create the structure for storing on arweave
-const claimsInfo = Object.entries(claims).map(([authority, claim]) => {
-    const claimA: any = claim;
-    return {
-        [authority]: {
+const claimsInfo = Object.entries(claims).reduce(
+    (prev, [authority, claim]) => {
+        const claimA: any = claim;
+        prev[authority] = {
             index: claimA.index,
             amount: claimA.amount.toString(),
             proof: claimA.proof.map((proof: any) => proof.toString("base64")),
-        }
-    }
-});
+        };
+        return prev;
+    }, 
+    {} as any,
+);
 
 console.log("merkle root:", merkleRoot.toString("base64"));
 console.log("token total:", tokenTotal);
+
+
+
+
+
+//test
+const claim = claims['DrWW4z9awhp6gg1gk3jPHqG68toDwxWjhiUmiZZ62gMh'];
+const ok = BalanceTree.verifyProof(
+    claim.index,
+    new web3.PublicKey('DrWW4z9awhp6gg1gk3jPHqG68toDwxWjhiUmiZZ62gMh'),
+    claim.amount,
+    claim.proof,
+    merkleRoot
+);
+console.log('verify', ok);
+
+
+
+
 
 console.log("Writing claims");
 const claimsInfoString = JSON.stringify(claimsInfo, null, 2)
