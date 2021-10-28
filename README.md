@@ -1,3 +1,9 @@
+<h1 align="center">
+  <br>
+   <img width="400" src="https://github.com/step-finance/call-option-rewards/blob/main/logo.svg?raw=true" alt="step logo"/>
+  <br>
+</h1>
+
 # STEP Call Option Rewards
 
 ## Information
