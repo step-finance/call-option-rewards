@@ -714,6 +714,7 @@ dependencies = [
  "anchor-lang",
  "anchor-spl",
  "bit",
+ "hex",
  "solana-program",
  "spl-associated-token-account",
 ]
