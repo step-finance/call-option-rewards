@@ -14,6 +14,10 @@ describe('merkle-call-options', () => {
   let userRewardAccount;
   let userPayAccount;
 
+  let userKeypair2;
+  let userRewardAccount2;
+  let userPayAccount2;
+
   let rewardMint;
   let rewardVault;
   let priceMint;
@@ -22,6 +26,9 @@ describe('merkle-call-options', () => {
   it('Setup', async () => {
     userKeypair = anchor.web3.Keypair.fromSecretKey(new Uint8Array(JSON.parse(fs.readFileSync("tests/data/DrWW4z9awhp6gg1gk3jPHqG68toDwxWjhiUmiZZ62gMh.json"))));
     await program.provider.connection.requestAirdrop(userKeypair.publicKey, 10_000_000_000);
+    
+    userKeypair2 = anchor.web3.Keypair.fromSecretKey(new Uint8Array(JSON.parse(fs.readFileSync("tests/data/zz5YUJpat7fSwKsBVVBjv2FfxkGu7DmdW4MBdN6HZD2.json"))));
+    await program.provider.connection.requestAirdrop(userKeypair2.publicKey, 10_000_000_000);
 
     const [_rewardMint, _rewardVault] = await serumCmn.createMintAndVault(
       program.provider,
@@ -33,6 +40,8 @@ describe('merkle-call-options', () => {
     rewardVault = _rewardVault;
     userRewardAccount = await new Token(program.provider.connection, rewardMint, TOKEN_PROGRAM_ID, userKeypair)
       .createAssociatedTokenAccount(userKeypair.publicKey);
+    userRewardAccount2 = await new Token(program.provider.connection, rewardMint, TOKEN_PROGRAM_ID, userKeypair2)
+      .createAssociatedTokenAccount(userKeypair2.publicKey);
 
     const [_priceMint, _priceVault] = await serumCmn.createMintAndVault(
       program.provider,
@@ -45,12 +54,19 @@ describe('merkle-call-options', () => {
     priceVault = _priceVault;
     userPayAccount = await new Token(program.provider.connection, priceMint, TOKEN_PROGRAM_ID, userKeypair)
       .createAssociatedTokenAccount(userKeypair.publicKey);
+    userPayAccount2 = await new Token(program.provider.connection, priceMint, TOKEN_PROGRAM_ID, userKeypair2)
+      .createAssociatedTokenAccount(userKeypair2.publicKey);
     
-    const xfer = Token.createTransferInstruction(TOKEN_PROGRAM_ID, priceVault, userPayAccount, program.provider.wallet.publicKey, [], 5_000_000_000);
-    const tx = new anchor.web3.Transaction();
+    let xfer = Token.createTransferInstruction(TOKEN_PROGRAM_ID, priceVault, userPayAccount, program.provider.wallet.publicKey, [], 5_000_000_000);
+    let tx = new anchor.web3.Transaction();
     tx.add(xfer);
     program.provider.wallet.signTransaction(tx);
-    //tx.sign([program.provider.wallet.payer]);
+    await program.provider.send(tx);
+  
+    xfer = Token.createTransferInstruction(TOKEN_PROGRAM_ID, priceVault, userPayAccount2, program.provider.wallet.publicKey, [], 5_000_000_000);
+    tx = new anchor.web3.Transaction();
+    tx.add(xfer);
+    program.provider.wallet.signTransaction(tx);
     await program.provider.send(tx);
   });
 
@@ -90,7 +106,7 @@ describe('merkle-call-options', () => {
       rewardVault, 
       priceMint,
       "123456789012345678901234567890123456789012345678901234567890", 
-      "1arDyjoydH/rcbAUw/B3se5x+fKSjtRVQFadh1ymjSc=",
+      "q8LYvfEDW9gdyeWBZk3ABsUjVQFM/V4BhAsSHJMDstA=",
       1_100_000,
       1_000_000_000_000,
       5_000, //not sure, making up big number
@@ -120,7 +136,7 @@ describe('merkle-call-options', () => {
     assert.equal(dist.strikePrice.toString(), new anchor.BN(1_100_000).toString());
     assert.equal(dist.expiry.toString(), new anchor.BN(expiry).toString());
     assert.equal(dist.dataLocation, "123456789012345678901234567890123456789012345678901234567890");
-    assert.equal(Buffer.from(dist.merkleRoot).toString("base64"), "1arDyjoydH/rcbAUw/B3se5x+fKSjtRVQFadh1ymjSc=");
+    assert.equal(Buffer.from(dist.merkleRoot).toString("base64"), "q8LYvfEDW9gdyeWBZk3ABsUjVQFM/V4BhAsSHJMDstA=");
     assert.equal(dist.maxTotalAmountClaim.toString(), new anchor.BN(1_000_000_000_000).toString());
     assert.equal(dist.totalAmountClaimed.toString(), new anchor.BN(0).toString());
     assert.equal(dist.maxNumNodes, 5_000);
@@ -170,11 +186,11 @@ describe('merkle-call-options', () => {
         userData.proof.map(a=>Buffer.from(a, "base64")),
       );
       assert(false, 'should not have allowed dupe exercise');
-    } catch { }
+    } catch { /*expected*/ }
   });
 
   it('Claim from a large tree', async () => {
-    const claimsData = JSON.parse(fs.readFileSync("tests/data/claims-1arDyjoydH-rcbAUw-B3se5x+fKSjtRVQFadh1ymjSc=.json"));
+    const claimsData = JSON.parse(fs.readFileSync("tests/data/claims-q8LYvfEDW9gdyeWBZk3ABsUjVQFM-V4BhAsSHJMDstA=.json"));
     const userData = claimsData[userKeypair.publicKey];
 
     await exerciseOption(
@@ -192,6 +208,75 @@ describe('merkle-call-options', () => {
       userData.amount, 
       userData.proof.map(a=>Buffer.from(a, "base64")),
     );
+  });
+
+  it('Second claim from a large tree fails', async () => {
+    const claimsData = JSON.parse(fs.readFileSync("tests/data/claims-q8LYvfEDW9gdyeWBZk3ABsUjVQFM-V4BhAsSHJMDstA=.json"));
+    const userData = claimsData[userKeypair.publicKey];
+
+    try {
+      await exerciseOption(
+        2, 
+        program, 
+        rewardMint, 
+        claimsMask2, 
+        distRewardsVault2, 
+        distPriceVault2, 
+        userKeypair,
+        userRewardAccount, 
+        userPayAccount, 
+        userData.index, 
+        userData.amount, 
+        userData.amount, 
+        userData.proof.map(a=>Buffer.from(a, "base64")),
+      );
+      assert(false, 'should not have allowed dupe exercise');
+    } catch { /*expected*/ }
+  });
+
+  it('Claim last node from a large tree', async () => {
+    const claimsData = JSON.parse(fs.readFileSync("tests/data/claims-q8LYvfEDW9gdyeWBZk3ABsUjVQFM-V4BhAsSHJMDstA=.json"));
+    const userData = claimsData[userKeypair2.publicKey];
+
+    await exerciseOption(
+      2, 
+      program, 
+      rewardMint, 
+      claimsMask2, 
+      distRewardsVault2, 
+      distPriceVault2, 
+      userKeypair2,
+      userRewardAccount2, 
+      userPayAccount2, 
+      userData.index, 
+      userData.amount, 
+      userData.amount, 
+      userData.proof.map(a=>Buffer.from(a, "base64")),
+    );
+  });
+
+  it('Second claim last node from a large tree fails', async () => {
+    const claimsData = JSON.parse(fs.readFileSync("tests/data/claims-q8LYvfEDW9gdyeWBZk3ABsUjVQFM-V4BhAsSHJMDstA=.json"));
+    const userData = claimsData[userKeypair2.publicKey];
+
+    try {
+      await exerciseOption(
+        2, 
+        program, 
+        rewardMint, 
+        claimsMask2, 
+        distRewardsVault2, 
+        distPriceVault2, 
+        userKeypair2,
+        userRewardAccount2, 
+        userPayAccount2, 
+        userData.index, 
+        userData.amount, 
+        userData.amount, 
+        userData.proof.map(a=>Buffer.from(a, "base64")),
+      );
+      assert(false, 'should not have allowed dupe exercise');
+    } catch { /*expected*/ }
   });
 
 });

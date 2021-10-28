@@ -136,10 +136,10 @@ export class MerkleTree {
   //Deno does not have Buffer.compare implemented :/
   private static compareBuffers(a: Buffer, b: Buffer): number {
     const zipped = Array.from(Array(Math.max(b.length, a.length)), (_, i) => [a[i], b[i]]);
-    for (const buffs in zipped) {
-      if (!buffs[0] || buffs[1] > buffs[0])
+    for (const buffs of zipped) {
+      if (buffs[1] > buffs[0])
         return -1;
-      else if (!buffs[1] || buffs[0] > buffs[1])
+      else if (buffs[0] > buffs[1])
         return 1;
     }
     return 0;

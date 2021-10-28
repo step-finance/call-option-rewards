@@ -16,8 +16,6 @@ pub fn verify(proof: Vec<[u8; 32]>, root: [u8; 32], leaf: [u8; 32]) -> bool {
     let mut computed_hash = leaf;
     for proof_element in proof.into_iter() {
         #[cfg(feature = "verbose")]
-        msg!("{} proof", format(&proof_element));
-
         if computed_hash <= proof_element {
 
             #[cfg(feature = "verbose")]
