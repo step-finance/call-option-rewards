@@ -224,9 +224,9 @@ pub struct NewDistributor<'info> {
 pub struct Exercise<'info> {
     #[account(
         mut,
-        has_one = claims_bitmask_account,
+        has_one = claims_bitmask_account @ ErrorCode::WrongClaimsBitmask,
         //the claim_index into the claims mask can't be greater than the number of nodes
-        constraint = claim_index < u64::from(distributor.max_num_nodes),
+        constraint = claim_index < u64::from(distributor.max_num_nodes) @ ErrorCode::InvalidClaimsIndex,
     )]
     pub distributor: Box<Account<'info, CallOptionDistributor>>,
 
@@ -337,4 +337,8 @@ pub enum ErrorCode {
     OptionAlreadyExercised,
     #[msg("Not authorized to purchase that amount.")]
     TooMuchExercise,
+    #[msg("Wrong claims bitmask account provided.")]
+    WrongClaimsBitmask,
+    #[msg("Invalid claims index.")]
+    InvalidClaimsIndex,
 }

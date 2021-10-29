@@ -43,6 +43,4 @@ pub fn verify(proof: Vec<[u8; 32]>, root: [u8; 32], leaf: [u8; 32]) -> bool {
 
 fn format(bytes: &[u8; 32]) -> String {
     hex::encode(bytes)
-    //let mut s = String::with_capacity(2 * bytes.len());
-    //bytes.write_hex(&mut s).expect("Failed to write");
 }
