@@ -5,7 +5,7 @@ use bit::BitIndex;
 
 pub mod merkle_proof;
 
-declare_id!("B9WjjujXFUZUMfqKRTg5wutnVexM2nfpTL7LumWZKbT4");
+declare_id!("otstoZivsnAdKfcwbPY5NDfSiBxyHHu5U48pHgnXErE");
 
 #[program]
 pub mod merkle_call_options {

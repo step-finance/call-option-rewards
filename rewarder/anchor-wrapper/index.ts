@@ -24,7 +24,7 @@ export async function createDistributor(data: CreateDistributorData, opt: Create
         [
             program.provider.wallet.publicKey.toBuffer(), 
             TOKEN_PROGRAM_ID.toBuffer(), 
-            data.mintPubkey.toBuffer()
+            data.rewardMintPubkey.toBuffer()
         ],
         ASSOCIATED_TOKEN_PROGRAM_ID,
     );
@@ -35,7 +35,7 @@ export async function createDistributor(data: CreateDistributorData, opt: Create
     const [distAddress, distBump] = await web3.PublicKey.findProgramAddress(
       [
         program.provider.wallet.publicKey.toBuffer(),
-        data.mintPubkey.toBuffer(),
+        data.rewardMintPubkey.toBuffer(),
         buff
       ],
       program.programId,
@@ -44,7 +44,15 @@ export async function createDistributor(data: CreateDistributorData, opt: Create
     const [distVault] = await web3.PublicKey.findProgramAddress(
       [
         (distAddress as any).toBuffer(),
-        Buffer.from("vault", "utf-8"),
+        Buffer.from("reward", "utf-8"),
+      ],
+      program.programId,
+    )
+
+    const [distPriceVault] = await web3.PublicKey.findProgramAddress(
+      [
+        (distAddress as any).toBuffer(),
+        Buffer.from("price", "utf-8"),
       ],
       program.programId,
     )
@@ -52,8 +60,12 @@ export async function createDistributor(data: CreateDistributorData, opt: Create
     const claimsBitmaskAccountKey = web3.Keypair.generate();
 
     console.log("Will create distributor", distAddress.toString());
-    console.log("With claims bitmask", claimsBitmaskAccountKey.publicKey.toString());
-    console.log("And vault", distVault.toString());
+    console.log("Claims bitmask", claimsBitmaskAccountKey.publicKey.toString());
+    console.log("Reward mint", data.rewardMintPubkey.toString());
+    console.log("Price mint", data.priceMintPubkey.toString());
+    console.log("Vault", distVault.toString());
+    console.log("Price vault", distPriceVault.toString());
+    console.log("From", tokenATA.toString());
 
     await (program.rpc as any).newDistributor(
       data.index, 
@@ -67,12 +79,14 @@ export async function createDistributor(data: CreateDistributorData, opt: Create
       {
         accounts: {
           writer: program.provider.wallet.publicKey,
-          mint: data.mintPubkey,
+          rewardMint: data.rewardMintPubkey,
+          priceMint: data.priceMintPubkey,
           distributor: distAddress,
           payer: program.provider.wallet.publicKey,
           fromAuthority: program.provider.wallet.publicKey,
           from: tokenATA,
-          vault: distVault,
+          rewardVault: distVault,
+          priceVault: distPriceVault,
           rent: web3.SYSVAR_RENT_PUBKEY,
           systemProgram: (web3.SystemProgram as any).programId,
           tokenProgram: TOKEN_PROGRAM_ID,
@@ -98,7 +112,8 @@ export class CreateDistributorData {
     strikePrice: any;
     totalAmount: any;
     totalCount: any;
-    mintPubkey: any;
+    priceMintPubkey: any;
+    rewardMintPubkey: any;
 }
 
 export class CreateDistributorOptions {
