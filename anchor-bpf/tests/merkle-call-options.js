@@ -153,7 +153,10 @@ describe('merkle-call-options', () => {
         1, 
         program, 
         rewardMint, 
+        
+        //wrong
         claimsMask2, 
+
         distRewardsVault1, 
         distPriceVault1, 
         userKeypair,
@@ -178,7 +181,10 @@ describe('merkle-call-options', () => {
         program, 
         rewardMint, 
         claimsMask1, 
+
+        //wrong
         distRewardsVault2, 
+
         distPriceVault1, 
         userKeypair,
         userRewardAccount, 
@@ -208,7 +214,7 @@ describe('merkle-call-options', () => {
       userPayAccount, 
       userData.index, 
       userData.amount, 
-      userData.amount / 2, 
+      (parseInt(userData.amount) / 2).toString(), 
       userData.proof.map(a=>Buffer.from(a, "base64")),
     );
   });
@@ -230,7 +236,7 @@ describe('merkle-call-options', () => {
         userPayAccount, 
         userData.index, 
         userData.amount, 
-        userData.amount / 2 - 1, //theoretically, if multiple claims allowed, this should be available
+        (parseInt(userData.amount) / 2 - 1).toString(), //theoretically, if multiple claims allowed, this should be available
         userData.proof.map(a=>Buffer.from(a, "base64")),
       );
       assert(false, 'should not have allowed dupe exercise');
@@ -254,7 +260,7 @@ describe('merkle-call-options', () => {
         userPayAccount, 
         userData.index, 
         userData.amount, 
-        userData.amount + 1, 
+        (parseInt(userData.amount) + 1).toString(), 
         userData.proof.map(a=>Buffer.from(a, "base64")),
       );
       assert(false, 'should not have allowed over-claim');
