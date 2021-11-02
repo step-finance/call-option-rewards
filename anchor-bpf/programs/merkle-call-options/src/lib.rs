@@ -172,7 +172,7 @@ pub struct NewDistributor<'info> {
     pub distributor: Box<Account<'info, CallOptionDistributor>>,
 
     #[account(zero)]
-    pub claims_bitmask_account: Loader<'info, CallOptionDistributorClaimsMask>,
+    pub claims_bitmask_account: AccountLoader<'info, CallOptionDistributorClaimsMask>,
 
     /// Payer to create the distributor.
     pub payer: Signer<'info>,
@@ -185,7 +185,7 @@ pub struct NewDistributor<'info> {
     pub from: Box<Account<'info, TokenAccount>>,
 
     /// Account to hold the tokens to sell for distribution
-    /// Authority is itself as this is a pda
+    /// Authority is the distributor
     #[account(
         init,
         token::mint = reward_mint,
@@ -200,7 +200,7 @@ pub struct NewDistributor<'info> {
     pub reward_vault: Box<Account<'info, TokenAccount>>,
 
     /// Account to hold the price_mint when contracts are exercised
-    /// Authority is itself as this is a pda
+    /// Authority is the distributor
     #[account(
         init,
         token::mint = price_mint,
