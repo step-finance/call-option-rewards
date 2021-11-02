@@ -1,6 +1,7 @@
 //! These functions deal with verification of Merkle trees (hash trees).
 //! Direct port of https://github.com/OpenZeppelin/openzeppelin-contracts/blob/v3.4.0/contracts/cryptography/MerkleProof.sol
 
+#[cfg(feature = "verbose")]
 use anchor_lang::prelude::*;
 
 /// Returns true if a `leaf` can be proved to be a part of a Merkle tree
@@ -15,7 +16,6 @@ pub fn verify(proof: Vec<[u8; 32]>, root: [u8; 32], leaf: [u8; 32]) -> bool {
     }
     let mut computed_hash = leaf;
     for proof_element in proof.into_iter() {
-        #[cfg(feature = "verbose")]
         if computed_hash <= proof_element {
 
             #[cfg(feature = "verbose")]
@@ -36,11 +36,11 @@ pub fn verify(proof: Vec<[u8; 32]>, root: [u8; 32], leaf: [u8; 32]) -> bool {
             computed_hash = solana_program::keccak::hashv(&[&proof_element, &computed_hash]).0;
         }
     }
-    msg!("{} final", format(&computed_hash));
     // Check if the computed hash (root) is equal to the provided root
     computed_hash == root
 }
 
+#[cfg(feature = "verbose")]
 fn format(bytes: &[u8; 32]) -> String {
     hex::encode(bytes)
 }
