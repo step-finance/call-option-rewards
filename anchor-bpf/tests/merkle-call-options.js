@@ -357,7 +357,90 @@ describe('merkle-call-options', () => {
     } catch { /*expected*/ }
   });
 
+  it('Close distributor 1 early fails', async () => {
+
+    try {
+      await closeOption(
+        1, 
+        program, 
+        claimsMask1, 
+        rewardMint, 
+        distRewardsVault1, 
+        distPriceVault1, 
+        rewardVault, 
+        priceVault, 
+      );
+      assert(false, 'should not have allowed early close');
+    } catch { /*expected*/ }
+
+  });
+
+  it('waits', async () => {
+    await wait(8); //let expire
+  });
+
+  it('Close distributor 1', async () => {
+
+    await closeOption(
+      1, 
+      program, 
+      claimsMask1, 
+      rewardMint, 
+      distRewardsVault1, 
+      distPriceVault1, 
+      rewardVault, 
+      priceVault, 
+    );
+
+  });
+
+  it('Close distributor 2', async () => {
+
+    await closeOption(
+      2, 
+      program, 
+      claimsMask2, 
+      rewardMint, 
+      distRewardsVault2, 
+      distPriceVault2, 
+      rewardVault, 
+      priceVault, 
+    );
+
+  });
+
 });
+
+async function closeOption(index, program, claimsAcct, rewardMint, rewardVault, priceVault, userRewardAccount, userPriceAccount) {
+  const buff = new ArrayBuffer(2);
+  const view = new DataView(buff);
+  view.setInt16(0, index, true);
+  [_distAddress, _distBump] = await anchor.web3.PublicKey.findProgramAddress(
+    [
+      program.provider.wallet.publicKey.toBuffer(),
+      rewardMint.toBuffer(),
+      buff
+    ],
+    program.programId,
+  )
+  const distAddress = _distAddress;
+
+  await program.rpc.close(
+    {
+      accounts: {
+        distributor: distAddress,
+        claimsBitmaskAccount: claimsAcct,
+        refundee: program.provider.wallet.publicKey,
+        rewardVault: rewardVault,
+        priceVault: priceVault,
+        writerRewardTokenAccount: userRewardAccount,
+        writerPriceTokenAccount: userPriceAccount,
+        writer: program.provider.wallet.publicKey,
+        tokenProgram: TOKEN_PROGRAM_ID,
+      },
+    }
+  );
+}
 
 async function exerciseOption(index, program, rewardMint, claimsAcct, rewardVault, priceVault, userKeypair, userRewardAccount, userPaymentAccount, claimIndex, authorizedAmount, exerciseAmount, proof) {
   const buff = new ArrayBuffer(2);
@@ -467,4 +550,12 @@ async function createDistributor(index, program, rewardMint, rewardVault, priceM
   );
 
   return [distAddress, claimsBitmaskAccountKey.publicKey, distRewardVault, distPriceVault];
+}
+
+async function wait(seconds) {
+  while(seconds > 0) {
+    console.log("countdown " + seconds--);
+    await new Promise(a=>setTimeout(a, 1000));
+  }
+  console.log("wait over");
 }

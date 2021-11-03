@@ -1,5 +1,7 @@
 use anchor_lang::prelude::*;
 use anchor_spl::token::{self, Mint, Token, TokenAccount, Transfer};
+use anchor_lang::solana_program::clock;
+use std::convert::TryInto;
 use std::mem;
 use bit::BitIndex;
 
@@ -141,6 +143,97 @@ pub mod merkle_call_options {
             exercise_amount,
         )?;
 
+        emit!(Exercised {
+            amount: exercise_amount,
+            authorized_amount,
+            claim_index,
+        });
+
+        Ok(())
+    }
+    
+    pub fn close(
+        ctx: Context<Close>
+    ) -> ProgramResult {
+        let distributor = &ctx.accounts.distributor;
+
+        //empty reward vault
+        let seeds = &[
+            distributor.writer.as_ref(),
+            distributor.reward_mint.as_ref(),
+            &distributor.index.to_le_bytes(),
+            &[distributor.bump],
+        ];
+        let signer = &[&seeds[..]];
+        token::transfer(
+            CpiContext::new(
+                ctx.accounts.token_program.to_account_info(),
+                Transfer {
+                    from: ctx.accounts.reward_vault.to_account_info(),
+                    to: ctx.accounts.writer_reward_token_account.to_account_info(),
+                    authority: distributor.to_account_info(),
+                }
+            ).with_signer(signer),
+            ctx.accounts.reward_vault.amount,
+        )?;
+        token::close_account(
+            CpiContext::new(
+                ctx.accounts.token_program.to_account_info(),
+                token::CloseAccount {
+                    account: ctx.accounts.reward_vault.to_account_info(),
+                    authority: distributor.to_account_info(),
+                    destination: ctx.accounts.refundee.to_account_info(),
+                }
+            ).with_signer(signer),
+        )?;
+
+        //empty price vault
+        let seeds = &[
+            distributor.writer.as_ref(),
+            distributor.reward_mint.as_ref(),
+            &distributor.index.to_le_bytes(),
+            &[distributor.bump],
+        ];
+        let signer = &[&seeds[..]];
+        token::transfer(
+            CpiContext::new(
+                ctx.accounts.token_program.to_account_info(),
+                Transfer {
+                    from: ctx.accounts.price_vault.to_account_info(),
+                    to: ctx.accounts.writer_price_token_account.to_account_info(),
+                    authority: distributor.to_account_info(),
+                }
+            ).with_signer(signer),
+            ctx.accounts.price_vault.amount,
+        )?;
+        token::close_account(
+            CpiContext::new(
+                ctx.accounts.token_program.to_account_info(),
+                token::CloseAccount {
+                    account: ctx.accounts.price_vault.to_account_info(),
+                    authority: distributor.to_account_info(),
+                    destination: ctx.accounts.refundee.to_account_info(),
+                }
+            ).with_signer(signer),
+        )?;
+
+        msg!(
+            "Closed distributor; {} of {} claimed; {} percent of reward total",
+            distributor.num_nodes_claimed,
+            distributor.max_num_nodes,
+            distributor.total_amount_claimed
+                .checked_mul(100).unwrap()
+                .checked_div(distributor.max_total_amount_claim).unwrap(),
+        );
+
+        emit!(Closed {
+            total_amount_claimed: distributor.total_amount_claimed,
+            max_total_amount_claim: distributor.max_total_amount_claim,
+            num_nodes_claimed: distributor.num_nodes_claimed,
+            max_num_nodes: distributor.max_num_nodes,
+        });
+
+        //all 4 accounts close on exit per attr on Accounts struct
         Ok(())
     }
 }
@@ -226,7 +319,10 @@ pub struct Exercise<'info> {
         mut,
         has_one = claims_bitmask_account @ ErrorCode::WrongClaimsBitmask,
         //the claim_index into the claims mask can't be greater than the number of nodes
-        constraint = claim_index < u64::from(distributor.max_num_nodes) @ ErrorCode::InvalidClaimsIndex,
+        constraint = claim_index < u64::from(distributor.max_num_nodes) 
+            @ ErrorCode::InvalidClaimsIndex,
+        constraint = distributor.expiry > clock::Clock::get().unwrap().unix_timestamp.try_into().unwrap() 
+            @ ErrorCode::OptionExpired,
     )]
     pub distributor: Box<Account<'info, CallOptionDistributor>>,
 
@@ -275,6 +371,60 @@ pub struct Exercise<'info> {
     pub token_program: Program<'info, Token>,
 }
 
+#[derive(Accounts)]
+pub struct Close<'info> {
+    #[account(
+        mut,
+        close = refundee,
+        has_one = claims_bitmask_account 
+            @ ErrorCode::WrongClaimsBitmask,
+        constraint = distributor.expiry <= clock::Clock::get().unwrap().unix_timestamp.try_into().unwrap() 
+            @ ErrorCode::OptionNotExpired,
+    )]
+    pub distributor: Box<Account<'info, CallOptionDistributor>>,
+
+    #[account(
+        mut,
+        close = refundee,
+    )]
+    pub claims_bitmask_account: Loader<'info, CallOptionDistributorClaimsMask>,
+
+    /// Receives the rent.
+    pub refundee: Signer<'info>,
+
+    #[account(
+        mut,
+        seeds = [
+            distributor.key().as_ref(),
+            "reward".as_bytes()
+        ],
+        bump,
+    )]
+    pub reward_vault: Box<Account<'info, TokenAccount>>,
+
+    #[account(
+        mut,
+        seeds = [
+            distributor.key().as_ref(),
+            "price".as_bytes()
+        ],
+        bump,
+    )]
+    pub price_vault: Box<Account<'info, TokenAccount>>,
+
+    /// Account to send the unused reward tokens to.
+    #[account(mut)]
+    pub writer_reward_token_account: Box<Account<'info, TokenAccount>>,
+
+    /// Account to send the paid price tokens to.
+    #[account(mut)]
+    pub writer_price_token_account: Box<Account<'info, TokenAccount>>,
+
+    /// Writer of the distribution.
+    pub writer: Signer<'info>,
+
+    pub token_program: Program<'info, Token>,
+}
 
 #[account]
 #[derive(Default)]
@@ -329,6 +479,21 @@ pub struct CallOptionDistributorClaimsMask {
     pub claims_bitmask: [u8; 31250],
 }
 
+#[event]
+pub struct Exercised {
+    amount: u64,
+    authorized_amount: u64,
+    claim_index: u64,
+}
+
+#[event]
+pub struct Closed {
+    total_amount_claimed: u64,
+    max_total_amount_claim: u64,
+    num_nodes_claimed: u64,
+    max_num_nodes: u32,
+}
+
 #[error]
 pub enum ErrorCode {
     #[msg("Invalid Merkle proof.")]
@@ -341,4 +506,8 @@ pub enum ErrorCode {
     WrongClaimsBitmask,
     #[msg("Invalid claims index.")]
     InvalidClaimsIndex,
+    #[msg("Option expired.")]
+    OptionExpired,
+    #[msg("Option not expired.")]
+    OptionNotExpired,
 }
