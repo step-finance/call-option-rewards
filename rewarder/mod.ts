@@ -48,7 +48,7 @@ import BN from "https://esm.sh/v54/bn.js@5.2.0/es2021/bn.development.js";
 import { web3 } from "./anchor-esm-fix/anchor-dev.js";;
 
 import { parseBalanceMap } from "./utils/parse-balance-map.ts";
-import { BalanceTree } from "./utils/balance-tree.ts";
+import { BalanceTree } from "./utils/balance-tree.ts"; //for test verification
 
 import { getPools } from "./stepSwap.ts";
 import { getTokensAndPrice, getPayerSums } from "./payerParsing.ts";
@@ -57,10 +57,12 @@ import { asyncFilter, asyncMap, asyncUntil, asyncToArray } from "./asycIter.ts";
 import { createDistributor, CreateDistributorOptions, CreateDistributorData } from "./anchor-wrapper/index.ts";
 import { uploadToArweave, testArkbInstalled } from "./arweave/index.ts";
 
-const CALL_OPTIONS_PROGRAM = 'B9WjjujXFUZUMfqKRTg5wutnVexM2nfpTL7LumWZKbT4';
+const CALL_OPTIONS_PROGRAM = 'otstoZivsnAdKfcwbPY5NDfSiBxyHHu5U48pHgnXErE';
 const SWAP_PROGRAM = 'SSwpMgqNDsyV7mAgN9ady4bDVu5ySjmmXejXvy2vLt1';
 const POOL_REGISTRY_OWNER = 'GkT2mRSujbydLUmA178ykHe7hZtaUpkmX2sfwS8suWb3'
 const STEP_MINT = 'StepAscQoEioFxxWGnh2sLBDFp9d8rvKz2Yp39iDpyT'
+const USDC_MINT = 'EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v'
+const USDC_MINT_TEST = 'CpMah17kQEL2wqyMKt3mZBdTnZbkbfx4nqmQMFDP5vwp'
 
 //SETUP
 
@@ -78,6 +80,11 @@ if (args['user'] && args['pass']) {
 
 const anchorNodeUrl = args['url-anchor'] ?? nodeUrl;
 console.log('Anchor using rpc node', anchorNodeUrl);
+
+const rewardMint = args['reward-mint'] ?? STEP_MINT;
+console.log('Using reward mint', rewardMint);
+const priceMint = args['price-mint'] == 'usdc-test' ? USDC_MINT_TEST : args['price-mint'] ?? USDC_MINT;
+console.log('Using price mint', priceMint);
 
 //cli date args, default now and 1 week prior
 const end = args['end'] ?? Math.floor(Date.now() / 1000);
@@ -280,7 +287,7 @@ console.log("token total:", tokenTotal);
 
 
 
-
+/*
 //test
 const claim = claims['DrWW4z9awhp6gg1gk3jPHqG68toDwxWjhiUmiZZ62gMh'];
 const ok = BalanceTree.verifyProof(
@@ -291,7 +298,7 @@ const ok = BalanceTree.verifyProof(
     merkleRoot
 );
 console.log('verify', ok);
-
+*/
 
 
 
@@ -326,7 +333,8 @@ if (kp) {
     const idl = JSON.parse(idlText as string);
     const dist = await createDistributor(
         {
-            mintPubkey: new web3.PublicKey(STEP_MINT),
+            rewardMintPubkey: new web3.PublicKey(rewardMint),
+            priceMintPubkey: new web3.PublicKey(priceMint),
             index: index,
             merkleRoot: merkleRoot,
             expiry: new BN(expiry, 10),

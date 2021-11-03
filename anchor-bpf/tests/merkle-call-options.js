@@ -144,7 +144,61 @@ describe('merkle-call-options', () => {
     assert.equal(dist.claimsBitmaskAccount.toString(), claimsMask2.toString());
   });
 
-  it('Claim from a one node tree', async () => {
+  it('Claim with wrong bitmask account fails', async () => {
+    const claimsData = JSON.parse(fs.readFileSync("tests/data/claims-YBKqO7sk+KJJC1CirbhD0czdpeDTa8aqx7BD9HtIEC4=.json"));
+    const userData = claimsData[userKeypair.publicKey];
+
+    try {
+      await exerciseOption(
+        1, 
+        program, 
+        rewardMint, 
+        
+        //wrong
+        claimsMask2, 
+
+        distRewardsVault1, 
+        distPriceVault1, 
+        userKeypair,
+        userRewardAccount, 
+        userPayAccount, 
+        userData.index, 
+        userData.amount, 
+        userData.amount / 2 - 1, //theoretically, if multiple claims allowed, this should be available
+        userData.proof.map(a=>Buffer.from(a, "base64")),
+      );
+      assert(false, 'should not have allowed wrong bitmask account');
+    } catch { /*expected*/ }
+  });
+
+  it('Claim with wrong vault fails', async () => {
+    const claimsData = JSON.parse(fs.readFileSync("tests/data/claims-YBKqO7sk+KJJC1CirbhD0czdpeDTa8aqx7BD9HtIEC4=.json"));
+    const userData = claimsData[userKeypair.publicKey];
+
+    try {
+      await exerciseOption(
+        1, 
+        program, 
+        rewardMint, 
+        claimsMask1, 
+
+        //wrong
+        distRewardsVault2, 
+
+        distPriceVault1, 
+        userKeypair,
+        userRewardAccount, 
+        userPayAccount, 
+        userData.index, 
+        userData.amount, 
+        userData.amount / 2 - 1, //theoretically, if multiple claims allowed, this should be available
+        userData.proof.map(a=>Buffer.from(a, "base64")),
+      );
+      assert(false, 'should not have allowed wrong bitmask account');
+    } catch { /*expected*/ }
+  });
+
+  it('Claim partial from a one node tree', async () => {
     const claimsData = JSON.parse(fs.readFileSync("tests/data/claims-YBKqO7sk+KJJC1CirbhD0czdpeDTa8aqx7BD9HtIEC4=.json"));
     const userData = claimsData[userKeypair.publicKey];
 
@@ -160,7 +214,7 @@ describe('merkle-call-options', () => {
       userPayAccount, 
       userData.index, 
       userData.amount, 
-      userData.amount, 
+      (parseInt(userData.amount) / 2).toString(), 
       userData.proof.map(a=>Buffer.from(a, "base64")),
     );
   });
@@ -182,10 +236,34 @@ describe('merkle-call-options', () => {
         userPayAccount, 
         userData.index, 
         userData.amount, 
-        userData.amount, 
+        (parseInt(userData.amount) / 2 - 1).toString(), //theoretically, if multiple claims allowed, this should be available
         userData.proof.map(a=>Buffer.from(a, "base64")),
       );
       assert(false, 'should not have allowed dupe exercise');
+    } catch { /*expected*/ }
+  });
+
+  it('Claim too much from a large tree fails', async () => {
+    const claimsData = JSON.parse(fs.readFileSync("tests/data/claims-q8LYvfEDW9gdyeWBZk3ABsUjVQFM-V4BhAsSHJMDstA=.json"));
+    const userData = claimsData[userKeypair.publicKey];
+
+    try {
+      await exerciseOption(
+        2, 
+        program, 
+        rewardMint, 
+        claimsMask2, 
+        distRewardsVault2, 
+        distPriceVault2, 
+        userKeypair,
+        userRewardAccount, 
+        userPayAccount, 
+        userData.index, 
+        userData.amount, 
+        (parseInt(userData.amount) + 1).toString(), 
+        userData.proof.map(a=>Buffer.from(a, "base64")),
+      );
+      assert(false, 'should not have allowed over-claim');
     } catch { /*expected*/ }
   });
 

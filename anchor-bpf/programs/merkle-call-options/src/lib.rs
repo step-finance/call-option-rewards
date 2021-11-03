@@ -5,7 +5,7 @@ use bit::BitIndex;
 
 pub mod merkle_proof;
 
-declare_id!("B9WjjujXFUZUMfqKRTg5wutnVexM2nfpTL7LumWZKbT4");
+declare_id!("otstoZivsnAdKfcwbPY5NDfSiBxyHHu5U48pHgnXErE");
 
 #[program]
 pub mod merkle_call_options {
@@ -172,7 +172,7 @@ pub struct NewDistributor<'info> {
     pub distributor: Box<Account<'info, CallOptionDistributor>>,
 
     #[account(zero)]
-    pub claims_bitmask_account: Loader<'info, CallOptionDistributorClaimsMask>,
+    pub claims_bitmask_account: AccountLoader<'info, CallOptionDistributorClaimsMask>,
 
     /// Payer to create the distributor.
     pub payer: Signer<'info>,
@@ -185,7 +185,7 @@ pub struct NewDistributor<'info> {
     pub from: Box<Account<'info, TokenAccount>>,
 
     /// Account to hold the tokens to sell for distribution
-    /// Authority is itself as this is a pda
+    /// Authority is the distributor
     #[account(
         init,
         token::mint = reward_mint,
@@ -200,7 +200,7 @@ pub struct NewDistributor<'info> {
     pub reward_vault: Box<Account<'info, TokenAccount>>,
 
     /// Account to hold the price_mint when contracts are exercised
-    /// Authority is itself as this is a pda
+    /// Authority is the distributor
     #[account(
         init,
         token::mint = price_mint,
@@ -224,9 +224,9 @@ pub struct NewDistributor<'info> {
 pub struct Exercise<'info> {
     #[account(
         mut,
-        has_one = claims_bitmask_account,
+        has_one = claims_bitmask_account @ ErrorCode::WrongClaimsBitmask,
         //the claim_index into the claims mask can't be greater than the number of nodes
-        constraint = claim_index < u64::from(distributor.max_num_nodes),
+        constraint = claim_index < u64::from(distributor.max_num_nodes) @ ErrorCode::InvalidClaimsIndex,
     )]
     pub distributor: Box<Account<'info, CallOptionDistributor>>,
 
@@ -337,4 +337,8 @@ pub enum ErrorCode {
     OptionAlreadyExercised,
     #[msg("Not authorized to purchase that amount.")]
     TooMuchExercise,
+    #[msg("Wrong claims bitmask account provided.")]
+    WrongClaimsBitmask,
+    #[msg("Invalid claims index.")]
+    InvalidClaimsIndex,
 }
