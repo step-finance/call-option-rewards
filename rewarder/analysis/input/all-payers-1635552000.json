@@ -1,0 +1,2175 @@
+{
+  "grandTotal": 124664514400,
+  "payerTotals": [
+    {
+      "pubkey": "3b3zfYBQ61sEicY4bhQMKUvRo9bAxPYAz32uyAP9Cj9u",
+      "amount": "509565053",
+      "percentage": 0.05095650539027808
+    },
+    {
+      "pubkey": "7AECg1KFC1k8oMAhWZQrLo67hQEWMd8KwMDf6LTaWnZe",
+      "amount": "1897442701",
+      "percentage": 0.18974427016257642
+    },
+    {
+      "pubkey": "2QiqzeYfFJiwPLyVooQS3eRkoMZ33kosUpY2JCM3Thnf",
+      "amount": "1199818919",
+      "percentage": 0.11998189197615003
+    },
+    {
+      "pubkey": "HFVq7BsW2pEbreYVJPER3fKd6uwgu59pCHfNdnDm6Rgb",
+      "amount": "504303227",
+      "percentage": 0.050430322776759635
+    },
+    {
+      "pubkey": "5NrRhS6GUzpykB7F1XBWcRpTFvaicQcT6YXUA5d2ricE",
+      "amount": "507814996",
+      "percentage": 0.05078149969515302
+    },
+    {
+      "pubkey": "E8Hcjf9SLco9S8YawicNnN8TqgLp62HtowqwrT7tqcm4",
+      "amount": "709984677",
+      "percentage": 0.07099846770830562
+    },
+    {
+      "pubkey": "P4h1NGD6UKedsQgjXvdV6AuZydNRi7RFhEC6SJ7uy92",
+      "amount": "57046698",
+      "percentage": 0.005704669876771284
+    },
+    {
+      "pubkey": "CjRc7osWbZW6CsQ4sLPyRSNbQzXSFZrXeTf24gtNaZuK",
+      "amount": "240180248",
+      "percentage": 0.02401802481171819
+    },
+    {
+      "pubkey": "CYia5bW2gbmVXqQ2Mtmx33v1zD4JJBaW2eC7rci5DCJy",
+      "amount": "279285851",
+      "percentage": 0.027928585105048948
+    },
+    {
+      "pubkey": "HRgKBhbSsppBJamG4dpv56g6ouRKdS8QPzdg81ng8JdP",
+      "amount": "3917206908",
+      "percentage": 0.3917206908079048
+    },
+    {
+      "pubkey": "875ooDdFXoP2FSMmBkvGtdYEyMxPKoPaZBxRW8DWiz1S",
+      "amount": "8340174627",
+      "percentage": 0.8340174627913202
+    },
+    {
+      "pubkey": "9wMxiWYzf4gQBJiSDWJwiLjmD3H44vLaUc1hXcAk8kdi",
+      "amount": "294106796",
+      "percentage": 0.02941067967614046
+    },
+    {
+      "pubkey": "E8Amr2y5y9rRDvzBRZS56dd7mpimArYVozHz3tUzZKaA",
+      "amount": "951928763",
+      "percentage": 0.0951928763138069
+    },
+    {
+      "pubkey": "J8dfP4syP5ApqSNcwUt5JodSPrmx2npKk2TMPKfAuY1t",
+      "amount": "142766264",
+      "percentage": 0.014276626420645649
+    },
+    {
+      "pubkey": "EcHQivEoVuRbktEwjrfSTpXUvcvmeFveewJGz6Bhi4u6",
+      "amount": "2438485526",
+      "percentage": 0.24384855262388924
+    },
+    {
+      "pubkey": "4EmP8a1iG6dru7Qasps7sY2pSkdvRnjGVNtAJM3B5rJ9",
+      "amount": "35231092",
+      "percentage": 0.0035231092192823717
+    },
+    {
+      "pubkey": "2aPnKws12sNqHaGnmEtXRtqmjqRprS5rd8tJsFWggg3M",
+      "amount": "5451747951",
+      "percentage": 0.5451747951460356
+    },
+    {
+      "pubkey": "CvS46auLQra2aERyYABgW8UyssscF5eJmcLrunFgwcd1",
+      "amount": "816465499",
+      "percentage": 0.08164654993434121
+    },
+    {
+      "pubkey": "F4vFdbmh9tTx7siQBL7JMPEyHK7GE3UL7rp5vTM2FRXa",
+      "amount": "182097368",
+      "percentage": 0.018209736835905887
+    },
+    {
+      "pubkey": "4YfEYSXR1x7SX2HHUqtLuoSyWVALv9KpGvR1E25y3t1z",
+      "amount": "16877135367",
+      "percentage": 1.6877135367079248
+    },
+    {
+      "pubkey": "DiHDn1EwC8uyfCxEMoBnnGf9Mkzubj5CwTQpWcm4A17B",
+      "amount": "226840902",
+      "percentage": 0.022684090285118055
+    },
+    {
+      "pubkey": "5z1cmbWL6CAXkwd4hsbbb6e7eYaRJeDHLvbnhmvBq3ZA",
+      "amount": "3369698346",
+      "percentage": 0.3369698346171876
+    },
+    {
+      "pubkey": "H37Zh3Hcu9N7vMqX8z2fAWXgsvpdT5VCvw55DwHzcBTm",
+      "amount": "270458575",
+      "percentage": 0.02704585756602442
+    },
+    {
+      "pubkey": "HsfonJzvTSu3YkLKB9jNprTDS1Y5P2SCXDoQSqMR5gJb",
+      "amount": "657159757",
+      "percentage": 0.06571597570832073
+    },
+    {
+      "pubkey": "87jEWNTmCcshpUEDutEJTcZUzXYNghTfjdT3wsren94B",
+      "amount": "548921770",
+      "percentage": 0.05489217707970312
+    },
+    {
+      "pubkey": "E9scVxPRzQwM491aQzeAvXmijHeec3bMniqAMo1hd4Hn",
+      "amount": "389489256",
+      "percentage": 0.038948925629473274
+    },
+    {
+      "pubkey": "FwyRyV7AKKqRKaZqqz1Y6nVLdz24NZudJo7rLXrHadcn",
+      "amount": "98514176",
+      "percentage": 0.009851417670143348
+    },
+    {
+      "pubkey": "9bR9jkN3jRGa3c99N26gJPdQHXW9QXDhcA7pdHr7gXzZ",
+      "amount": "308411709",
+      "percentage": 0.030841170949926708
+    },
+    {
+      "pubkey": "9DFA7wptKMYzPoz2CoR2PsFDvT3N97cvbNqSXg8ZJW3f",
+      "amount": "98545837",
+      "percentage": 0.009854583767584146
+    },
+    {
+      "pubkey": "45AaiFQbjisEsGt3eqGiZQohxnsegLwGuZDYFozwd8C4",
+      "amount": "191660763",
+      "percentage": 0.01916607634096716
+    },
+    {
+      "pubkey": "AS6fH7MZgJpgHbKRtMKFs91WXaV4ngHyKBF8h14KEvZC",
+      "amount": "20138097854",
+      "percentage": 2.0138097854733235
+    },
+    {
+      "pubkey": "GgYnkRuv9B8P5pK2AjvrGTbFM4tC1zd2XqB9sxMTbJgA",
+      "amount": "2447727426",
+      "percentage": 0.24477274264343504
+    },
+    {
+      "pubkey": "3GhTrBWKg2pn8WUtpziMbwgMCzezKCC85W3Aojouau3D",
+      "amount": "567141269",
+      "percentage": 0.0567141269833559
+    },
+    {
+      "pubkey": "2k8gWa3CnrXqWvRt6DRJo9HcfJxPamosUNV22LqEYkFS",
+      "amount": "98741723",
+      "percentage": 0.009874172341058748
+    },
+    {
+      "pubkey": "GtqZyuAR6uMmGcm1gCJX4hyxsDZJzpWtvshXFftZ1Rm1",
+      "amount": "642869267",
+      "percentage": 0.0642869267054234
+    },
+    {
+      "pubkey": "2g2Sc2JsSJ7RzKSCg9zTSCQgbb6Xa5sohoW72FmUt4bS",
+      "amount": "1008673026",
+      "percentage": 0.10086730262031968
+    },
+    {
+      "pubkey": "6nMMmCrpkigGTP1rwVpWf76vhbHffCatVSnfCPPZpkVE",
+      "amount": "641960443",
+      "percentage": 0.06419604438775242
+    },
+    {
+      "pubkey": "4bXjh1t4y7kJg8uQ52jAXUZN17CbWo4H9aEX9KRfjhR3",
+      "amount": "5777597478",
+      "percentage": 0.5777597478051861
+    },
+    {
+      "pubkey": "4ftDZsLUyfAYf84mueGEhs4usNpPUpheNLjou3RaPKY4",
+      "amount": "4266651569",
+      "percentage": 0.4266651569293724
+    },
+    {
+      "pubkey": "J57u4Zb3pYuJW199NQorLcWoNxn6wyMYnwnY3KqNHKvc",
+      "amount": "2624336119",
+      "percentage": 0.26243361198220816
+    },
+    {
+      "pubkey": "4GxCUvjyafvnTqCgo7VTem1fsokjqHWQGDTzyGA6Upcr",
+      "amount": "4934971334",
+      "percentage": 0.49349713345532437
+    },
+    {
+      "pubkey": "GQC3w6H7CfneYh9G72Jjk9m3Ggmj4s4saLpTkw5oVZbm",
+      "amount": "335373568",
+      "percentage": 0.03353735680215348
+    },
+    {
+      "pubkey": "12nCufHkamxi2WpTWqakt9CWTzaXW1WhxKuoKBXbA7hk",
+      "amount": "428098398",
+      "percentage": 0.04280983987854045
+    },
+    {
+      "pubkey": "5Cg7VffKoShNqUmCZwzWgFeUz2NwxvsGTSKrzuBDTbJx",
+      "amount": "3435583013",
+      "percentage": 0.34355830130278037
+    },
+    {
+      "pubkey": "5cJ3hXoxhge6b4itEX2a2difCAFqKNPUdvNyEo92Kjb1",
+      "amount": "116296510",
+      "percentage": 0.011629651043665397
+    },
+    {
+      "pubkey": "BW9W2i7sWR24YvNghofwPkHkpWKCanPRYK2HzkHoPNAu",
+      "amount": "1382899174",
+      "percentage": 0.13828991740732277
+    },
+    {
+      "pubkey": "8W2MUyFUMr9BFUfLSbxb1X6wnABTXTNZWma5kazmGjUq",
+      "amount": "2608707253",
+      "percentage": 0.2608707253745979
+    },
+    {
+      "pubkey": "HocAL16ENXkYdZxcqaeKDa1B7FqVwHXSeVchFS6efXjH",
+      "amount": "111498649",
+      "percentage": 0.011149864953069596
+    },
+    {
+      "pubkey": "FFgWcZkkCoiFySexcsXnFzMRckRgwwboHACmQR7SJqiE",
+      "amount": "55104758",
+      "percentage": 0.005510475882461705
+    },
+    {
+      "pubkey": "F3JPQ3TzzkSDSZBSueY9FpVdNjK3vq5pTLvxnVxHhazw",
+      "amount": "170330234",
+      "percentage": 0.01703302347279668
+    },
+    {
+      "pubkey": "6PQLY5ZgS19uKcEXHqoJDTEfstCUxr7UqPAR94VZmJ75",
+      "amount": "234028032",
+      "percentage": 0.023402803227860647
+    },
+    {
+      "pubkey": "C3sVgqbVdfnmyzJeMwH8BGcjXZLL6hjmymnNKho4mFYM",
+      "amount": "2222675148",
+      "percentage": 0.22226751480451762
+    },
+    {
+      "pubkey": "FUY8wjDdQwTkJ58rRC2jsKQofmNP1eHXBxLSQHq5ZX9y",
+      "amount": "11645543",
+      "percentage": 0.0011645543296641598
+    },
+    {
+      "pubkey": "HZuqTMvPfrHvzzQuukqYwcmmy4z4N2TvbURuXusyhGBf",
+      "amount": "227224628",
+      "percentage": 0.022722462872722667
+    },
+    {
+      "pubkey": "2PaU65RnsW1F8PapeJmZXqowmp1YSJ1LPvoRwfqRUPqz",
+      "amount": "13201158",
+      "percentage": 0.0013201158388340861
+    },
+    {
+      "pubkey": "22iciH3VNh5E7qBQeZtJpRsTCc59CeJ98eeLBEofGtHu",
+      "amount": "14776750816",
+      "percentage": 1.4776750816910895
+    },
+    {
+      "pubkey": "6spGesUbeVRc2uH4DKwTRhfgzC3izFWQGTENX1zrf673",
+      "amount": "4139936937",
+      "percentage": 0.4139936937820375
+    },
+    {
+      "pubkey": "2zAFYMeENAo8tJxBZ19ViJRVPMJdnhRtWk7LeiEEFDyN",
+      "amount": "5938227029",
+      "percentage": 0.5938227029262787
+    },
+    {
+      "pubkey": "5mQ4ZHgeR2fJDKFUGm7YNfy8mSYmzxDdZcDQaSNp9T6k",
+      "amount": "40850004",
+      "percentage": 0.004085000470671227
+    },
+    {
+      "pubkey": "Bq29FvhHuxbk3oDkgAHwdj2n6jDHEvM31xRgZYYoThoQ",
+      "amount": "735032815",
+      "percentage": 0.07350328154007553
+    },
+    {
+      "pubkey": "C7K8HXb4i6iS5QzevFzQCZpcR8u9PLaGHyK3L8DtneYq",
+      "amount": "23666777945",
+      "percentage": 2.3666777945593154
+    },
+    {
+      "pubkey": "Gu1bPQ8bxQbGZNfyE1FD4NtBKRN5bFqZErGNSJY2SzRA",
+      "amount": "2904856235",
+      "percentage": 0.29048562354966345
+    },
+    {
+      "pubkey": "C12x6boeworDhDLrjnnaGdLTY28uaNvfA9n63ha1BLet",
+      "amount": "198398294",
+      "percentage": 0.01983982941660582
+    },
+    {
+      "pubkey": "4ofqXv8MpFtP8ERmvTEy33EeGS2tEnrtKYLya1xuGSKc",
+      "amount": "1445554606",
+      "percentage": 0.14455546060347066
+    },
+    {
+      "pubkey": "6XocqDNdeyAQJh6VfnS1hyRhQjfvUNuYy5hckcEHS1Pk",
+      "amount": "6913315237",
+      "percentage": 0.6913315237684028
+    },
+    {
+      "pubkey": "E8jczZvGHkBj6mBM48T5oveTzGGtz3NquGuV4adsiTL4",
+      "amount": "2604385582",
+      "percentage": 0.2604385582879229
+    },
+    {
+      "pubkey": "2BuasfikvH56ZZhYsnhCzjWNWepJhSPvjnkfK4Kqtu8U",
+      "amount": "136779187",
+      "percentage": 0.013677918758250905
+    },
+    {
+      "pubkey": "GCNatpParXyKXz6H21s6vsWYBTqaeiAWrE3yh9ouY4XD",
+      "amount": "1600724913",
+      "percentage": 0.16007249132636897
+    },
+    {
+      "pubkey": "3H2LwPLXZzUiCExsvFRnQ8oWk3xZq1CQsDZdXru3dbGT",
+      "amount": "5611340663",
+      "percentage": 0.5611340663915504
+    },
+    {
+      "pubkey": "57ByMVc2rBHBEh8gWFhCGapLrkSBxjF184KCtZUsvQ6T",
+      "amount": "162779064",
+      "percentage": 0.016277906425631577
+    },
+    {
+      "pubkey": "7MLDnuWBtJ8o4uo2c3evRBzriyVi557t1a2oGMcXJS2o",
+      "amount": "5777319058",
+      "percentage": 0.5777319058806681
+    },
+    {
+      "pubkey": "6DZjRXgJ1Rhk7Q2dMsSffqQhnqjYMtYjfLyv6fip9Jam",
+      "amount": "15817191279",
+      "percentage": 1.581719127925308
+    },
+    {
+      "pubkey": "AvybcfgqZieodNtYFkcxy2zgTidxBeAxGHWq88t79T3R",
+      "amount": "13991398541",
+      "percentage": 1.3991398541877287
+    },
+    {
+      "pubkey": "4NfwPyCRv81vmhWhTgbrvT6StNfFny9PCuuVq1efcUz9",
+      "amount": "326434263",
+      "percentage": 0.03264342639592394
+    },
+    {
+      "pubkey": "HghB4EotPbpXKAQCmWSMVatv2VJ7bkgSdhBrg9m42UBH",
+      "amount": "435269043",
+      "percentage": 0.04352690439710244
+    },
+    {
+      "pubkey": "HWuF5osGKREWRRXLJXxHFV9iq4agfRwgR7oi4DBg7g8y",
+      "amount": "11184169",
+      "percentage": 0.0011184169021236728
+    },
+    {
+      "pubkey": "7a2UCGpAbw5yRc8me1uZoVPrNms2fF9K62WPvuobdjBh",
+      "amount": "47508491",
+      "percentage": 0.004750849131771856
+    },
+    {
+      "pubkey": "8Psx7tCCr6WH9jrT6BBW1mWw3Vs3d3T7Z4yXcyURwBjn",
+      "amount": "2288344083",
+      "percentage": 0.22883440839039595
+    },
+    {
+      "pubkey": "2eYVBQpv2MFgSNHGUFQ2LUErQG1s5AaiKtgUeQsR3wQU",
+      "amount": "15890205673",
+      "percentage": 1.5890205673475915
+    },
+    {
+      "pubkey": "B7PhLs5fD9q555Qd62Vk3Ph9wTkRpxCj7Sx17S6bhdmk",
+      "amount": "929409235",
+      "percentage": 0.0929409235319654
+    },
+    {
+      "pubkey": "FMdKLXhQEnNJtvM17ZX8jhaeMaSD9UgDuN3Kw7kMrd7K",
+      "amount": "841651038",
+      "percentage": 0.08416510384289436
+    },
+    {
+      "pubkey": "C5qDPJGxEHxf4dK8n8CAKRu2LEJBz9pgNezU2Tk1fbuJ",
+      "amount": "5115845901",
+      "percentage": 0.5115845901052979
+    },
+    {
+      "pubkey": "4JVddmh4tFoPY4QfaiVdMuVucMQrknh2rJJnCbSpmqEa",
+      "amount": "8731201",
+      "percentage": 0.0008731201539096517
+    },
+    {
+      "pubkey": "4CT2pFfzXV57z62bsRag2bVLgP6aBhFPgg4tiRaAeb1S",
+      "amount": "7583747961",
+      "percentage": 0.7583747961881926
+    },
+    {
+      "pubkey": "6V2vM37buKPytVv2AKGAJJNbt7GxMJ2WoQgQ7bpDCsk2",
+      "amount": "4372607",
+      "percentage": 0.00043726075750069257
+    },
+    {
+      "pubkey": "3vAp3Pew8WXtDzH78KHEJYkfVzDekbypDpp3Ns7rzS6d",
+      "amount": "2614852097",
+      "percentage": 0.2614852097799532
+    },
+    {
+      "pubkey": "CiWb5V8jxmGoMtfGeizQVNGrV7BvmTDBgya6YmTfxvzU",
+      "amount": "3993632168",
+      "percentage": 0.39936321686742965
+    },
+    {
+      "pubkey": "BNos6DBotVaG5QJTDcxmov7TDug9V7eGkTBLas1BVHcT",
+      "amount": "4114675",
+      "percentage": 0.0004114675314533612
+    },
+    {
+      "pubkey": "Espxz84BdsZyH2PjUdfg1J7NFTnmwoUtbHTSPWQ4ghUj",
+      "amount": "2996929766",
+      "percentage": 0.2996929766246296
+    },
+    {
+      "pubkey": "3JNpPZ3xAqJV3ybx67DGXpDzBujHf3BVeyEdaSbDpEtN",
+      "amount": "1184466716",
+      "percentage": 0.11844667162157574
+    },
+    {
+      "pubkey": "FJVJm7cDJ6sJtCDuGdWsyZmQRu1LRWHqa6jMeGCmhLUr",
+      "amount": "2997769885",
+      "percentage": 0.2997769885028325
+    },
+    {
+      "pubkey": "7XWrVXnqhQKLq1g4CsXutdp9FMg4vZMRAsWeJUa5kh3Q",
+      "amount": "2351821185",
+      "percentage": 0.23518211851310916
+    },
+    {
+      "pubkey": "4mcUUEJxX7upgYX1WBaAXm2cz16aDw2NmfDuTrAczMRh",
+      "amount": "1495784304",
+      "percentage": 0.14957843047596228
+    },
+    {
+      "pubkey": "E6jKjUStwHTpeCggxi36YrmH8ZfJVz5seoRNDHnyYrzJ",
+      "amount": "2771560388",
+      "percentage": 0.2771560388799782
+    },
+    {
+      "pubkey": "GZbJUDfYA2FFvfrDKDVFdqsRJ46fvwQPsigMnArhS4VA",
+      "amount": "11864851",
+      "percentage": 0.0011864851895657005
+    },
+    {
+      "pubkey": "6yBn5hFRV4crdwKXUG4dpmnajabVGQ1uXF6DmvmewDX2",
+      "amount": "22969102",
+      "percentage": 0.0022969102424867742
+    },
+    {
+      "pubkey": "G3yZge1y91aqVWbGM7pJWct8ivKFDhw2xMjsTg5powko",
+      "amount": "2205679116",
+      "percentage": 0.22056791166548675
+    },
+    {
+      "pubkey": "5iYs5PsR1jyHoq9MWjDGjRgfxCVoMFNhF3uetVKm9sa5",
+      "amount": "867640",
+      "percentage": 0.00008676406475458104
+    },
+    {
+      "pubkey": "C3s3qrGRiXbierSTfsQHmWQHSDenMkMpjszEKCcwUXj",
+      "amount": "318423893",
+      "percentage": 0.031842389304650436
+    },
+    {
+      "pubkey": "8MgFB44nvAZWUpbNBLUE6HL3inx7q9GrUtUYukq4EKD1",
+      "amount": "331562082",
+      "percentage": 0.03315620824332991
+    },
+    {
+      "pubkey": "D5k4JUt9Qsq3tAGhDJCGQXGtonZGnvLvz5MC2JE9sKeG",
+      "amount": "345919720",
+      "percentage": 0.03459197206803542
+    },
+    {
+      "pubkey": "F6xv8AuUAdd5k9VtsN4WLnSNWDvW5xrLmoHSNNsyf6XZ",
+      "amount": "119040057",
+      "percentage": 0.011904005780172517
+    },
+    {
+      "pubkey": "AN2KVVKt7Dqj6pVu8J68ZURJq4u3qYg3YRsyiDjUy6JD",
+      "amount": "27640961",
+      "percentage": 0.0027640961155502644
+    },
+    {
+      "pubkey": "AKqyu3ZYeTFXzgDmbaE9JpsdK6ov3byNgcS7FuRgbmTS",
+      "amount": "238181066",
+      "percentage": 0.023818106654414563
+    },
+    {
+      "pubkey": "A81qtD5ekStAGt7GbsX7uZpBLcqV1SNcWrjF3GMQz3LJ",
+      "amount": "1035911595",
+      "percentage": 0.10359115953849976
+    },
+    {
+      "pubkey": "9ovTYApfXsPcgNkFZRRv8puKnS42Qomz9MKsHnKcy9Kw",
+      "amount": "141513124",
+      "percentage": 0.014151312492498668
+    },
+    {
+      "pubkey": "8bpkM5fsF8XEXVS5MeFyuDTXg1dK2G3uKMDnXuZBLGRR",
+      "amount": "675708419",
+      "percentage": 0.06757084195564797
+    },
+    {
+      "pubkey": "GdQJrec1qgVnKNXzEfvEueWaVB7DznxJrj5dXgFynzn9",
+      "amount": "9454433706",
+      "percentage": 0.9454433706918607
+    },
+    {
+      "pubkey": "6egmyiAfwykDYTSS3SH8RhZrwbBXoh4KCXuu3n5RJad5",
+      "amount": "917127905",
+      "percentage": 0.0917127905645618
+    },
+    {
+      "pubkey": "DgLPFkq7fVigywoYzmBUohn7p2cowvZHTdzBaHLdoRrF",
+      "amount": "139579932362",
+      "percentage": 13.957993236285368
+    },
+    {
+      "pubkey": "27fRMB9WAAZmTVH3rdk6KVSfU5k9DDnpHQ2WmtRMbXpM",
+      "amount": "26450888016",
+      "percentage": 2.6450888016293432
+    },
+    {
+      "pubkey": "JZtZs8E984xrzSubNNLfAxXoWy7TUM3wPfS7JWdkbKo",
+      "amount": "400221267",
+      "percentage": 0.040022126777722405
+    },
+    {
+      "pubkey": "AVvHVfX2Wkuj4C4aGTemUwpLNJbPLqCDoonVWLeEzhRu",
+      "amount": "1492439800",
+      "percentage": 0.14924398004954648
+    },
+    {
+      "pubkey": "AYbA3vbyt8LxQTxgTMm5kaZXZcpqRxu3aNSv9vYZpLtX",
+      "amount": "429342217",
+      "percentage": 0.04293422170503397
+    },
+    {
+      "pubkey": "GsTf1eCUr1zpPta6UusbE4SQW4RqvrSYfBWzfiqMkFUq",
+      "amount": "1538333630",
+      "percentage": 0.153833363024755
+    },
+    {
+      "pubkey": "2S4XKUbTmXT2VDogYBj5Sosy3hUdS4cpXCCGFE3F2DB8",
+      "amount": "9482834",
+      "percentage": 0.0009482834836277997
+    },
+    {
+      "pubkey": "CEfyPjaB7sm7VL3HJGRGjP8XDZ5umAxs2FVZ1nqEwu1Q",
+      "amount": "321157397",
+      "percentage": 0.03211573974574436
+    },
+    {
+      "pubkey": "9SEhKjqi9U9YQB67rFMHGbvNZJTNaynEixNQnCnkAWe9",
+      "amount": "3544092126",
+      "percentage": 0.35440921269894265
+    },
+    {
+      "pubkey": "EcXQtUr95qBf9QFyeQfq8xzyqhiFAL7rs9bPVZfzEQ83",
+      "amount": "390276288",
+      "percentage": 0.03902762885987707
+    },
+    {
+      "pubkey": "4tJ5jhfpq6BQiC8poD7dkwSDLuUureWRGtZupeDBzkm1",
+      "amount": "368661701",
+      "percentage": 0.03686617015370976
+    },
+    {
+      "pubkey": "7hrVYrLN3HyNPbVESNuCy7pt9jLM9Nx5QUuAfXFuk7Aq",
+      "amount": "37488181",
+      "percentage": 0.003748818196174677
+    },
+    {
+      "pubkey": "61TyxrbSuMAJMaitmGaikAXCaLFX3QuoJWGiCukTw8PG",
+      "amount": "1982919190",
+      "percentage": 0.19829191906754826
+    },
+    {
+      "pubkey": "5DjYzcmpLBwp697Bgo6M4xKG4APBzhgk5o9wCpgcdEh4",
+      "amount": "17785430",
+      "percentage": 0.0017785430045360207
+    },
+    {
+      "pubkey": "CnxYyfAj3iKcBYqXU3ctfgtzoH8PDdYRGnKAJ8ZFMPK",
+      "amount": "231788501",
+      "percentage": 0.023178850163635658
+    },
+    {
+      "pubkey": "4wajsPRCMjEoE1djQ5zddzpBsQCyNauG4sPTvoiwhzay",
+      "amount": "54825842",
+      "percentage": 0.0054825842244647606
+    },
+    {
+      "pubkey": "FVxQbCvbMw4jKR5LwPAUzreGQRBEB5TiPN8nCeWat4rz",
+      "amount": "365768681",
+      "percentage": 0.03657686810032607
+    },
+    {
+      "pubkey": "HR8kggLVm2CAsabzVoNgQDThikjnNGHaybhpkoAezqjs",
+      "amount": "120976735",
+      "percentage": 0.01209767356218892
+    },
+    {
+      "pubkey": "C2E8FGUaWGPpce3kiG4kLvwkPVJG8bcuminaKyCRCkB9",
+      "amount": "732805373",
+      "percentage": 0.07328053732024965
+    },
+    {
+      "pubkey": "FYRtdEgCDdGmvYYoex6fLuWWV56xihRTKmZFPDxajfJi",
+      "amount": "2557161198",
+      "percentage": 0.25571611980706516
+    },
+    {
+      "pubkey": "Af6LZfvwdABHEmz3fEDfYZrWX5KnogfFNBm7N2XL9Pe4",
+      "amount": "3816405111",
+      "percentage": 0.38164051116698533
+    },
+    {
+      "pubkey": "DbEA4nGRW6PbQXC2hLoEbY9LZwfFx3skHUHLbeMrrK2M",
+      "amount": "97700272",
+      "percentage": 0.009770027227571665
+    },
+    {
+      "pubkey": "J4yEvC54is4craf1FfxxsVNdvGwatps9fnw2y1D1hApa",
+      "amount": "168186047",
+      "percentage": 0.016818604797773952
+    },
+    {
+      "pubkey": "DJA1TMK2dj7pQe3d63tKytDMBNaWwhzmazkLqhdCFmM7",
+      "amount": "676787660",
+      "percentage": 0.0676787660113807
+    },
+    {
+      "pubkey": "2B6oaFfASnfkRg3RhS5fZ3BwgBWDoN5tDLgiNHUEwpdn",
+      "amount": "535700534",
+      "percentage": 0.05357005345219553
+    },
+    {
+      "pubkey": "4pBZx977PnGNW7f5RuyKiSWRjrt64s77kXhfrmzpoweC",
+      "amount": "902431012",
+      "percentage": 0.09024310128785132
+    },
+    {
+      "pubkey": "3zNg7YVDYqZFPWSoMzsDUpizA4gXGnHuukzt31ABR4qm",
+      "amount": "37947438",
+      "percentage": 0.0037947438553532758
+    },
+    {
+      "pubkey": "2fpqYeCtirneeoQF6QKsCzjTmHLwdtsXC1u13vfaKgmH",
+      "amount": "446953323",
+      "percentage": 0.04469533232305279
+    },
+    {
+      "pubkey": "9EUSGio293SxPQfJ5kxiL4gAoP2hjaaNVxEP1sb2Sfm4",
+      "amount": "4647401",
+      "percentage": 0.00046474010891426536
+    },
+    {
+      "pubkey": "Bm7GQ7cyHpRWXEeY95u7Zp6UJeMmcag85E9whB9Dzy3Z",
+      "amount": "645700802",
+      "percentage": 0.06457008025693638
+    },
+    {
+      "pubkey": "HkCcALU4F9LtZa6S7SyMpUw3wt2iSEgCDTDZ1zWzHK13",
+      "amount": "32920041",
+      "percentage": 0.003292004159926363
+    },
+    {
+      "pubkey": "9jC5dP8z9tSyzpSddcTDTfEVG38TfiGfMjX7GpJyFL41",
+      "amount": "160438",
+      "percentage": 0.00001604385987164283
+    },
+    {
+      "pubkey": "2NeuSHygTqEfq4qPFvDtT7xtqeTKwX944nFYzssq5xYs",
+      "amount": "2132229562",
+      "percentage": 0.21322295625129392
+    },
+    {
+      "pubkey": "2qaAmoXKs8qdfPxgQ43VTyY8HAPS6tR6Se4esdzVMTXd",
+      "amount": "566747492",
+      "percentage": 0.05667474929818521
+    },
+    {
+      "pubkey": "MpgLJhzRzqAkhRTYrTayKzRsNz6qCyy9PHJNynUh3q8",
+      "amount": "14772648",
+      "percentage": 0.0014772648085652834
+    },
+    {
+      "pubkey": "ApmmQWmckcnmCBKTdf4CG7yfBtf1tKnB69ggjnRxsAGz",
+      "amount": "3888658038",
+      "percentage": 0.3888658038201126
+    },
+    {
+      "pubkey": "2HQjV3hXn3VP15XiaKd7A1nXRhEg9NbvustzoVKUh8nm",
+      "amount": "2371659725",
+      "percentage": 0.23716597254880095
+    },
+    {
+      "pubkey": "DkyvhdzW2Rfz38ECvHY6xoKD7eAat9x6qbLeXFpKYRDq",
+      "amount": "1938265433",
+      "percentage": 0.1938265433134355
+    },
+    {
+      "pubkey": "9FPhwFnXppmYH6jLvzRHNtNHMZKgU1JDrS2DxsYTykJj",
+      "amount": "4226988807",
+      "percentage": 0.4226988807008902
+    },
+    {
+      "pubkey": "EUvbXhpqZ2mWp927YGJ6MjvNodZxpApWUyW5f287XmkP",
+      "amount": "6156372530",
+      "percentage": 0.6156372530658172
+    },
+    {
+      "pubkey": "3oV6ddjpqVwBSfCmz2JzTVW4ECTetdJKqKf7UrAkUBe6",
+      "amount": "1750241",
+      "percentage": 0.00017502414464143614
+    },
+    {
+      "pubkey": "6VUb4gzhKZu8kz1WzDSWacTEvqPEqMtVmoApShcnkWET",
+      "amount": "2489951430",
+      "percentage": 0.24899514307978568
+    },
+    {
+      "pubkey": "22ZwZBws4kJh9Bb4kUg4BSYGsDMRGHmAgV4jMzqVxqfb",
+      "amount": "2217418359",
+      "percentage": 0.22174183594301156
+    },
+    {
+      "pubkey": "asPkDULK6z1SDrQjx3RBbnMkCd9j4t1SVhE3qdk5VGN",
+      "amount": "2753989582",
+      "percentage": 0.2753989582780583
+    },
+    {
+      "pubkey": "FKNmYiANdqhjwrwVdUKjZU85LoUX3DgjQkvnq9ggTTUW",
+      "amount": "142709616",
+      "percentage": 0.014270961616965158
+    },
+    {
+      "pubkey": "G3KrKF9noi2kN1wgntbgZDzx5iACdhj7P4UaPQs7PtcV",
+      "amount": "12254930",
+      "percentage": 0.001225493082255972
+    },
+    {
+      "pubkey": "FDw92PNX4FtibvkDm7nd5XJUAg6ChTcVqMaFmG7kQ9JP",
+      "amount": "62053063",
+      "percentage": 0.006205306327331268
+    },
+    {
+      "pubkey": "Erp7xyMgJAphfQ7hzC7JzjTn9vWNN58nbdVgYtczizUy",
+      "amount": "1349301674",
+      "percentage": 0.13493016742541453
+    },
+    {
+      "pubkey": "HHkBsDUgPN5KHMvfqxy44bBx7EDctygN1GzU1Ti4sSZh",
+      "amount": "1188788723",
+      "percentage": 0.11887887239867194
+    },
+    {
+      "pubkey": "CjsdmTjnq3rVKbPbDVVtj7XPKv4fS9i3Hq2dsN2iEHPg",
+      "amount": "20210490",
+      "percentage": 0.002021049062859864
+    },
+    {
+      "pubkey": "AFNRootJ962QxvXzyDgkUWp2eVphPhbmgWPux8mDinep",
+      "amount": "3037744",
+      "percentage": 0.0003037744957517759
+    },
+    {
+      "pubkey": "EcgMYArpT7FahZNWott1pEdYJoQ1e6WuXbkTg7dLXTWJ",
+      "amount": "948728100",
+      "percentage": 0.09487281009294173
+    },
+    {
+      "pubkey": "D7knm9dhcLbEkt4YRS1ikDQDBkQGV3ufEXny4JGg344i",
+      "amount": "657768615",
+      "percentage": 0.06577686151882207
+    },
+    {
+      "pubkey": "3e2XTaQrbpueGKg1RVnV2uxFWdjWyUq3wSKcpzg8jjVG",
+      "amount": "2077564952",
+      "percentage": 0.20775649529983653
+    },
+    {
+      "pubkey": "7VDECJXjDeFZYuPcT1WZZLtQwr6SMbwWd4KDG9RXQCHV",
+      "amount": "3259726009",
+      "percentage": 0.3259726009087956
+    },
+    {
+      "pubkey": "88hhqF2FtNGabEEZ56MJtoeQimGeumagFhr9AE9CgRRP",
+      "amount": "64301176",
+      "percentage": 0.006430117695144209
+    },
+    {
+      "pubkey": "8W9NJfM6cqCsvR1FC8Ab8YZPSQF7bz7inxJZxWnF7GsX",
+      "amount": "6579339380",
+      "percentage": 0.6579339380958596
+    },
+    {
+      "pubkey": "4AZCX3iVjVQWM7gbukoPBdLmADVEtUS1PHVASUB6tBmb",
+      "amount": "1049009324",
+      "percentage": 0.10490093241802256
+    },
+    {
+      "pubkey": "842fA5hAUxjQuBQcgeGLN6w2tMVQTvPRN91BD1RF9WdY",
+      "amount": "1029433954",
+      "percentage": 0.10294339541421259
+    },
+    {
+      "pubkey": "DarSACnhQzH5vEcAdugQ7FS93tbxNmoC467ZxXHZqk8z",
+      "amount": "74653505",
+      "percentage": 0.007465350540843241
+    },
+    {
+      "pubkey": "6zD2SBhuNgnpoBvxFnEztavUX5CBMJ6Y72Hu13iqdYCj",
+      "amount": "476608594",
+      "percentage": 0.047660859456249566
+    },
+    {
+      "pubkey": "bPkHxe2pXBGXsQJ9S42mD6HbE8AGEoCcbfyAKfiRhjb",
+      "amount": "2879398590",
+      "percentage": 0.2879398590109135
+    },
+    {
+      "pubkey": "3vNCAMb1csAoAkFpAUgxzQrcaKa1amQZaByNu4SFUHxR",
+      "amount": "112345795",
+      "percentage": 0.011234579517200607
+    },
+    {
+      "pubkey": "3PpEDTda46Kou28KqDEtBEF3LfSoD6d4NAyjgGjhm5pQ",
+      "amount": "1053380223",
+      "percentage": 0.10533802231695855
+    },
+    {
+      "pubkey": "LFHmntruA7a7aHwueQrfDQhMAmakrsvDsY73yhKZgzH",
+      "amount": "1108632281",
+      "percentage": 0.11086322813286473
+    },
+    {
+      "pubkey": "1WP1gtnLSN8J1jeLGmBS1i5uDdHte2pg2oxydtq57Bd",
+      "amount": "68462256",
+      "percentage": 0.0068462256810427205
+    },
+    {
+      "pubkey": "4vYDbbgDGDzZEBKmFjPQSgVCTU9zP8i17SiTpCgZPcb6",
+      "amount": "6283391129",
+      "percentage": 0.6283391129946118
+    },
+    {
+      "pubkey": "4JfgukfcRR6QK7vFKuhAb7dcheZHih1g424KMP62P6yr",
+      "amount": "337320320",
+      "percentage": 0.03373203208819462
+    },
+    {
+      "pubkey": "Ftx3eUuWG2mCn1JRSZdtPpNGwyVwoHLwRaenHo9BwkWF",
+      "amount": "10420447",
+      "percentage": 0.0010420447280064167
+    },
+    {
+      "pubkey": "91Jnn2ihHkjfhu9Mdx7ydVzKxVK8Avk1AKHn3SHxwuZ3",
+      "amount": "76006310453",
+      "percentage": 7.600631045332977
+    },
+    {
+      "pubkey": "6xJ8yyENmdeKe8tsEXXVATQ48AWqE5SE7AusegRfzPVA",
+      "amount": "2133116342",
+      "percentage": 0.21331163425283434
+    },
+    {
+      "pubkey": "Ax11HpkEDuegYLFNhdH43LAxanwfvWugnTDJkFRwSPJL",
+      "amount": "63551428",
+      "percentage": 0.006355142871354256
+    },
+    {
+      "pubkey": "83s5HWv5UmWhkuykzpkJQCdg1AGFvMxuJ8R4c1q8GQFu",
+      "amount": "48178313",
+      "percentage": 0.004817831304206324
+    },
+    {
+      "pubkey": "859B2wJcbm5uEUrpeYXJ2Nm9tZf11moE6CNpisL4iRQ",
+      "amount": "8722220418",
+      "percentage": 0.8722220418804278
+    },
+    {
+      "pubkey": "7HYkSm5FVYjQ65cmD2ooMzgx15icesk9BWGKThPaH1rn",
+      "amount": "56567628",
+      "percentage": 0.005656762899964418
+    },
+    {
+      "pubkey": "HC9ccYdem14HM7GLsVGCmubZixYERhe4hjYZAmMgxUxZ",
+      "amount": "60250810",
+      "percentage": 0.006025081023377411
+    },
+    {
+      "pubkey": "36Hkp7gt1TFcvbZyU4ou4PCykSMhihchZd9t4AHv5RwH",
+      "amount": "22337162346",
+      "percentage": 2.2337162346496893
+    },
+    {
+      "pubkey": "Fcmp4uygYxvAgmzU8wmNhG5b6Sv6QsLMgDKW5uJBeVYw",
+      "amount": "1085028635",
+      "percentage": 0.10850286358633583
+    },
+    {
+      "pubkey": "2V5C5bv7PWThmWCvXWa9F1hfJHPot8Hu1PYkiBEpVwCN",
+      "amount": "4188210955",
+      "percentage": 0.4188210955723259
+    },
+    {
+      "pubkey": "AC2txXGWuZRcUrYVxRjHGEnNYAw5NdGRZUwvMFe6axnE",
+      "amount": "2309272132",
+      "percentage": 0.23092721323751453
+    },
+    {
+      "pubkey": "ESF4YLdTEXjwYr5uzaciUQpZCcTXXDYGPj1gEgB4mYVk",
+      "amount": "85844957",
+      "percentage": 0.008584495797787344
+    },
+    {
+      "pubkey": "JBkAieRopw1azx3rEPQKCCWKVhtw31feteH3S35VXjpL",
+      "amount": "97676392",
+      "percentage": 0.009767639218430229
+    },
+    {
+      "pubkey": "2Ntdseicb3Anx97fDrAHAp6ofJDKpTFiMvNyExfe4zsg",
+      "amount": "4103443465",
+      "percentage": 0.41034434655448354
+    },
+    {
+      "pubkey": "6u4Zy5NnyWKeX5m6z5Z8TQiZJvLgqS7x5ytRLa76ytqx",
+      "amount": "1158289764",
+      "percentage": 0.11582897642923799
+    },
+    {
+      "pubkey": "DVM6xmo1zhMAv4wWMXQggkUhxcFhuZU72h84a7Gh2GzC",
+      "amount": "581249871",
+      "percentage": 0.058124987169564594
+    },
+    {
+      "pubkey": "BsDCBgA2QgrXTpkSF9yjVPcw21jYxJmcwU8faA783Ryy",
+      "amount": "127187155",
+      "percentage": 0.012718715567386834
+    },
+    {
+      "pubkey": "6FKW67KSafokJdJmTuxZtv9UjAK7wimgguDs2SFPDuff",
+      "amount": "272887550",
+      "percentage": 0.027288755074956598
+    },
+    {
+      "pubkey": "7RPzYLyLm1MYMSnsi6Dd6Vp5yhHry3Z34NDDSVFzCYNJ",
+      "amount": "6982436",
+      "percentage": 0.0006982436053992282
+    },
+    {
+      "pubkey": "FteWVY1FGsk2QU8YuzCBKN4gBJMm2y5odGU8Tnh5z1Zc",
+      "amount": "46166369",
+      "percentage": 0.004616636921661165
+    },
+    {
+      "pubkey": "H4mN9dCpzUbXnH2VJTmKXqCVEyLqohW4MJgsuQRBDeCw",
+      "amount": "217093124",
+      "percentage": 0.021709312493820614
+    },
+    {
+      "pubkey": "GkiSXq3Z7YwJy84jLojYjyYNtc4N6QsnQjxNdT3Thafp",
+      "amount": "167056865",
+      "percentage": 0.016705686538173368
+    },
+    {
+      "pubkey": "9sAT6PHFXEQaGMeDYf9mfzEVwSft7VdxQ8SbEhUcCPm4",
+      "amount": "1981172326",
+      "percentage": 0.19811723262927175
+    },
+    {
+      "pubkey": "AgNZ7qVteaunEfV6DSozu5i9nY7po7ifPGZWLhzafV3A",
+      "amount": "501239517",
+      "percentage": 0.05012395171211608
+    },
+    {
+      "pubkey": "LmUZBKFEyczVDqR2caLjtYaXQM1VWNyMCbJ26Ph7UGf",
+      "amount": "2105123372",
+      "percentage": 0.21051233726219046
+    },
+    {
+      "pubkey": "3PR2p9QZx7nkKNszVQF6shXRjf2AJuDhq6FAo6iLycG8",
+      "amount": "3964580397",
+      "percentage": 0.39645803970660637
+    },
+    {
+      "pubkey": "BqmmAPhDU3oHLTM7TXWx8Z73aCAPXdvBJinLecsmpsWs",
+      "amount": "182416825",
+      "percentage": 0.01824168257458836
+    },
+    {
+      "pubkey": "AWPiPe5kKUFaQ5hAGtBmihoFXbPYw19d3S5jpMp6ErbY",
+      "amount": "42575796",
+      "percentage": 0.004257579653316325
+    },
+    {
+      "pubkey": "3SudWjyphbuitf6k6G5ZbyJSjs6DFZ5DXy7DqCv1yNMt",
+      "amount": "458536876",
+      "percentage": 0.045853687615214425
+    },
+    {
+      "pubkey": "BvQWJ21Ar7TdZ8Xr7aaFYtK47zxjSHDq6BiRPHaYpzS6",
+      "amount": "118505005",
+      "percentage": 0.011850500578374692
+    },
+    {
+      "pubkey": "3Ln39fcmPUgKV1GWmQC1C8xFUnfX51hZTakz3KUpHBgw",
+      "amount": "5173964645",
+      "percentage": 0.5173964645066632
+    },
+    {
+      "pubkey": "4iGNN8MJKauggL5FL3772c5YhPThnEDtH4R386GFT3V5",
+      "amount": "59954430",
+      "percentage": 0.005995443078547779
+    },
+    {
+      "pubkey": "3nANT1F8Cwv9yTm5a8i5yKcCgMC6AiHqhuZcX4SSh65v",
+      "amount": "896643199",
+      "percentage": 0.08966431990529616
+    },
+    {
+      "pubkey": "3xZpUxEiCpWUUfTGbw18Vhi9DoFuRDDF7zHWQMNvekgV",
+      "amount": "107546546",
+      "percentage": 0.010754654654155538
+    },
+    {
+      "pubkey": "CCrxEjUvG4nKzai9jkkF96Ao6Q1aiewHDRvYYvV4WnPs",
+      "amount": "335245656",
+      "percentage": 0.033524565672234316
+    },
+    {
+      "pubkey": "SYnxkbBVxATHmDYezGktrwevZvBSZDspLtfGWgxJSqZ",
+      "amount": "211969365",
+      "percentage": 0.02119693653577493
+    },
+    {
+      "pubkey": "CrYeyunAZPQj1pbBmbgh2Mt3BgYvjpmMVwCT69SCogyY",
+      "amount": "29801118",
+      "percentage": 0.0029801118769688965
+    },
+    {
+      "pubkey": "3oifcvpdAvrr269AVYk2iGkwCwZ3chnHxfR7h1dhMSmP",
+      "amount": "64152329",
+      "percentage": 0.0064152329461927456
+    },
+    {
+      "pubkey": "HdGsWDaxSDBesEYXmAYsG7WZYkKxUv3qhGJgmXSXnm3d",
+      "amount": "864460047",
+      "percentage": 0.08644600471808359
+    },
+    {
+      "pubkey": "8RXhMTcJ5Qrpe6Yj9aFwXJrSK8CVRbJqiHCCb419wC6R",
+      "amount": "6921758723",
+      "percentage": 0.6921758723025997
+    },
+    {
+      "pubkey": "4Cbj4xGcAyxrnYhbBifq4AEvRPqV1WpKBxb8JrBjHE9W",
+      "amount": "778403513",
+      "percentage": 0.07784035133577676
+    },
+    {
+      "pubkey": "B1XiDr7HqJF58EyVBGNzHhEQxTNczCvhoXA6gY3uHbf4",
+      "amount": "535533293",
+      "percentage": 0.053553329366676616
+    },
+    {
+      "pubkey": "Aeu6Ze897zoAGrbaaYA56tebEeYtgXGVyogkhner2wQ4",
+      "amount": "231844844",
+      "percentage": 0.023184484485506487
+    },
+    {
+      "pubkey": "7XCfyoWETTYCG9xgG878KZtbfmN2YHX2BwQFQNRGmbim",
+      "amount": "2318490320",
+      "percentage": 0.23184903209312943
+    },
+    {
+      "pubkey": "9sz41Tiitpha9PufrhY2MQ2Y8JzogezZWNXSWgj1ubi3",
+      "amount": "1940232897",
+      "percentage": 0.1940232897582281
+    },
+    {
+      "pubkey": "3cGv4MmXDC1oLEkAnZ6D98pjaWhRWTCjmRUuFPZvvH4V",
+      "amount": "55203207",
+      "percentage": 0.005520320704830821
+    },
+    {
+      "pubkey": "23qN6XftE8UbBwGtyyaWqwZ6tVTmQ1iHL8DCM1SXcevN",
+      "amount": "1339433124",
+      "percentage": 0.1339433124202664
+    },
+    {
+      "pubkey": "6f7ajuJ5Du8VtVcoBsRobDkz9K9fbuSgD6TdiE4JEPP1",
+      "amount": "1806532725",
+      "percentage": 0.18065327257232713
+    },
+    {
+      "pubkey": "AP17kgRP1Sv4X5jftwbcnSwjB2t4xvG91GQZCwfheoHP",
+      "amount": "2137173992",
+      "percentage": 0.21371739927942157
+    },
+    {
+      "pubkey": "TWnsv9tJ6sXGcV83L4PyfrAHWmeve8J21YvuQMQh3aa",
+      "amount": "1358725695",
+      "percentage": 0.13587256952408264
+    },
+    {
+      "pubkey": "G4tBsXqg56eYhuhKU6bVuJGyeEFdhivxaUApkb6sNTdX",
+      "amount": "335981014",
+      "percentage": 0.03359810143374689
+    },
+    {
+      "pubkey": "E94zqsaeoyzWE2ioPQ7tKK7FaeayG4ypNWfkJC8Gr2DG",
+      "amount": "4114507760",
+      "percentage": 0.4114507760838797
+    },
+    {
+      "pubkey": "Dkj9Tgy1ho4rWjYySr3VqBSZKjGNXAvCHgTpF9Qop52",
+      "amount": "3711567098",
+      "percentage": 0.3711567098519898
+    },
+    {
+      "pubkey": "BJeFzaoGKc3GZAZziCAvddsYbR1Z6BXUHRurVARhF8TS",
+      "amount": "1392407541",
+      "percentage": 0.13924075414358653
+    },
+    {
+      "pubkey": "B6Ru3w1Go1uwdt1yfuRTSeoV6stx1116vEZweBmCGhwN",
+      "amount": "151770630",
+      "percentage": 0.015177063088933027
+    },
+    {
+      "pubkey": "Hr1hLFgpJgV3SMe3UPg9Q4gCHVRp6HmHvJgU9n3WkQNr",
+      "amount": "82451033",
+      "percentage": 0.008245103307441272
+    },
+    {
+      "pubkey": "HCgSF7FycerCmZX7VU6j5ZK8uHEt1AFCijBBsGJVdaiP",
+      "amount": "136077167",
+      "percentage": 0.013607716744132282
+    },
+    {
+      "pubkey": "FYDGtdffxFCxsqEe3cUED2xtirN9Nf9boRuAFuGa8R7V",
+      "amount": "492542888",
+      "percentage": 0.049254288837144826
+    },
+    {
+      "pubkey": "J8uQ8tGasb5xsAogkRx4kt8Es9N65yCBmnKaqKZS4W5r",
+      "amount": "922098662",
+      "percentage": 0.09220986625846112
+    },
+    {
+      "pubkey": "CwVdXPV9UyDostFAzK4Yyby1dSDM37mimp7zhspiKfKQ",
+      "amount": "11209260",
+      "percentage": 0.0011209260363508862
+    },
+    {
+      "pubkey": "64Hm7G1ZQj34Fu1zwm8DrjSsTpe7S32ozj6QukNkp2i6",
+      "amount": "1867390428",
+      "percentage": 0.18673904287874882
+    },
+    {
+      "pubkey": "37zXX2mgZwg4uyEKw3nXoN79gTf4SCTQKFvq1u3GH8Eh",
+      "amount": "1138818577",
+      "percentage": 0.11388185778711057
+    },
+    {
+      "pubkey": "7i9GM2ioPNhRxvf3nbocC6fuZSSnk6RopKHx4eMWhj5Q",
+      "amount": "3317114248",
+      "percentage": 0.3317114248511443
+    },
+    {
+      "pubkey": "H1AF5bxXJGwvYc3vu1cFuUQSGoQZtdJCDMvRD4SgAAQ7",
+      "amount": "79261817",
+      "percentage": 0.007926181758744332
+    },
+    {
+      "pubkey": "AKZ57XAqjxmQ2RGxWgFzuAJXpTYy5nDcjJAzRChe7xS9",
+      "amount": "60559863",
+      "percentage": 0.006055986369766824
+    },
+    {
+      "pubkey": "7oJZjDKatxm9YTbjPYgRZfT5f1eQnNqqR4RsbxJAXC45",
+      "amount": "9254260962",
+      "percentage": 0.9254260962332036
+    },
+    {
+      "pubkey": "4fEuQEAeySDjDLrzVTr2Mp8GTaJZj4z8f2Zt6r4PSQof",
+      "amount": "1047421743",
+      "percentage": 0.10474217432960217
+    },
+    {
+      "pubkey": "BSwC26TKyhRtCfrqwvbjngRPrHAUALYDmHdXEVdgKuHb",
+      "amount": "2742486325",
+      "percentage": 0.2742486325362849
+    },
+    {
+      "pubkey": "F2RnqVwyRiYDoxXW2x9q9FgiDweRXNRifckbDN8TAhGz",
+      "amount": "705575587",
+      "percentage": 0.07055755875947968
+    },
+    {
+      "pubkey": "7rijBCjjwXaSVWuhfajgsDgtAVtjmTgkJFWT8c5UAmEE",
+      "amount": "22101928878",
+      "percentage": 2.210192887896895
+    },
+    {
+      "pubkey": "BsYiTCfKZbToZPAVXD825qQzUDiod5peTWsRwTJM9fji",
+      "amount": "200558548",
+      "percentage": 0.020055854803859085
+    },
+    {
+      "pubkey": "FMGcYM9KFmpDQUe4UApxukfYeTpPV5pok3P8N5UMdkM1",
+      "amount": "541228057",
+      "percentage": 0.0541228057757549
+    },
+    {
+      "pubkey": "8SxTtfwycZnnt1Ctr83eZSDtvFsY1PHnwtwFUVZR7HMM",
+      "amount": "105098432",
+      "percentage": 0.010509843208437508
+    },
+    {
+      "pubkey": "FsT84VhfRcrapysDRtyDHuARGdTsR8fqEMqtrxFqx7ar",
+      "amount": "8456700882",
+      "percentage": 0.8456700882957918
+    },
+    {
+      "pubkey": "FqT4vJGm3UTALw1522SamGS6oFxsdbLkFjFcvtGYja6a",
+      "amount": "349261136",
+      "percentage": 0.034926113665590154
+    },
+    {
+      "pubkey": "CaDpic2UkiyQWyyDXvhTNYS1v1ESCgXnZW8rZH8QfctH",
+      "amount": "103954529",
+      "percentage": 0.010395452998291229
+    },
+    {
+      "pubkey": "6Y6Yy7LJNs8HrmSVKVVKMyvoKX76zGFg4YieRMnzJSS9",
+      "amount": "402330071",
+      "percentage": 0.040233007156365255
+    },
+    {
+      "pubkey": "GpnYjfHWyHeoHnBy3SodUr98xBFfaPqdvUVnWecDMqiB",
+      "amount": "250206726",
+      "percentage": 0.025020672602884656
+    },
+    {
+      "pubkey": "6wdAtCtvBpJhfC1ihck2yezcgofz1gFEXndbPGeHaFEh",
+      "amount": "106485362",
+      "percentage": 0.010648536244569047
+    },
+    {
+      "pubkey": "A679Csi57bKQJ4PVLshoSucSXPNW4xVdvecxw5difRU1",
+      "amount": "6793309235",
+      "percentage": 0.6793309235398586
+    },
+    {
+      "pubkey": "J37ytkf2qssfTtTKueH4YapiX8WbNstVvV6fEkDMpy3Y",
+      "amount": "4592644448",
+      "percentage": 0.45926444486274753
+    },
+    {
+      "pubkey": "5nkKG5x9UrVLEH9RzzSJrJFfMoSFaoTTTCY64wdqafNC",
+      "amount": "226782786",
+      "percentage": 0.022678278687459436
+    },
+    {
+      "pubkey": "DGWt5Ga22n9XTziD1rfME2p9nJ8NgyMFXVmWNm2Jh9c1",
+      "amount": "2566391362",
+      "percentage": 0.2566391362769388
+    },
+    {
+      "pubkey": "H6n7K3gnJADXrzQJ8eLywzyZkpzvmNHt4oNrA4XMDJUB",
+      "amount": "9279900664",
+      "percentage": 0.9279900664338527
+    },
+    {
+      "pubkey": "4hfJo3KbxQYjr1X663oiYYCzEHQc2mUeyJ6ZTbsizCZT",
+      "amount": "908349810",
+      "percentage": 0.09083498102488097
+    },
+    {
+      "pubkey": "9jMytqFokZQoHbhWdzsv6yTpgDejQciZ9geza4gNFC7D",
+      "amount": "167773476",
+      "percentage": 0.016777347668391514
+    },
+    {
+      "pubkey": "C6q2rZjpRSzqX6m9bzWTfqTrPMYSiLgWvkroVGDstHXd",
+      "amount": "1317712989",
+      "percentage": 0.13177129898642592
+    },
+    {
+      "pubkey": "6MDZkMCRLwVSpNzbtcPEUdGR36bz4csfM96ts3f4YSTC",
+      "amount": "6678118773",
+      "percentage": 0.6678118773468708
+    },
+    {
+      "pubkey": "7AWGxwKVAAF3ChqQNSPA3cJDTJmPnvap8xEMDnPJutsn",
+      "amount": "4228506568",
+      "percentage": 0.4228506568505913
+    },
+    {
+      "pubkey": "BZC8hxz4MJdEctJ29HUUiijauRULhXaBJHneqD4d7CzZ",
+      "amount": "237134313",
+      "percentage": 0.023713431317869876
+    },
+    {
+      "pubkey": "454Km5QuJKUa2BJv49Lj549qKmZmHnb2PPbCuKGRzbk6",
+      "amount": "272065536",
+      "percentage": 0.027206553655817235
+    },
+    {
+      "pubkey": "EpSPfQZK2rh6cWYqgD86AQavN7r1cHoaA2UfuFTCVrkL",
+      "amount": "10382617",
+      "percentage": 0.0010382617749963338
+    },
+    {
+      "pubkey": "D65P1iXEsm5EkzLi8EPmyFKT2jMTWNCW2cW6qFDrjCjW",
+      "amount": "184780361",
+      "percentage": 0.018478036120277062
+    },
+    {
+      "pubkey": "56uYBa62AbUJkxLWuVNEs3wFSfZJf991xeNtVSBse2jd",
+      "amount": "165800645",
+      "percentage": 0.016580064583318184
+    },
+    {
+      "pubkey": "9pacyZxP15ZiZGJYtNevtAQKHMHM2gFsCjt3WrUkD9y5",
+      "amount": "458002826",
+      "percentage": 0.04580028268252734
+    },
+    {
+      "pubkey": "GYY7C4yTXpAEXYP6KddVED9sXb1FhT8DfL2AXtPstiJF",
+      "amount": "2713835349",
+      "percentage": 0.2713835349444076
+    },
+    {
+      "pubkey": "Cv9Cvq8gPEHt2QEvTrQoSNJdTuxK14pNb2ctriNzgNkq",
+      "amount": "194702823",
+      "percentage": 0.01947028239497157
+    },
+    {
+      "pubkey": "ErkKTdPqoQ7XmmZZ5CYsjru5RxgdabFrC2o8rhXQi5Ep",
+      "amount": "412860542",
+      "percentage": 0.0412860542133552
+    },
+    {
+      "pubkey": "2GaQWPM6myYssFVU9QA5qiGmwsG3pppwwdYs5m1Q7Yyk",
+      "amount": "1891691682",
+      "percentage": 0.18916916825530908
+    },
+    {
+      "pubkey": "b1Rj4r1t5ynbcGF8J85u15soK79SppJd6cFTSjpYchy",
+      "amount": "28080204963",
+      "percentage": 2.808020496328184
+    },
+    {
+      "pubkey": "9WrH58Jg8ex77mVL5gbkF68eggmsWSbWpodqDY7FmJ3x",
+      "amount": "1583136844",
+      "percentage": 0.15831368449143857
+    },
+    {
+      "pubkey": "F9uxBTHPsTSBnSfZQTbLPWVqd2vyRqwS9dQJc6gKp2Sh",
+      "amount": "721557352",
+      "percentage": 0.07215573528115392
+    },
+    {
+      "pubkey": "4T74LTmUhgVwRVE5CTM8LmfTYBfyH9Gvmrc2qdmUC2Sk",
+      "amount": "211600768",
+      "percentage": 0.0211600768085132
+    },
+    {
+      "pubkey": "DRFQxipbWSdfkkQ8rP5oCr82TE8aXGLANhoNsAXPKnha",
+      "amount": "264221676",
+      "percentage": 0.026422167654150026
+    },
+    {
+      "pubkey": "23cAsWZwZUr3jeYFjaaW6qPJX8N6ZYa2ceeGeWi6Jr7X",
+      "amount": "49982788",
+      "percentage": 0.004998278804509586
+    },
+    {
+      "pubkey": "5HAh9uZiWDjUhXfAYGwrkjJKLKP1nomyU82cLgDroTvc",
+      "amount": "61182663",
+      "percentage": 0.006118266321983925
+    },
+    {
+      "pubkey": "7fdLsnDjv5rKx9K3mvWPjLejPGxWwT2zRx8xfEqqx8vD",
+      "amount": "243421",
+      "percentage": 0.000024342131476669838
+    },
+    {
+      "pubkey": "GmjRA2VtNuW3QjNjtFE7ENuJdZEQ5P4DpcAscHQzBw84",
+      "amount": "57846188",
+      "percentage": 0.005784618850606937
+    },
+    {
+      "pubkey": "ExFyVBkAHm5SbFXyZYmxxf3R2UBMYHXY5XDnEcrYsfpk",
+      "amount": "86120970",
+      "percentage": 0.008612097076439581
+    },
+    {
+      "pubkey": "5DoTMq5ZLhfUUeJKdfwMGGTzaLUhog5UJHQpq2TqsRyu",
+      "amount": "953270059",
+      "percentage": 0.09532700590217034
+    },
+    {
+      "pubkey": "Cvz4QTNt4jkHtozRUSwQsJsQHdnYLPJKyiHp1mqZjJuN",
+      "amount": "9925891260",
+      "percentage": 0.9925891260680995
+    },
+    {
+      "pubkey": "21eU31u4eSei7BPb9Dmv9CL62svECg5dAkitA3UDzLzk",
+      "amount": "202415515",
+      "percentage": 0.020241551592647924
+    },
+    {
+      "pubkey": "AjvV6mCumrmdee3H3JuYnhVBfVepKNtVQBEk99WsaW2Z",
+      "amount": "1620153385",
+      "percentage": 0.16201533850437874
+    },
+    {
+      "pubkey": "3hiwgav3RDjYX4cnCHf627vLzMUa2d4JYmrz8awEdsaQ",
+      "amount": "304163042",
+      "percentage": 0.030416304256666644
+    },
+    {
+      "pubkey": "AwM81sEhNJUjrBkEdAQKZG86dAMabyMNXJvXvqZ3BiZD",
+      "amount": "207717971",
+      "percentage": 0.020771797110533646
+    },
+    {
+      "pubkey": "6fjsRy4edT8TJtQvsgLJfeApvqfuACcNHfAMhrSwuwoe",
+      "amount": "2100682758",
+      "percentage": 0.21006827585252277
+    },
+    {
+      "pubkey": "Dbr31jTBd7Xaq2GTHSieERukvh8cCapdUm1rmxFoxwqn",
+      "amount": "88851041",
+      "percentage": 0.008885104196098325
+    },
+    {
+      "pubkey": "B5Vr4T3wbtCJ23y1Pd45xfkMZHKhVkp35HS1Xc75qX1Z",
+      "amount": "23883532947",
+      "percentage": 2.3883532947046877
+    },
+    {
+      "pubkey": "AAuXkd4TLPYU3Jp2YCinsSFd6mrsSx4R5bNFgRhb6VRn",
+      "amount": "479867661",
+      "percentage": 0.04798676615227725
+    },
+    {
+      "pubkey": "3nz8EVNSVTmhvTW3dJjxTYUqe7P9f8S4YFo9AbzedmHM",
+      "amount": "398942114",
+      "percentage": 0.039894211467766325
+    },
+    {
+      "pubkey": "EoumaxRCiEfvAwTqQp12oBiUGgdZcxhQRSHwfzs9LMFj",
+      "amount": "2072160504",
+      "percentage": 0.20721605040800606
+    },
+    {
+      "pubkey": "8YyWryW1iYcUwxBGPebTvRaSbn7k4CJ1m38CH2f8tsKm",
+      "amount": "526033685",
+      "percentage": 0.05260336858136433
+    },
+    {
+      "pubkey": "7K8AQvtdntV6GAST8YV5JkVPxtekVi54uoAJWcegzSGL",
+      "amount": "120708126",
+      "percentage": 0.012070812670650407
+    },
+    {
+      "pubkey": "4b6teSz1P1t8erNDRzQTVYJiU1rbEKP6vgape9bgnpiJ",
+      "amount": "3458316306",
+      "percentage": 0.3458316306568792
+    },
+    {
+      "pubkey": "J4aLMwQL2e2rGPSF85VjARCo5qkS5aMHArzvSpQQzMQ8",
+      "amount": "376494491",
+      "percentage": 0.03764944918439437
+    },
+    {
+      "pubkey": "HzXDb1xqDnutsVosw42k7tkNxKWzjhJWjjfNvVFsd8jB",
+      "amount": "995961686",
+      "percentage": 0.09959616864315961
+    },
+    {
+      "pubkey": "y5cJM2us2hfmj9rsh4TZWn4796RJpzHGmvitG6NMaNe",
+      "amount": "599584319",
+      "percentage": 0.05995843192407286
+    },
+    {
+      "pubkey": "9QMJ5ZrnpiZxnmoxd6yijw1fKoeBAtemFyMudMW5mUXC",
+      "amount": "291347848",
+      "percentage": 0.029134784806092343
+    },
+    {
+      "pubkey": "EkrbViYohaMQqTZpam47Dgj3DZnMxxoDwKPwWNajWfYz",
+      "amount": "123481321",
+      "percentage": 0.012348132164223953
+    },
+    {
+      "pubkey": "HJW6asaTuw6Cfic1AT4eJPVE7DK1tWFJh8KoCfGtkRqo",
+      "amount": "83648",
+      "percentage": 0.000008364850294559844
+    },
+    {
+      "pubkey": "BjYYoFWUtUFqmvv493mFTFBxydJCeDZ5GAQEjVzsqXyv",
+      "amount": "513962608",
+      "percentage": 0.05139626084325404
+    },
+    {
+      "pubkey": "AsTg7uNnPpDhWwfrnJBifQ2kjrW4Sq6L2qGRjRHQ5VQw",
+      "amount": "18686047",
+      "percentage": 0.001868604719804692
+    },
+    {
+      "pubkey": "DECJAAGzmbHrVNXb3DDuodXvrMCtjekC2AGQptV9XFsJ",
+      "amount": "106017009",
+      "percentage": 0.010601700944017795
+    },
+    {
+      "pubkey": "EXWZMhsDdqqEfZju431gkbYTYfsziZrYhuKyxq6fuk47",
+      "amount": "96410314",
+      "percentage": 0.00964103141767823
+    },
+    {
+      "pubkey": "6pUcnigg1L8LTdeLZkV1r5atVcxj3XXsm7F6daJ7qrSq",
+      "amount": "122056313",
+      "percentage": 0.012205631308342867
+    },
+    {
+      "pubkey": "AzEWduw46HD7Ni16rth6zEeFYEZDv1ARZNmEZbBqKHwA",
+      "amount": "447737572",
+      "percentage": 0.04477375720640516
+    },
+    {
+      "pubkey": "8w7mQQ5m5PCjNxxw2V2BQmWPg5CzaGm2GuuDZedF27ET",
+      "amount": "249746627",
+      "percentage": 0.024974662717653036
+    },
+    {
+      "pubkey": "CzhP3ZKRSwxk6WBrk44RqCSUeyVzTLG6EUea72Zcgyxa",
+      "amount": "3865405334",
+      "percentage": 0.38654053346234346
+    },
+    {
+      "pubkey": "HyC9FDw915vjHiJWnDBe1gDndqxKUL29AAvr6Z53BAyY",
+      "amount": "767623091",
+      "percentage": 0.07676230919486099
+    },
+    {
+      "pubkey": "7WR6FvxySoNJNBWkbwrbt1HL4aqYJ4BtAUDm7GqTc6XG",
+      "amount": "2256553754",
+      "percentage": 0.22565537543216066
+    },
+    {
+      "pubkey": "2Dr3XjQdrwwY6rKe2JNw3vQpYEjRXwX7JcQZCunLUqFm",
+      "amount": "4114515774",
+      "percentage": 0.4114515774346128
+    },
+    {
+      "pubkey": "8bvVunBBh1279RnrvRyK2XpHGmzxkdYiNRfr3Ch7CTby",
+      "amount": "25180220",
+      "percentage": 0.0025180220811897697
+    },
+    {
+      "pubkey": "UfrZ3SbTZskaKYq7uxidyrvni9gsAjuoq3qzdmhkSpm",
+      "amount": "251325865",
+      "percentage": 0.025132586567072047
+    },
+    {
+      "pubkey": "5zrQSV4G6oBAdEkPxEcFDeoqUUD5kzYfT87p5VvsbG3Q",
+      "amount": "170394374",
+      "percentage": 0.01703943748727264
+    },
+    {
+      "pubkey": "A6NV2hC1fDuVf4fKRrKfwWHtoq7eeCvQmrKG96QEc7WT",
+      "amount": "419005634",
+      "percentage": 0.041900563485450036
+    },
+    {
+      "pubkey": "9NpCSdPfotymUK6HxRaXxCByCJs2jAyBdi2ZxwCFhZxs",
+      "amount": "54087380",
+      "percentage": 0.005408738029785322
+    },
+    {
+      "pubkey": "5k7Wu9mBzGSDWqeStzpowcUBqnW1Xh74cmGTi5XzUY38",
+      "amount": "53079386",
+      "percentage": 0.005307938695985487
+    },
+    {
+      "pubkey": "A6mfwxfDM6T1vp9VW3XV8DmGcBHffVwnXZAHF7SYzeK",
+      "amount": "157294343",
+      "percentage": 0.015729434389871573
+    },
+    {
+      "pubkey": "Ao9A3ZSQZUKet8GsmBpgK6DCihjz8QWsRQnhtHjb59pR",
+      "amount": "2132110988",
+      "percentage": 0.213211098827334
+    },
+    {
+      "pubkey": "5qzU4SrRrruhiPL4RWBoo6GC6QJChCdRjGcN7gh7wHgA",
+      "amount": "63109346",
+      "percentage": 0.006310934621504449
+    },
+    {
+      "pubkey": "B1zVAPjTHLgiU4crmUvn8F3Md7BdQXpkpdny4ydzAU4N",
+      "amount": "4839965140",
+      "percentage": 0.48399651408741223
+    },
+    {
+      "pubkey": "CJT4Nh5JbktWmd1khYfRMojZ1PmenVM5mZ2U2goht4Cs",
+      "amount": "738393852",
+      "percentage": 0.07383938520358926
+    },
+    {
+      "pubkey": "6pSy47zw325ijgGZma35EBfCToUBUEQQFzeVVmZyNxeo",
+      "amount": "2489184",
+      "percentage": 0.0002489184684940304
+    },
+    {
+      "pubkey": "4nyLs4yvSDirYNy1PXs5C1fE4n5GnTS5bftW5LBaadd2",
+      "amount": "138441304",
+      "percentage": 0.013844130451287427
+    },
+    {
+      "pubkey": "4DU2wbRsgVmGznh7MuCpaFnuH6eKg2AWMiARqGE82eAD",
+      "amount": "358634381",
+      "percentage": 0.03586343813649027
+    },
+    {
+      "pubkey": "AzZasLDboWKFj3n4zKq7LY5MCYnUipwZxXg5gpAmbi8E",
+      "amount": "5226679790",
+      "percentage": 0.522667979044404
+    },
+    {
+      "pubkey": "BDNJrU3G1TuXGarRxGSirnysYHya25xwQZ6acDE3dQtA",
+      "amount": "241824701",
+      "percentage": 0.02418247016409988
+    },
+    {
+      "pubkey": "5qb9P6VUGiqn5pYCWdx9hqqwAV9fXTLi94EP6wbPG5Xc",
+      "amount": "9492186727",
+      "percentage": 0.9492186727677175
+    },
+    {
+      "pubkey": "R7RMcKr3aV6vwjpEX5eKhCiJxozPdovqQvsf3gQ5SEw",
+      "amount": "78968622",
+      "percentage": 0.007896862268610416
+    },
+    {
+      "pubkey": "4gD7rU1Mgpvjx3RiHPxJ26LvsFGqaPLAVrrmzi9mzL61",
+      "amount": "4328852453",
+      "percentage": 0.4328852453300857
+    },
+    {
+      "pubkey": "6nN5rAgyEDeDoW4KY6MLzbyijG4Tp9ZfGQAKu1rqBmWw",
+      "amount": "159613905",
+      "percentage": 0.015961390533439562
+    },
+    {
+      "pubkey": "4Fjkv7iaDFUeDU22kYeNNqgHEFTeqZmctNKsh43gziEp",
+      "amount": "772788274",
+      "percentage": 0.07727882747040965
+    },
+    {
+      "pubkey": "7sX1ZfkvDEKnocmgCucdiMFL9o6b5YXdf51xFcWJUJZe",
+      "amount": "562537610",
+      "percentage": 0.056253761014128656
+    },
+    {
+      "pubkey": "6oDoZYnwMf6Hmiw7gBRotUPb7J7AEUt6VfSe2wS3Pf3p",
+      "amount": "185562",
+      "percentage": 0.000018556202710400162
+    },
+    {
+      "pubkey": "9uguDKNv5QH9dizFWN35hBupCMJrKJeYMDtA24Pu9wV7",
+      "amount": "72861937",
+      "percentage": 0.007286193704533453
+    },
+    {
+      "pubkey": "Bw85wcGDSwypKhCx4doQpxEiVvJ1dBkgFnai18GkLXDh",
+      "amount": "58660461",
+      "percentage": 0.005866046192211374
+    },
+    {
+      "pubkey": "GRrgG7XcHjAqUCZUpwhz7ahPgt8o7cJFthMrBeSXe5XA",
+      "amount": "145353062",
+      "percentage": 0.014535306287608659
+    },
+    {
+      "pubkey": "B22cgQ4fpdcAfbNSwQ3q7kNuKSDpGArVXi9Vgf6zEog9",
+      "amount": "6608600",
+      "percentage": 0.0006608600723029809
+    },
+    {
+      "pubkey": "54xoyBAAR44BHZM4VXUCvACbsL2U97Cb2HVYu2PcEmUu",
+      "amount": "9600650183",
+      "percentage": 0.960065018309653
+    },
+    {
+      "pubkey": "8B2mbTK5XtEDSdWUwkFRevAtC5rz8n6dLZRJmLJ1kwyR",
+      "amount": "3866618302",
+      "percentage": 0.3866618302088377
+    },
+    {
+      "pubkey": "GL2QccW2K59m4KJgkrbr66gk1hUB6Mwir2S6MAEeDW1K",
+      "amount": "24417766",
+      "percentage": 0.002441776647228492
+    },
+    {
+      "pubkey": "6vkf3TpL6Vm9QDxY2uPHN3N2G4DUpRh9ZnNYJeSZ1hAi",
+      "amount": "1539811789",
+      "percentage": 0.15398117894565833
+    },
+    {
+      "pubkey": "5RfY1N67YJaypsnQ8e4DqLqXFc6zTUabZJPQTC6sm19p",
+      "amount": "259981432",
+      "percentage": 0.025998143221420193
+    },
+    {
+      "pubkey": "uyb3Go2fGPsPWjc9diqw8UCtBNcwcGxrnqASzEv4AaD",
+      "amount": "4874848724",
+      "percentage": 0.48748487243937
+    },
+    {
+      "pubkey": "24YQDQr1k4FMLi8W4ZMPTNThuraFkh1HXGoqywjh5n3X",
+      "amount": "1727696249",
+      "percentage": 0.17276962497035964
+    },
+    {
+      "pubkey": "7DWHQdHp5svNzMwB6E5sStKHdHTw2jWwhK5pGHW8bjXg",
+      "amount": "484310208",
+      "percentage": 0.04843102088079043
+    },
+    {
+      "pubkey": "22u5uPsbu15ab1noknsTS3mEemB4Ujjg2HypycnMy4Xs",
+      "amount": "246297682",
+      "percentage": 0.024629768260662318
+    },
+    {
+      "pubkey": "4A6ab881B2oYGfPZ2T3dsjQUh7yAq9jH22UQmQrJ3Qhz",
+      "amount": "3472182",
+      "percentage": 0.0003472182939012836
+    },
+    {
+      "pubkey": "83qUwmKAbRGMWRP3WcHKBtQsawYh8w79fxtMQg9ofvpz",
+      "amount": "558913122",
+      "percentage": 0.05589131224338206
+    },
+    {
+      "pubkey": "CEHKtDkkVDz2f9NL2e8gqiqEJzsDEW1wnb4WoFs8vMoE",
+      "amount": "70658254",
+      "percentage": 0.007065825461555722
+    },
+    {
+      "pubkey": "5cG8MM7cbgHppwDWSTCTMv2a6rxRajAnPbyZyRxTESH4",
+      "amount": "474470760",
+      "percentage": 0.047447076086312504
+    },
+    {
+      "pubkey": "A4umqwz62wnVupTosGeshkxHJgyhAo3hniy7yUxZJPhu",
+      "amount": "535290522",
+      "percentage": 0.053529052209583705
+    },
+    {
+      "pubkey": "5opmqh7qEzT41Vw8gmvss1yrw7hcUs5kUD6yJdVP25Ac",
+      "amount": "3366560187",
+      "percentage": 0.3366560187716096
+    },
+    {
+      "pubkey": "65kjsGHnQa5bKS1U7BbMXqxD6yHp9eUd79AuEwS4jXED",
+      "amount": "27803509",
+      "percentage": 0.0027803509416309087
+    },
+    {
+      "pubkey": "A7udUhkc67Wob9A7d3ZkMZNVFSsqoQvAVR2N2fhUysWP",
+      "amount": "914022555",
+      "percentage": 0.09140225552428735
+    },
+    {
+      "pubkey": "E2VBGFDZ4sxTosHwBraxNkGH3BvQ2sUSm16ijZccqftJ",
+      "amount": "3225432",
+      "percentage": 0.00032254326897694955
+    },
+    {
+      "pubkey": "4auFUyw2puxWgjJoQ3TbrrbSbySYPV52ffDBuVcGAfEp",
+      "amount": "480419085",
+      "percentage": 0.04804190854811528
+    },
+    {
+      "pubkey": "DtKJjF41D6QvVmQpw3g2UyoTm6LrK7VssYm9EFdsCKiZ",
+      "amount": "1707985019",
+      "percentage": 0.17079850190312057
+    },
+    {
+      "pubkey": "PDXs6uoQrq4o4kput7TA5HfnpCQ3SLKFzvKg9abUcNc",
+      "amount": "334813793",
+      "percentage": 0.033481379365161185
+    },
+    {
+      "pubkey": "GqmuEjqdeCPKoneHqDZ9qtaTmKFw17neXgjSGaEn53AQ",
+      "amount": "450807756",
+      "percentage": 0.045080775608427666
+    },
+    {
+      "pubkey": "9tqLJEcaFDuPXvuNYYTeG6YBkcPdhM2d9uPGWerdocJ1",
+      "amount": "22640676",
+      "percentage": 0.0022640676968778213
+    },
+    {
+      "pubkey": "8NCTgvh5SRDNbf2MPb7EW1PNY4fJH2bpXpfJpuWLKZnP",
+      "amount": "581724649",
+      "percentage": 0.058172464994577476
+    },
+    {
+      "pubkey": "3av3GagvYh518YFDE6QxYuhXdUR5fA9DmTYqnYjrXdu2",
+      "amount": "15599314",
+      "percentage": 0.001559931476378494
+    },
+    {
+      "pubkey": "GhenLvrLcyuJqMx4iM6QsSmuUxvS3L95nLPAgUewhKzB",
+      "amount": "378609295",
+      "percentage": 0.03786092957339591
+    },
+    {
+      "pubkey": "A8P1FnWm988quPTEvCgvWwbHZ9sRKucYoGXvViwBcou3",
+      "amount": "59465229",
+      "percentage": 0.005946522982645974
+    },
+    {
+      "pubkey": "89vAYhea1WUrN4jaxREX3u7EYR1qJ8KPV9saX6uTTii9",
+      "amount": "22069391",
+      "percentage": 0.002206939170494214
+    },
+    {
+      "pubkey": "9DG1u5GmhB5cyzVDGPQN1ckmSANALB93xsoFQf54aadE",
+      "amount": "268300399",
+      "percentage": 0.02683003993636861
+    },
+    {
+      "pubkey": "5baUuYFKmiGfvzmreWwZGcoD14yqq3b4KwegDwnUVerg",
+      "amount": "29898452",
+      "percentage": 0.002989845200086866
+    },
+    {
+      "pubkey": "BrpaVkYUvpETVz3boKJ6MGYX9Xsd7hBwMHA6vtidGB31",
+      "amount": "171896438",
+      "percentage": 0.01718964382377605
+    },
+    {
+      "pubkey": "2Xavis51PmZWxtvH6LYgV5UC3UvXEdkosD3k7WNWUisU",
+      "amount": "196382981",
+      "percentage": 0.019638298129848568
+    },
+    {
+      "pubkey": "H5J3X89hBnmkV5XPYojpBFrwouH655uWtBHW1PkdUSXU",
+      "amount": "75497859",
+      "percentage": 0.007549785955769945
+    },
+    {
+      "pubkey": "AeHd4Y3YKfZ13UHfcj9bZTLtHYjNDwWoa5w72zhvsLkN",
+      "amount": "1947060173",
+      "percentage": 0.19470601732035464
+    },
+    {
+      "pubkey": "Ta7F8sdvdbQ3a93raEwa9Pm1bX6npNebrbZSP4QxCKB",
+      "amount": "870297538",
+      "percentage": 0.08702975383346137
+    },
+    {
+      "pubkey": "ABpoSDJXAmZBnshTgB8uQvPnKoFTUqwe6w9argc1iCcB",
+      "amount": "33991108",
+      "percentage": 0.003399110821868328
+    },
+    {
+      "pubkey": "3QfkNobJXC54c6u9DURaoCeNwPoyAApowftCwhVdqX74",
+      "amount": "72291750",
+      "percentage": 0.007229175073095219
+    },
+    {
+      "pubkey": "G15EABmJE7XTYTwo3Kx7cg7asc5qe3b42sFbZbDVvHca",
+      "amount": "2714501",
+      "percentage": 0.0002714501409071385
+    },
+    {
+      "pubkey": "BM5vNpBEVEgHknqp4rwddGHJCqyZjNRy2WZ9JYJWWAnA",
+      "amount": "230177",
+      "percentage": 0.000023017777061986453
+    },
+    {
+      "pubkey": "5fjXCuPNVU8FUuyrPsc5dfYyX2Ki31xWGmp278ZFPwRB",
+      "amount": "559712395",
+      "percentage": 0.0559712395590898
+    },
+    {
+      "pubkey": "Bmdcqof3UnMRRYTZuKUwfTmmUsABxhQC6v3tgKK1duzW",
+      "amount": "1195223",
+      "percentage": 0.00011952238431051074
+    },
+    {
+      "pubkey": "9YWaiy7XJjPwr4yBz2NsXaWRvcx5yuU6UQEeaBnx2E7a",
+      "amount": "2656866",
+      "percentage": 0.0002656866724216751
+    },
+    {
+      "pubkey": "AFCryxi8VgVeDcV8iVX49gsvW9vtiNNEDqwk6dDYVtkj",
+      "amount": "161514582",
+      "percentage": 0.016151458253303875
+    },
+    {
+      "pubkey": "Huu3ZdSPpfVAhBm8rDTCBJMHxy6PNYWjWbzR8pyyVnM5",
+      "amount": "14918904",
+      "percentage": 0.001491890462134588
+    },
+    {
+      "pubkey": "J1ekBJffrhumo67tx7UtBBQAuNWgoN13FCxDQCKjjjvG",
+      "amount": "184985110",
+      "percentage": 0.018498511072690627
+    },
+    {
+      "pubkey": "BHThfaXA528uUby76QEiuPs3ZJUpzEJeHSKMW54YKjq3",
+      "amount": "314977691",
+      "percentage": 0.03149776918394671
+    },
+    {
+      "pubkey": "6B3hNXhUTs57we7afycUPjfWmcAtgZj3SkVZanf77t1z",
+      "amount": "114318609",
+      "percentage": 0.01143186099796816
+    },
+    {
+      "pubkey": "HVbnNcmnR8V9VWdr51PbtP65pb2EtaAWc8s8LmNRco2a",
+      "amount": "6641497",
+      "percentage": 0.000664149701288212
+    },
+    {
+      "pubkey": "9Dop9MzNXsLBiKVquSeYdV8hfWEyEMzdDwSkYkCbj4fw",
+      "amount": "36917377",
+      "percentage": 0.0036917377989642256
+    },
+    {
+      "pubkey": "FDecxu2PQXkBhn8CH9RazBsZNgRm5Yz9MLDkpm33LpSw",
+      "amount": "1603764679",
+      "percentage": 0.160376467964648
+    },
+    {
+      "pubkey": "CeHxMYRZEDqp9cMfHwHsSrJLxV5So84JjRA1W5MhENC4",
+      "amount": "395990159",
+      "percentage": 0.03959901599712966
+    },
+    {
+      "pubkey": "FSVPw5wJKYtjCwPcdhDF5KvCjjBfd78VCELjpQTa7ibB",
+      "amount": "1325633808",
+      "percentage": 0.13256338084288083
+    },
+    {
+      "pubkey": "8HxXyNE9eToTzBJPGGBFjfHo9fidD2CguESXGU1ByByh",
+      "amount": "2533168516",
+      "percentage": 0.25331685164772116
+    },
+    {
+      "pubkey": "3MbbYcLwJXaqw2Quj29GYQWpiAdpRfe9a49DFWyiU9tG",
+      "amount": "1670808224",
+      "percentage": 0.1670808224798251
+    },
+    {
+      "pubkey": "2E9PedissS66BSmWNvW8uUNxQx55aCaP9ieU1FpapaXh",
+      "amount": "1383228329",
+      "percentage": 0.13832283294884434
+    },
+    {
+      "pubkey": "ENidMNVkisjbApSBrYnJqZUuRM7cTpANu8VxoMQPr8dk",
+      "amount": "54016670",
+      "percentage": 0.005401667052095781
+    },
+    {
+      "pubkey": "G7HZ3w4MatVJWxwfUKhH5fg6hvr85bEGF9WhkqXwE8dt",
+      "amount": "636419412",
+      "percentage": 0.06364194123873312
+    },
+    {
+      "pubkey": "5e8GDJFQTZMbRVHmCbgGH4mdZVfngK83KY47eTdkZYrA",
+      "amount": "3272895723",
+      "percentage": 0.3272895723083168
+    },
+    {
+      "pubkey": "79VMZmR4zfij8hk6THX73beXhhLfopF4pbKResnM25SJ",
+      "amount": "33073212",
+      "percentage": 0.0033073212692833467
+    },
+    {
+      "pubkey": "7L8ofUia8gaqu1T5iiFhnyjkMQ7TK1PcDYNy77gFEMK9",
+      "amount": "240282578",
+      "percentage": 0.024028257876084102
+    },
+    {
+      "pubkey": "HfKnmJvY28rPtmww77cmrffwmbg8QQLJNbtHuPzkoTCG",
+      "amount": "1450334667",
+      "percentage": 0.14503346671681255
+    },
+    {
+      "pubkey": "ASx9MajLPfDNDkG6uYPmrsr7nSyTy7VfJZwmPw219xS8",
+      "amount": "3386176",
+      "percentage": 0.000338617610658258
+    },
+    {
+      "pubkey": "C4JWRGv7hoSsf6hEnNajMhgCSrsunXa3jtc3NQZ4kGco",
+      "amount": "303879714",
+      "percentage": 0.03038797141458243
+    },
+    {
+      "pubkey": "8vzzEe48C93CD428UUhajcrcBdMp5CU9LY6mkmMiDHpN",
+      "amount": "6125097576",
+      "percentage": 0.6125097576283504
+    },
+    {
+      "pubkey": "FZWhi6kJqEqzcEsGFfLqFoPvM4A8NMLexpF2RfcNkJ3x",
+      "amount": "1856144301",
+      "percentage": 0.18561443014773416
+    },
+    {
+      "pubkey": "7itAKuuuWZhpqqYrRcw3osbksB5Ww8vCp3feFWFFHYCJ",
+      "amount": "1389313589",
+      "percentage": 0.13893135896256298
+    },
+    {
+      "pubkey": "5cavExSNQDCuA533BADVr5VuSM1kzfgBfjq41sy4THUJ",
+      "amount": "581020319",
+      "percentage": 0.05810203196042771
+    },
+    {
+      "pubkey": "127fFEvPQ4FtaLQGmNC9MNQBPA6UJ9HftndJNxJNDVJE",
+      "amount": "150994074",
+      "percentage": 0.015099407470198271
+    },
+    {
+      "pubkey": "HTWioQvBxoozEuHfkXos33cYHcRweo2bNm5DDg1czi1p",
+      "amount": "540952213",
+      "percentage": 0.054095221342313274
+    },
+    {
+      "pubkey": "FrcjCZ4rnZe8RbpnipSMnt2uag2MyZyKySqR6c2daB85",
+      "amount": "249923429",
+      "percentage": 0.02499234296941199
+    },
+    {
+      "pubkey": "Gd7kUw2A1oggw8xM4ft6cdf6R8d7yMvcfNivA6zScAuH",
+      "amount": "65820005",
+      "percentage": 0.006582000531179224
+    },
+    {
+      "pubkey": "HYwzcfXx5z5bqsjCeAYfPRK3cBPj5wrqFzPF6mDR4ZKe",
+      "amount": "319298753",
+      "percentage": 0.03192987530700236
+    },
+    {
+      "pubkey": "DZqjDuGmkZjJ3ajTifKuau5tuUv5JbKhkZ3ejeyYLAqr",
+      "amount": "1341168349",
+      "percentage": 0.13411683493470536
+    },
+    {
+      "pubkey": "C5sVijNZnJHVUuw45DXqeDL9PoszJkdmetND9LiXjFrd",
+      "amount": "46534982",
+      "percentage": 0.004653498253228667
+    },
+    {
+      "pubkey": "2V8QPVPAjKt75J5ZC62utAvviwBwP3ALmKy3GozRRjFE",
+      "amount": "667894383",
+      "percentage": 0.06678943835841068
+    },
+    {
+      "pubkey": "HprSNNv4QTpT29rx6TXggQoRYtW6kwEq57h1JkJXiM2f",
+      "amount": "2748472551",
+      "percentage": 0.27484725517047376
+    },
+    {
+      "pubkey": "3mojXAFzJhApZoZazgBq5HaAajg9S4i3Bp2jqdEz6gGQ",
+      "amount": "479999663",
+      "percentage": 0.04799996638016824
+    },
+    {
+      "pubkey": "3jd94wed5Luxo29t432BGXGcoDeUvoRsmuBr9Qf89nNJ",
+      "amount": "116769804",
+      "percentage": 0.011676980470394388
+    },
+    {
+      "pubkey": "CK3V64tzZCtTLFuhx9z8gbP38LHwVsTfhJaR33JrJmeN",
+      "amount": "190611780",
+      "percentage": 0.019061178005920183
+    },
+    {
+      "pubkey": "AdK6xFokPaiNoxXXhnBB6SygDhm9BuTLoJQMso4sMcN3",
+      "amount": "2360685696",
+      "percentage": 0.2360685696458302
+    },
+    {
+      "pubkey": "6ztwr4KiZj8oeDG75XKQxs9Bon6zKKehmQUBGLoja89W",
+      "amount": "8113535",
+      "percentage": 0.0008113535795395519
+    },
+    {
+      "pubkey": "9tvrMp7fRr2U9uJt2sUsfp3UQRPSXATNab9eouzHEJ6t",
+      "amount": "73254895",
+      "percentage": 0.007325489570109776
+    },
+    {
+      "pubkey": "6wyUQUfJmLRpXi3eXiQxkGACpYHkzApAB9XA5wmv7oVj",
+      "amount": "156556435",
+      "percentage": 0.015655643543741264
+    },
+    {
+      "pubkey": "57hFYScJ82SoZnBU69Y53PoTg9793MAMfcfVno5Zxymj",
+      "amount": "2093396065",
+      "percentage": 0.20933960658815998
+    },
+    {
+      "pubkey": "DfrE87QGgPsFMxhVv9zmGZLC27HtHXnwz3KpSCjTnZk7",
+      "amount": "906585651",
+      "percentage": 0.09065856514498244
+    },
+    {
+      "pubkey": "DqJqsKVB5eYaSZkG8BCmtbRgcaUXAYsiCADuAhN2EmKT",
+      "amount": "86229927",
+      "percentage": 0.008622992719089274
+    },
+    {
+      "pubkey": "3LsQcHTiRZHqg2tACoKusaC3hThYBkNiVwX3qSuQrZb8",
+      "amount": "70416606",
+      "percentage": 0.0070416606058668445
+    },
+    {
+      "pubkey": "Aw2WtRzzYxKma4Crbp93yBnz6vVqaweA6UwvdQxqVq1b",
+      "amount": "4120655484",
+      "percentage": 0.4120655484621211
+    }
+  ]
+}
