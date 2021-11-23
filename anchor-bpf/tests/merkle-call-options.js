@@ -10,6 +10,8 @@ describe('merkle-call-options', () => {
   anchor.setProvider(anchor.Provider.env());
   const program = anchor.workspace.MerkleCallOptions;
 
+  let ownerKeypair;
+
   let userKeypair;
   let userRewardAccount;
   let userPayAccount;
@@ -24,6 +26,8 @@ describe('merkle-call-options', () => {
   let priceVault;
 
   it('Setup', async () => {
+    ownerKeypair = new anchor.web3.Keypair();
+
     userKeypair = anchor.web3.Keypair.fromSecretKey(new Uint8Array(JSON.parse(fs.readFileSync("tests/data/DrWW4z9awhp6gg1gk3jPHqG68toDwxWjhiUmiZZ62gMh.json"))));
     await program.provider.connection.requestAirdrop(userKeypair.publicKey, 10_000_000_000);
     
@@ -91,6 +95,7 @@ describe('merkle-call-options', () => {
       rewardMint, 
       rewardVault, 
       priceMint,
+      ownerKeypair.publicKey,
       "012345678901234567890123456789012345678901234567890123456789", 
       "YBKqO7sk+KJJC1CirbhD0czdpeDTa8aqx7BD9HtIEC4=",
       900_000,
@@ -105,6 +110,7 @@ describe('merkle-call-options', () => {
       rewardMint, 
       rewardVault, 
       priceMint,
+      ownerKeypair.publicKey,
       "123456789012345678901234567890123456789012345678901234567890", 
       "q8LYvfEDW9gdyeWBZk3ABsUjVQFM/V4BhAsSHJMDstA=",
       1_100_000,
@@ -363,6 +369,7 @@ describe('merkle-call-options', () => {
       await closeOption(
         1, 
         program, 
+        ownerKeypair,
         claimsMask1, 
         rewardMint, 
         distRewardsVault1, 
@@ -379,11 +386,31 @@ describe('merkle-call-options', () => {
     await wait(8); //let expire
   });
 
+  it('Close distributor 1 with wrong owner fails', async () => {
+
+    try {
+      await closeOption(
+        1, 
+        program, 
+        program.wallet.payer,
+        claimsMask1, 
+        rewardMint, 
+        distRewardsVault1, 
+        distPriceVault1, 
+        rewardVault, 
+        priceVault, 
+      );
+      assert(false, 'should not have allowed closing by wrong owner');
+    } catch { /*expected*/ }
+
+  });
+
   it('Close distributor 1', async () => {
 
     await closeOption(
       1, 
       program, 
+      ownerKeypair,
       claimsMask1, 
       rewardMint, 
       distRewardsVault1, 
@@ -399,6 +426,7 @@ describe('merkle-call-options', () => {
     await closeOption(
       2, 
       program, 
+      ownerKeypair,
       claimsMask2, 
       rewardMint, 
       distRewardsVault2, 
@@ -411,7 +439,7 @@ describe('merkle-call-options', () => {
 
 });
 
-async function closeOption(index, program, claimsAcct, rewardMint, rewardVault, priceVault, userRewardAccount, userPriceAccount) {
+async function closeOption(index, program, owner, claimsAcct, rewardMint, rewardVault, priceVault, userRewardAccount, userPriceAccount) {
   const buff = new ArrayBuffer(2);
   const view = new DataView(buff);
   view.setInt16(0, index, true);
@@ -428,16 +456,20 @@ async function closeOption(index, program, claimsAcct, rewardMint, rewardVault, 
   await program.rpc.close(
     {
       accounts: {
+        owner: owner.publicKey,
         distributor: distAddress,
         claimsBitmaskAccount: claimsAcct,
         refundee: program.provider.wallet.publicKey,
         rewardVault: rewardVault,
         priceVault: priceVault,
-        writerRewardTokenAccount: userRewardAccount,
-        writerPriceTokenAccount: userPriceAccount,
+        ownerRewardTokenAccount: userRewardAccount,
+        ownerPriceTokenAccount: userPriceAccount,
         writer: program.provider.wallet.publicKey,
         tokenProgram: TOKEN_PROGRAM_ID,
       },
+      signers: [
+        owner,
+      ]
     }
   );
 }
@@ -480,7 +512,7 @@ async function exerciseOption(index, program, rewardMint, claimsAcct, rewardVaul
   );
 }
 
-async function createDistributor(index, program, rewardMint, rewardVault, priceMint, dataLocation, merkle, price, maxClaim, nodeCount, expiry) {
+async function createDistributor(index, program, rewardMint, rewardVault, priceMint, owner, dataLocation, merkle, price, maxClaim, nodeCount, expiry) {
   const buff = new ArrayBuffer(2);
   const view = new DataView(buff);
   view.setInt16(0, index, true);
@@ -530,6 +562,7 @@ async function createDistributor(index, program, rewardMint, rewardVault, priceM
         rewardMint: rewardMint,
         priceMint: priceMint,
         distributor: distAddress,
+        owner: owner,
         payer: program.provider.wallet.publicKey,
         fromAuthority: program.provider.wallet.publicKey,
         from: rewardVault,

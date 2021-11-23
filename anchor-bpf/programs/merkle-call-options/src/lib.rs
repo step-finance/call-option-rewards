@@ -31,6 +31,7 @@ pub mod merkle_call_options {
         distributor.index = index;
         distributor.bump = bump;
 
+        distributor.owner = ctx.accounts.owner.key();
         distributor.decimals_reward = ctx.accounts.reward_mint.decimals;
 
         distributor.strike_price = strike_price;
@@ -170,7 +171,7 @@ pub mod merkle_call_options {
                 ctx.accounts.token_program.to_account_info(),
                 Transfer {
                     from: ctx.accounts.reward_vault.to_account_info(),
-                    to: ctx.accounts.writer_reward_token_account.to_account_info(),
+                    to: ctx.accounts.owner_reward_token_account.to_account_info(),
                     authority: distributor.to_account_info(),
                 }
             ).with_signer(signer),
@@ -200,7 +201,7 @@ pub mod merkle_call_options {
                 ctx.accounts.token_program.to_account_info(),
                 Transfer {
                     from: ctx.accounts.price_vault.to_account_info(),
-                    to: ctx.accounts.writer_price_token_account.to_account_info(),
+                    to: ctx.accounts.owner_price_token_account.to_account_info(),
                     authority: distributor.to_account_info(),
                 }
             ).with_signer(signer),
@@ -242,8 +243,11 @@ pub mod merkle_call_options {
 #[derive(Accounts)]
 #[instruction(index: u16, bump: u8, data_location: String)]
 pub struct NewDistributor<'info> {
-    /// Writer of the call options.
+    /// Writer of the call options. Required to sign to ensure derivation of distributor is secure.
     pub writer: Signer<'info>,
+
+    /// Owner of the distribution, allowed to close.
+    pub owner: UncheckedAccount<'info>,
 
     /// The mint to distribute.
     pub reward_mint: Box<Account<'info, Mint>>,
@@ -373,11 +377,16 @@ pub struct Exercise<'info> {
 
 #[derive(Accounts)]
 pub struct Close<'info> {
+    /// Writer of the distribution.
+    pub writer: UncheckedAccount<'info>,
+
     #[account(
         mut,
         close = refundee,
         has_one = claims_bitmask_account 
             @ ErrorCode::WrongClaimsBitmask,
+        has_one = owner
+            @ ErrorCode::WrongOwner,
         constraint = distributor.expiry <= clock::Clock::get().unwrap().unix_timestamp.try_into().unwrap() 
             @ ErrorCode::OptionNotExpired,
     )]
@@ -414,14 +423,14 @@ pub struct Close<'info> {
 
     /// Account to send the unused reward tokens to.
     #[account(mut)]
-    pub writer_reward_token_account: Box<Account<'info, TokenAccount>>,
+    pub owner_reward_token_account: Box<Account<'info, TokenAccount>>,
 
     /// Account to send the paid price tokens to.
     #[account(mut)]
-    pub writer_price_token_account: Box<Account<'info, TokenAccount>>,
+    pub owner_price_token_account: Box<Account<'info, TokenAccount>>,
 
-    /// Writer of the distribution.
-    pub writer: Signer<'info>,
+    /// Owner of the distribution.
+    pub owner: Signer<'info>,
 
     pub token_program: Program<'info, Token>,
 }
@@ -430,7 +439,7 @@ pub struct Close<'info> {
 #[derive(Default)]
 #[repr(C)]
 pub struct CallOptionDistributor {
-    /// The pubkey of the underwriter of the options. Allowed to reclaim after expiry.
+    /// The pubkey of the underwriter of the options.
     pub writer: Pubkey,
     /// [Mint] of the token to be distributed.
     pub reward_mint: Pubkey,
@@ -440,6 +449,8 @@ pub struct CallOptionDistributor {
     /// Bump seed for this account
     pub bump: u8,
 
+    /// The pubkey of the owner of the options (allowed to close).
+    pub owner: Pubkey,
     /// we store the decimals of the mint so our maths during claim doesn't need the mint
     pub decimals_reward: u8,
 
@@ -510,4 +521,6 @@ pub enum ErrorCode {
     OptionExpired,
     #[msg("Option not expired.")]
     OptionNotExpired,
+    #[msg("Incorrect owner.")]
+    WrongOwner,
 }
