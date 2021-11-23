@@ -57,3 +57,19 @@ export class PoolFeePayer {
         this.percentage = percentage;
     }
 }
+
+export class RewardPayout {
+    pubkey: string;
+    feesPaid: string;
+    percentage: number; 
+
+    weight = -1; 
+    weightedPercentage = -1; 
+    amount = ''; 
+
+    constructor(pubkey: string, feesPaid: string, percentage: number) {
+        this.pubkey = pubkey;
+        this.feesPaid = feesPaid;
+        this.percentage = percentage;
+    }
+}

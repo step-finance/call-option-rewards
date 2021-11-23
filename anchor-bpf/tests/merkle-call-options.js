@@ -223,6 +223,21 @@ describe('merkle-call-options', () => {
       (parseInt(userData.amount) / 2).toString(), 
       userData.proof.map(a=>Buffer.from(a, "base64")),
     );
+
+    let dist = await program.account.callOptionDistributor.fetch(distAddress1);
+    assert.equal(dist.writer.toString(), program.provider.wallet.publicKey.toString());
+    assert.equal(dist.rewardMint.toString(), rewardMint.toString());
+    assert.equal(dist.index, 1);
+    assert.equal(dist.decimalsReward, 9);
+    assert.equal(dist.strikePrice.toString(), new anchor.BN(900_000).toString());
+    assert.equal(dist.expiry.toString(), new anchor.BN(expiry).toString());
+    assert.equal(dist.dataLocation, "012345678901234567890123456789012345678901234567890123456789");
+    assert.equal(Buffer.from(dist.merkleRoot).toString("base64"), "YBKqO7sk+KJJC1CirbhD0czdpeDTa8aqx7BD9HtIEC4=");
+    assert.equal(dist.maxTotalAmountClaim.toString(), new anchor.BN(1_000_000_000_000).toString());
+    assert.equal(dist.totalAmountClaimed.toString(), new anchor.BN(0).toString());
+    assert.equal(dist.maxNumNodes, 1);
+    assert.equal(dist.numNodesClaimed.toString(), new anchor.BN(0).toString());
+    assert.equal(dist.claimsBitmaskAccount.toString(), claimsMask1.toString());
   });
 
   it('Second claim of same node fails', async () => {

@@ -48,11 +48,10 @@ import BN from "https://esm.sh/v54/bn.js@5.2.0/es2021/bn.development.js";
 import { web3 } from "./anchor-esm-fix/anchor-dev.js";;
 
 import { parseBalanceMap } from "./utils/parse-balance-map.ts";
-import { BalanceTree } from "./utils/balance-tree.ts"; //for test verification
 
 import { getPools } from "./stepSwap.ts";
 import { getTokensAndPrice, getPayerSums } from "./payerParsing.ts";
-import { PayerAmount, PoolFeesPaid, PoolFeePayer } from "./classes.ts";
+import { PayerAmount, PoolFeesPaid, PoolFeePayer, RewardPayout } from "./classes.ts";
 import { asyncFilter, asyncMap, asyncUntil, asyncToArray } from "./asycIter.ts";
 import { createDistributor, CreateDistributorOptions, CreateDistributorData } from "./anchor-wrapper/index.ts";
 import { uploadToArweave, testArkbInstalled } from "./arweave/index.ts";
@@ -101,9 +100,14 @@ console.log('Using start date', new Date(start * 1000).toUTCString());
 console.log('Using end date', new Date(end * 1000).toUTCString());
 console.log('Using expiry date', new Date(expiry * 1000).toUTCString());
 
-const amountString = args['amt'] ?? 1_000_000_000;
-const amountToWriteFor = new BN(amountString, 10);
-console.log('Writing for amount', amountString);
+const amountBaseString = args['amt-base'] ?? 0;
+const amountMultString = args['amt-mult'] ?? 2;
+const amountMinString = args['amt-min'] ?? 10_000_000_000;
+const amountMaxString = args['amt-max'] ?? 100_000_000_000_000;
+console.log('Writing for amount base', amountBaseString);
+console.log('Writing for amount mult', amountMultString);
+console.log('Writing for amount min', amountMinString);
+console.log('Writing for amount max', amountMaxString);
 
 const strikePriceString = args['price'] ?? 1_000_000;
 const strikePrice = new BN(strikePriceString, 10);
@@ -233,21 +237,39 @@ const grandTotalBN = poolFeesPaid.reduce(
     new BN(0, 10));
 const grandTotal = parseInt(grandTotalBN.toString());
 
+let amountToWriteFor = 
+    new BN(amountBaseString, 10).add(new BN(amountMultString, 10).mul(new BN(grandTotal, 10)));
+console.log('Amount to write base + mult:', amountToWriteFor.toString());
+if (amountToWriteFor.lt(new BN(amountMinString, 10))) {
+    amountToWriteFor = new BN(amountMinString, 10);
+    console.log('Amount to write < min. Setting to:', amountToWriteFor.toString());
+}
+if (amountToWriteFor.gt(new BN(amountMaxString, 10))) {
+    amountToWriteFor = new BN(amountMaxString, 10);
+    console.log('Amount to write > max. Setting to:', amountToWriteFor.toString());
+}
+
 const finalPayerTotals = [];
 for (const [_k, p] of payerTotals) {
-    const item = new PoolFeePayer (
+    const item = new RewardPayout (
         p.pubkey,
-        new BN(p.amount, 10) 
-            .mul(amountToWriteFor)
-            .div(grandTotalBN)
-            .toString(),
-        parseInt(p.amount) / grandTotal * 100
+        p.amount,
+        parseInt(p.amount) / grandTotal * 100,
     );
     finalPayerTotals.push(item);
 }
 
+for (const p of finalPayerTotals) {
+    p.weight = Math.pow(p.percentage / 100, 2/3) + (4/finalPayerTotals.length);
+}
+const totalWeight = finalPayerTotals.reduce((p,n)=>p+n.weight, 0);
+for (const p of finalPayerTotals) {
+    p.weightedPercentage = p.weight / totalWeight;
+    p.amount = Math.floor(p.weightedPercentage * amountToWriteFor.toNumber()).toString();
+}
+
 //sanity check
-const amountWriting = parseInt(finalPayerTotals.reduce((prev: any, cur: any) => prev + parseInt(cur.amount), 0).toString());
+const amountWriting = parseInt(finalPayerTotals.reduce((prev, cur) => prev + parseInt(cur.amount), 0).toString());
 console.log('Amount requested to write for:', amountToWriteFor.toString());
 console.log('Amount written:', amountWriting);
 if (amountWriting > parseInt(amountToWriteFor.toString()))

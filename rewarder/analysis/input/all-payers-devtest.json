@@ -1,0 +1,29 @@
+{
+  "grandTotal": 414555971,
+  "payerTotals": [
+    {
+      "pubkey": "2RGzHwxXuf3oZ81Jdt2Lm9eDuWEZonHXnrXvpiWqvPKA",
+      "feesPaid": "6313778",
+      "percentage": 1.5230218454626963,
+      "weight": 1.3947760988812898,
+      "weightedPercentage": 0.26407492567413626,
+      "amount": "2640749256"
+    },
+    {
+      "pubkey": "4CEWqVTmpDxML9s5nEin8c9cDv6rDEiYMp2trcmDuEpZ",
+      "feesPaid": "116623444",
+      "percentage": 28.13213465932686,
+      "weight": 1.7626737680764646,
+      "weightedPercentage": 0.33372951018151853,
+      "amount": "3337295101"
+    },
+    {
+      "pubkey": "5u43UPNLGQvQgnC9XdLhJZgLbmB52eiZkUeEWXU7Wqzu",
+      "feesPaid": "291618749",
+      "percentage": 70.34484349521044,
+      "weight": 2.124293923448225,
+      "weightedPercentage": 0.4021955641443452,
+      "amount": "4021955641"
+    }
+  ]
+}
