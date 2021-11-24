@@ -8,6 +8,10 @@ The on-chain BPF program for call options is used to create call options batches
 
 https://dana-hanna.gitbook.io/smart-contracts
 
+## Accounts Overview
+
+![accounts overview](https://github.com/step-finance/call-option-rewards/blob/main/account-design.png?raw=true)
+
 ## Note
 
 - **This code is unaudited. Use at your own risk.**
