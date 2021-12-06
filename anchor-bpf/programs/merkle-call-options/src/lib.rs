@@ -47,15 +47,32 @@ pub mod merkle_call_options {
 
         distributor.claims_bitmask_account = ctx.accounts.claims_bitmask_account.key();
 
-        //xfer max_total_claim to vault
+        //create ix to xfer max_total_claim to vault
         let cpi_accounts = Transfer {
             from: ctx.accounts.from.to_account_info(),
             to: ctx.accounts.reward_vault.to_account_info(),
             authority: ctx.accounts.from_authority.to_account_info(),
         };
         let cpi_program = ctx.accounts.token_program.to_account_info();
-        let cpi_ctx = CpiContext::new(cpi_program, cpi_accounts);
-        token::transfer(cpi_ctx, max_total_amount_claim)?;
+
+        //from authority might be a pda for security reasons
+        let seeds = &[
+            ctx.accounts.writer.key.as_ref(),
+        ];
+        let (writer_auth, nonce) = Pubkey::find_program_address(seeds, &ID);
+        //if using a pda, sign for the pda
+        if ctx.accounts.from_authority.key() == writer_auth.key() {
+            let seeds = &[
+                ctx.accounts.writer.key.as_ref(),
+                &[nonce],
+            ];
+            let signer = &[&seeds[..]];
+            let cpi_ctx = CpiContext::new_with_signer(cpi_program, cpi_accounts, signer);
+            token::transfer(cpi_ctx, max_total_amount_claim)?;
+        } else {
+            let cpi_ctx = CpiContext::new(cpi_program, cpi_accounts);
+            token::transfer(cpi_ctx, max_total_amount_claim)?;
+        }
 
         Ok(())
     }
