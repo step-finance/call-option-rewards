@@ -30,6 +30,11 @@
     "@ethersproject/logger" "^5.5.0"
     "hash.js" "1.1.7"
 
+"@project-serum/anchor-cli@^0.18.2":
+  "integrity" "sha512-zZvLSa0DvsjsKSK8cU7ENqPB1tQ8WCT6dTY2IaJjWdG0UvXUTri8phnYyF5+Zti+frTdKyggOtI+i1QApOWhRQ=="
+  "resolved" "https://registry.npmjs.org/@project-serum/anchor-cli/-/anchor-cli-0.18.2.tgz"
+  "version" "0.18.2"
+
 "@project-serum/anchor@^0.11.1":
   "integrity" "sha512-oIdm4vTJkUy6GmE6JgqDAuQPKI7XM4TPJkjtoIzp69RZe0iAD9JP2XHx7lV1jLdYXeYHqDXfBt3zcq7W91K6PA=="
   "resolved" "https://registry.npmjs.org/@project-serum/anchor/-/anchor-0.11.1.tgz"
@@ -50,10 +55,10 @@
     "snake-case" "^3.0.4"
     "toml" "^3.0.0"
 
-"@project-serum/anchor@^0.16.2":
-  "integrity" "sha512-wOJwObd4wOZ5tRRMCKYjeMNsEmf7vuC71KQRnw6wthhErL8c/818n4gYIZCf/1ZPl/8WPruIlmtQHDSEyy2+0Q=="
-  "resolved" "https://registry.npmjs.org/@project-serum/anchor/-/anchor-0.16.2.tgz"
-  "version" "0.16.2"
+"@project-serum/anchor@^0.18.2":
+  "integrity" "sha512-uyjiN/3Ipp+4hrZRm/hG18HzGLZyvP790LXrCsGO3IWxSl28YRhiGEpKnZycfMW94R7nxdUoE3wY67V+ZHSQBQ=="
+  "resolved" "https://registry.npmjs.org/@project-serum/anchor/-/anchor-0.18.2.tgz"
+  "version" "0.18.2"
   dependencies:
     "@project-serum/borsh" "^0.2.2"
     "@solana/web3.js" "^1.17.0"
@@ -105,7 +110,7 @@
   dependencies:
     "buffer" "~6.0.3"
 
-"@solana/spl-token@^0.1.6":
+"@solana/spl-token@^0.1.6", "@solana/spl-token@^0.1.8":
   "integrity" "sha512-LZmYCKcPQDtJgecvWOgT/cnoIQPWjdH+QVyzPcFvyDUiT0DiRjZaam4aqNUyvchLFhzgunv3d9xOoyE34ofdoQ=="
   "resolved" "https://registry.npmjs.org/@solana/spl-token/-/spl-token-0.1.8.tgz"
   "version" "0.1.8"
