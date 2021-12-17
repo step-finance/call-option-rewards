@@ -3,7 +3,7 @@ version: 2.1
 jobs:
   formatting:
     docker:
-      - image: glacialengineering/solana-build:0.18.2.3
+      - image: glacialengineering/solana-build:0.19.0.1
     steps:
       - checkout
       - run:
@@ -14,7 +14,7 @@ jobs:
           command: "cd anchor-bpf && cargo clippy -- -D warnings --warn clippy::all"
   security-check:
     docker:
-      - image: glacialengineering/solana-build:0.18.2.3
+      - image: glacialengineering/solana-build:0.19.0.1
     steps:
       - checkout
       - run:
@@ -25,7 +25,7 @@ jobs:
           command: "cd anchor-bpf && cargo audit"
   test:
     docker:
-      - image: glacialengineering/solana-build:0.18.2.3
+      - image: glacialengineering/solana-build:0.19.0.1
     steps:
       - checkout
       - run:
@@ -43,7 +43,7 @@ jobs:
           destination: program-logs
   build:
     docker:
-      - image: glacialengineering/solana-build:0.18.2.3
+      - image: glacialengineering/solana-build:0.19.0.1
     steps:
       - checkout
       - run:
@@ -60,7 +60,7 @@ jobs:
           destination: types
   deploy-devnet:
     docker:
-      - image: glacialengineering/solana-build:0.18.2.3
+      - image: glacialengineering/solana-build:0.19.0.1
     steps:
       - checkout
       - run:
