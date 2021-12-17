@@ -8,10 +8,10 @@ jobs:
       - checkout
       - run:
           name: "Format rust code"
-          command: "cargo fmt --all -- --check"
+          command: "cd anchor-bpf && cargo fmt --all -- --check"
       - run:
           name: "Check rust code"
-          command: "cargo clippy -- -D warnings --warn clippy::all"
+          command: "cd anchor-bpf && cargo clippy -- -D warnings --warn clippy::all"
   security-check:
     docker:
       - image: glacialengineering/solana-build:0.18.2.3
@@ -19,10 +19,10 @@ jobs:
       - checkout
       - run:
           name: "Soteria analysis"
-          command: "cd programs/`ls programs/` && soteria -analyzeAll ."
+          command: "cd anchor-bpf && cd programs/`ls programs/` && soteria -analyzeAll ."
       - run:
           name: "Cargo audit"
-          command: "cargo audit"
+          command: "cd anchor-bpf && cargo audit"
   test:
     docker:
       - image: glacialengineering/solana-build:0.18.2.3
@@ -30,10 +30,11 @@ jobs:
       - checkout
       - run:
           name: "Unit tests"
-          command: "cargo test --lib"
+          command: "cd anchor-bpf && cargo test --lib"
       - run:
           name: "Anchor tests"
           command: |
+            cd anchor-bpf
             solana-keygen new -s --no-bip39-passphrase
             npm install
             anchor test -- --features local-testing,test-id
@@ -47,7 +48,7 @@ jobs:
       - checkout
       - run:
           name: "Build program"
-          command: "anchor build && rm ./target/deploy/*.json && cd ./target/deploy && sha256sum * > sha256.txt"
+          command: "cd anchor-bpf && anchor build && rm ./target/deploy/*.json && cd ./target/deploy && sha256sum * > sha256.txt"
       - store_artifacts:
           path: /root/project/target/deploy
           destination: bpf-programs
@@ -65,6 +66,7 @@ jobs:
       - run:
           name: "Deploy"
           command: |
+            cd anchor-bpf
             echo "$SOLANA_DEV_PROGRAM_KEY" > program-key.json
             echo "$SOLANA_DEV_AUTHORITY_KEY" > auth-key.json
             anchor build -- --features test-id
