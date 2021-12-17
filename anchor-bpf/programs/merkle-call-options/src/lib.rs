@@ -15,6 +15,7 @@ declare_id!("otstoZivsnAdKfcwbPY5NDfSiBxyHHu5U48pHgnXErE");
 #[program]
 pub mod merkle_call_options {
     use super::*;
+    #[allow(clippy::too_many_arguments)]
     pub fn new_distributor(
         ctx: Context<NewDistributor>,
         index: u16,
