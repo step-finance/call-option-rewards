@@ -352,7 +352,7 @@ pub struct Exercise<'info> {
     pub distributor: Box<Account<'info, CallOptionDistributor>>,
 
     #[account(mut)]
-    pub claims_bitmask_account: Loader<'info, CallOptionDistributorClaimsMask>,
+    pub claims_bitmask_account: AccountLoader<'info, CallOptionDistributorClaimsMask>,
 
     #[account(
         mut,
@@ -417,7 +417,7 @@ pub struct Close<'info> {
         mut,
         close = refundee,
     )]
-    pub claims_bitmask_account: Loader<'info, CallOptionDistributorClaimsMask>,
+    pub claims_bitmask_account: AccountLoader<'info, CallOptionDistributorClaimsMask>,
 
     /// Receives the rent.
     pub refundee: Signer<'info>,
