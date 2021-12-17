@@ -1,12 +1,15 @@
 use anchor_lang::prelude::*;
-use anchor_spl::token::{self, Mint, Token, TokenAccount, Transfer};
 use anchor_lang::solana_program::clock;
+use anchor_spl::token::{self, Mint, Token, TokenAccount, Transfer};
+use bit::BitIndex;
 use std::convert::TryInto;
 use std::mem;
-use bit::BitIndex;
 
 pub mod merkle_proof;
 
+#[cfg(not(feature = "test-id"))]
+declare_id!("otstoZivsnAdKfcwbPY5NDfSiBxyHHu5U48pHgnXErE");
+#[cfg(feature = "test-id")]
 declare_id!("otstoZivsnAdKfcwbPY5NDfSiBxyHHu5U48pHgnXErE");
 
 #[program]
@@ -23,7 +26,6 @@ pub mod merkle_call_options {
         max_total_amount_claim: u64,
         node_count: u32,
     ) -> ProgramResult {
-
         let distributor = &mut ctx.accounts.distributor;
 
         distributor.writer = ctx.accounts.writer.key();
@@ -56,16 +58,11 @@ pub mod merkle_call_options {
         let cpi_program = ctx.accounts.token_program.to_account_info();
 
         //from authority might be a pda for security reasons
-        let seeds = &[
-            ctx.accounts.writer.key.as_ref(),
-        ];
+        let seeds = &[ctx.accounts.writer.key.as_ref()];
         let (writer_auth, nonce) = Pubkey::find_program_address(seeds, &ID);
         //if using a pda, sign for the pda
         if ctx.accounts.from_authority.key() == writer_auth.key() {
-            let seeds = &[
-                ctx.accounts.writer.key.as_ref(),
-                &[nonce],
-            ];
+            let seeds = &[ctx.accounts.writer.key.as_ref(), &[nonce]];
             let signer = &[&seeds[..]];
             let cpi_ctx = CpiContext::new_with_signer(cpi_program, cpi_accounts, signer);
             token::transfer(cpi_ctx, max_total_amount_claim)?;
@@ -84,11 +81,7 @@ pub mod merkle_call_options {
         exercise_amount: u64,
         proof: Vec<[u8; 32]>,
     ) -> ProgramResult {
-
-        require!(
-            exercise_amount <= authorized_amount,
-            TooMuchExercise,
-        );
+        require!(exercise_amount <= authorized_amount, TooMuchExercise,);
 
         let distributor = &ctx.accounts.distributor;
 
@@ -121,10 +114,14 @@ pub mod merkle_call_options {
         );
 
         // exercise the option
-        let one_reward_token = 10u64.checked_pow(distributor.decimals_reward.into()).unwrap();
+        let one_reward_token = 10u64
+            .checked_pow(distributor.decimals_reward.into())
+            .unwrap();
         let cost = exercise_amount
-            .checked_mul(distributor.strike_price).unwrap()
-            .checked_div(one_reward_token).unwrap();
+            .checked_mul(distributor.strike_price)
+            .unwrap()
+            .checked_div(one_reward_token)
+            .unwrap();
 
         msg!("exercise cost is {}", cost);
 
@@ -136,7 +133,7 @@ pub mod merkle_call_options {
                     from: ctx.accounts.user_payment_account.to_account_info(),
                     to: ctx.accounts.price_vault.to_account_info(),
                     authority: ctx.accounts.user_payment_authority.to_account_info(),
-                }
+                },
             ),
             cost,
         )?;
@@ -156,8 +153,9 @@ pub mod merkle_call_options {
                     from: ctx.accounts.reward_vault.to_account_info(),
                     to: ctx.accounts.user_reward_token_account.to_account_info(),
                     authority: distributor.to_account_info(),
-                }
-            ).with_signer(signer),
+                },
+            )
+            .with_signer(signer),
             exercise_amount,
         )?;
 
@@ -169,10 +167,8 @@ pub mod merkle_call_options {
 
         Ok(())
     }
-    
-    pub fn close(
-        ctx: Context<Close>
-    ) -> ProgramResult {
+
+    pub fn close(ctx: Context<Close>) -> ProgramResult {
         let distributor = &ctx.accounts.distributor;
 
         //empty reward vault
@@ -190,8 +186,9 @@ pub mod merkle_call_options {
                     from: ctx.accounts.reward_vault.to_account_info(),
                     to: ctx.accounts.owner_reward_token_account.to_account_info(),
                     authority: distributor.to_account_info(),
-                }
-            ).with_signer(signer),
+                },
+            )
+            .with_signer(signer),
             ctx.accounts.reward_vault.amount,
         )?;
         token::close_account(
@@ -201,8 +198,9 @@ pub mod merkle_call_options {
                     account: ctx.accounts.reward_vault.to_account_info(),
                     authority: distributor.to_account_info(),
                     destination: ctx.accounts.refundee.to_account_info(),
-                }
-            ).with_signer(signer),
+                },
+            )
+            .with_signer(signer),
         )?;
 
         //empty price vault
@@ -220,8 +218,9 @@ pub mod merkle_call_options {
                     from: ctx.accounts.price_vault.to_account_info(),
                     to: ctx.accounts.owner_price_token_account.to_account_info(),
                     authority: distributor.to_account_info(),
-                }
-            ).with_signer(signer),
+                },
+            )
+            .with_signer(signer),
             ctx.accounts.price_vault.amount,
         )?;
         token::close_account(
@@ -231,17 +230,21 @@ pub mod merkle_call_options {
                     account: ctx.accounts.price_vault.to_account_info(),
                     authority: distributor.to_account_info(),
                     destination: ctx.accounts.refundee.to_account_info(),
-                }
-            ).with_signer(signer),
+                },
+            )
+            .with_signer(signer),
         )?;
 
         msg!(
             "Closed distributor; {} of {} claimed; {} percent of reward total",
             distributor.num_nodes_claimed,
             distributor.max_num_nodes,
-            distributor.total_amount_claimed
-                .checked_mul(100).unwrap()
-                .checked_div(distributor.max_total_amount_claim).unwrap(),
+            distributor
+                .total_amount_claimed
+                .checked_mul(100)
+                .unwrap()
+                .checked_div(distributor.max_total_amount_claim)
+                .unwrap(),
         );
 
         emit!(Closed {
@@ -340,9 +343,9 @@ pub struct Exercise<'info> {
         mut,
         has_one = claims_bitmask_account @ ErrorCode::WrongClaimsBitmask,
         //the claim_index into the claims mask can't be greater than the number of nodes
-        constraint = claim_index < u64::from(distributor.max_num_nodes) 
+        constraint = claim_index < u64::from(distributor.max_num_nodes)
             @ ErrorCode::InvalidClaimsIndex,
-        constraint = distributor.expiry > clock::Clock::get().unwrap().unix_timestamp.try_into().unwrap() 
+        constraint = distributor.expiry > clock::Clock::get().unwrap().unix_timestamp.try_into().unwrap()
             @ ErrorCode::OptionExpired,
     )]
     pub distributor: Box<Account<'info, CallOptionDistributor>>,
@@ -400,11 +403,11 @@ pub struct Close<'info> {
     #[account(
         mut,
         close = refundee,
-        has_one = claims_bitmask_account 
+        has_one = claims_bitmask_account
             @ ErrorCode::WrongClaimsBitmask,
         has_one = owner
             @ ErrorCode::WrongOwner,
-        constraint = distributor.expiry <= clock::Clock::get().unwrap().unix_timestamp.try_into().unwrap() 
+        constraint = distributor.expiry <= clock::Clock::get().unwrap().unix_timestamp.try_into().unwrap()
             @ ErrorCode::OptionNotExpired,
     )]
     pub distributor: Box<Account<'info, CallOptionDistributor>>,
