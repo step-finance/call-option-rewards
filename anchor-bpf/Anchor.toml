@@ -1,5 +1,7 @@
-[programs.localnet]
-merkle_call_options = "otstoZivsnAdKfcwbPY5NDfSiBxyHHu5U48pHgnXErE"
+anchor_version = "0.19.0"
+
+[workspace]
+members = ["programs/merkle-call-options"]
 
 [registry]
 url = "https://anchor.projectserum.com"
@@ -10,3 +12,6 @@ wallet = "~/.config/solana/id.json"
 
 [scripts]
 test = "mocha -t 1000000 tests/"
+
+[programs.localnet]
+merkle_call_options = "otstoZivsnAdKfcwbPY5NDfSiBxyHHu5U48pHgnXErE"
