@@ -17,21 +17,27 @@ pub fn verify(proof: Vec<[u8; 32]>, root: [u8; 32], leaf: [u8; 32]) -> bool {
     let mut computed_hash = leaf;
     for proof_element in proof.into_iter() {
         if computed_hash <= proof_element {
-
             #[cfg(feature = "verbose")]
-            msg!("{} computed hash\n\
+            msg!(
+                "{} computed hash\n\
                   <\n\
-                  {} proof", format(&computed_hash), format(&proof_element));
-            
+                  {} proof",
+                format(&computed_hash),
+                format(&proof_element)
+            );
+
             // Hash(current computed hash + current element of the proof)
             computed_hash = solana_program::keccak::hashv(&[&computed_hash, &proof_element]).0;
         } else {
-
             #[cfg(feature = "verbose")]
-            msg!("{} computed hash\n\
+            msg!(
+                "{} computed hash\n\
                   >\n\
-                  {} proof", format(&computed_hash), format(&proof_element));
-            
+                  {} proof",
+                format(&computed_hash),
+                format(&proof_element)
+            );
+
             // Hash(current element of the proof + current computed hash)
             computed_hash = solana_program::keccak::hashv(&[&proof_element, &computed_hash]).0;
         }
