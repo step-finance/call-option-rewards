@@ -162,7 +162,10 @@ pub mod merkle_call_options {
 
         //update the distributor aggregate detail
         distributor.num_nodes_claimed = distributor.num_nodes_claimed.checked_add(1).unwrap();
-        distributor.total_amount_claimed = distributor.total_amount_claimed.checked_add(exercise_amount).unwrap();
+        distributor.total_amount_claimed = distributor
+            .total_amount_claimed
+            .checked_add(exercise_amount)
+            .unwrap();
 
         emit!(Exercised {
             amount: exercise_amount,
