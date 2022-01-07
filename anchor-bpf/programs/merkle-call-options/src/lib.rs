@@ -84,7 +84,7 @@ pub mod merkle_call_options {
     ) -> ProgramResult {
         require!(exercise_amount <= authorized_amount, TooMuchExercise,);
 
-        let distributor = &ctx.accounts.distributor;
+        let distributor = &mut ctx.accounts.distributor;
 
         //validate not claimed and mark as claimed
         {
@@ -159,6 +159,10 @@ pub mod merkle_call_options {
             .with_signer(signer),
             exercise_amount,
         )?;
+
+        //update the distributor aggregate detail
+        distributor.num_nodes_claimed = distributor.num_nodes_claimed.checked_add(1).unwrap();
+        distributor.total_amount_claimed = distributor.total_amount_claimed.checked_add(exercise_amount).unwrap();
 
         emit!(Exercised {
             amount: exercise_amount,
