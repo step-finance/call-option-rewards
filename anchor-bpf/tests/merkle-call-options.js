@@ -208,6 +208,8 @@ describe('merkle-call-options', () => {
     const claimsData = JSON.parse(fs.readFileSync("tests/data/claims-YBKqO7sk+KJJC1CirbhD0czdpeDTa8aqx7BD9HtIEC4=.json"));
     const userData = claimsData[userKeypair.publicKey];
 
+    const amountToClaim = parseInt(userData.amount) / 2;
+
     await exerciseOption(
       1, 
       program, 
@@ -220,7 +222,7 @@ describe('merkle-call-options', () => {
       userPayAccount, 
       userData.index, 
       userData.amount, 
-      (parseInt(userData.amount) / 2).toString(), 
+      (amountToClaim).toString(), 
       userData.proof.map(a=>Buffer.from(a, "base64")),
     );
 
@@ -234,9 +236,9 @@ describe('merkle-call-options', () => {
     assert.equal(dist.dataLocation, "012345678901234567890123456789012345678901234567890123456789");
     assert.equal(Buffer.from(dist.merkleRoot).toString("base64"), "YBKqO7sk+KJJC1CirbhD0czdpeDTa8aqx7BD9HtIEC4=");
     assert.equal(dist.maxTotalAmountClaim.toString(), new anchor.BN(1_000_000_000_000).toString());
-    assert.equal(dist.totalAmountClaimed.toString(), new anchor.BN(0).toString());
+    assert.equal(dist.totalAmountClaimed.toString(), new anchor.BN(amountToClaim).toString());
     assert.equal(dist.maxNumNodes, 1);
-    assert.equal(dist.numNodesClaimed.toString(), new anchor.BN(0).toString());
+    assert.equal(dist.numNodesClaimed.toString(), new anchor.BN(1).toString());
     assert.equal(dist.claimsBitmaskAccount.toString(), claimsMask1.toString());
   });
 
