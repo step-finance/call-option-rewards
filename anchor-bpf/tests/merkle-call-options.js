@@ -209,6 +209,9 @@ describe('merkle-call-options', () => {
     const userData = claimsData[userKeypair.publicKey];
 
     const amountToClaim = parseInt(userData.amount) / 2;
+    
+    let isClaimed = await isCallOptionClaimed(program.provider.connection, claimsMask1, userData.index);
+    assert.equal(isClaimed, false);
 
     await exerciseOption(
       1, 
@@ -226,6 +229,10 @@ describe('merkle-call-options', () => {
       userData.proof.map(a=>Buffer.from(a, "base64")),
     );
 
+    isClaimed = await isCallOptionClaimed(program.provider.connection, claimsMask1, userData.index);
+    assert.equal(isClaimed, true);
+
+    //validate expected fields on distributor
     let dist = await program.account.callOptionDistributor.fetch(distAddress1);
     assert.equal(dist.writer.toString(), program.provider.wallet.publicKey.toString());
     assert.equal(dist.rewardMint.toString(), rewardMint.toString());
@@ -287,12 +294,19 @@ describe('merkle-call-options', () => {
         userData.proof.map(a=>Buffer.from(a, "base64")),
       );
       assert(false, 'should not have allowed over-claim');
-    } catch { /*expected*/ }
+      
+      isClaimed = await isCallOptionClaimed(program.provider.connection, claimsMask2, userData.index);
+      assert.equal(isClaimed, false);
+    } 
+    catch { /*expected*/ }
   });
 
   it('Claim from a large tree', async () => {
     const claimsData = JSON.parse(fs.readFileSync("tests/data/claims-q8LYvfEDW9gdyeWBZk3ABsUjVQFM-V4BhAsSHJMDstA=.json"));
     const userData = claimsData[userKeypair.publicKey];
+      
+    isClaimed = await isCallOptionClaimed(program.provider.connection, claimsMask2, userData.index);
+    assert.equal(isClaimed, false);
 
     await exerciseOption(
       2, 
@@ -309,6 +323,9 @@ describe('merkle-call-options', () => {
       userData.amount, 
       userData.proof.map(a=>Buffer.from(a, "base64")),
     );
+      
+    isClaimed = await isCallOptionClaimed(program.provider.connection, claimsMask2, userData.index);
+    assert.equal(isClaimed, true);
   });
 
   it('Second claim from a large tree fails', async () => {
@@ -338,6 +355,9 @@ describe('merkle-call-options', () => {
   it('Claim last node from a large tree', async () => {
     const claimsData = JSON.parse(fs.readFileSync("tests/data/claims-q8LYvfEDW9gdyeWBZk3ABsUjVQFM-V4BhAsSHJMDstA=.json"));
     const userData = claimsData[userKeypair2.publicKey];
+      
+    isClaimed = await isCallOptionClaimed(program.provider.connection, claimsMask2, userData.index);
+    assert.equal(isClaimed, false);
 
     await exerciseOption(
       2, 
@@ -354,6 +374,20 @@ describe('merkle-call-options', () => {
       userData.amount, 
       userData.proof.map(a=>Buffer.from(a, "base64")),
     );
+      
+    isClaimed = await isCallOptionClaimed(program.provider.connection, claimsMask2, userData.index);
+    assert.equal(isClaimed, true);
+  });
+
+  it('A couple dozen indexes before the last are still not claimed', async () => {
+    const claimsData = JSON.parse(fs.readFileSync("tests/data/claims-q8LYvfEDW9gdyeWBZk3ABsUjVQFM-V4BhAsSHJMDstA=.json"));
+    const userData = claimsData[userKeypair2.publicKey];
+    
+    //really just exercising/testing our isCallOptionClaimed method here
+    for (let i = 1; i < 25; i++) {
+      isClaimed = await isCallOptionClaimed(program.provider.connection, claimsMask2, userData.index - i);
+      assert.equal(isClaimed, false);
+    }
   });
 
   it('Second claim last node from a large tree fails', async () => {
@@ -608,4 +642,31 @@ async function wait(seconds) {
     await new Promise(a=>setTimeout(a, 1000));
   }
   console.log("wait over");
+}
+
+async function isCallOptionClaimed(connection, claimsMaskPubkey, claimIndex) {
+  //the bool value of if a option has been exercised (claimed) is stored as a bit on the 
+  //claimsMask account.  The index represents the bit number in a pure left to right fashion
+  //thus 0 is the MSB of the first byte, and 7 is the LSB of the first byte
+  //instead of pulling all 31k bytes of claimsMask down, we just pull the byte that contains the bit
+  //that we are interested in. Note the "8+" below represents the anchor account discriminator
+  const byteOffset = 8 + Math.floor(claimIndex / 8);
+  //grab a single byte from the claim mask account's data
+  const res = await connection._rpcRequest('getAccountInfo', 
+    [
+      claimsMaskPubkey.toString(),
+      {
+        encoding: 'base64',
+        commitment: 'processed',
+        dataSlice: { offset: byteOffset, length: 1 }
+      }
+    ]
+  );
+  //note, no error handling for acct not found - blindly going after data - which should be exactly 1 byte
+  const buf = Buffer.from(res.result.value.data[0], 'base64');
+  //now we create a mask for the bit of this byte we are going to check, converting from 0=LSB to 0=MSB (hence 7 - X)
+  //0 becomes 128 (the MSB or leftmost bit), 7 becomes 1 (the LSB or rightmost bit)
+  const byteMask = 1 << 7 - claimIndex % 8;
+  //check the interesting bit of the byte
+  return (buf[0] & byteMask) > 0;
 }
