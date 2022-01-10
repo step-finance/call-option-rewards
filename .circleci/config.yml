@@ -39,7 +39,7 @@ jobs:
             npm install
             anchor test -- --features local-testing,test-id
       - store_artifacts:
-          path: /root/project/.anchor/program-logs
+          path: /root/project/anchor-bpf/.anchor/program-logs
           destination: program-logs
   build:
     docker:
@@ -50,13 +50,13 @@ jobs:
           name: "Build program"
           command: "cd anchor-bpf && anchor build && rm ./target/deploy/*.json && cd ./target/deploy && sha256sum * > sha256.txt"
       - store_artifacts:
-          path: /root/project/target/deploy
+          path: /root/project/anchor-bpf/target/deploy
           destination: bpf-programs
       - store_artifacts:
-          path: /root/project/target/idl
+          path: /root/project/anchor-bpf/target/idl
           destination: idls
       - store_artifacts:
-          path: /root/project/target/types
+          path: /root/project/anchor-bpf/target/types
           destination: types
   deploy-devnet:
     docker:
