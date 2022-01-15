@@ -8,9 +8,9 @@ use std::mem;
 pub mod merkle_proof;
 
 #[cfg(not(feature = "test-id"))]
-declare_id!("otstoZivsnAdKfcwbPY5NDfSiBxyHHu5U48pHgnXErE");
+declare_id!("tsTaDvb83Zv8fTm5HKZb4Lk9TQdPfYcSieqtV5JLgPk");
 #[cfg(feature = "test-id")]
-declare_id!("otstoZivsnAdKfcwbPY5NDfSiBxyHHu5U48pHgnXErE");
+declare_id!("tsTaDvb83Zv8fTm5HKZb4Lk9TQdPfYcSieqtV5JLgPk");
 
 #[program]
 pub mod merkle_call_options {
