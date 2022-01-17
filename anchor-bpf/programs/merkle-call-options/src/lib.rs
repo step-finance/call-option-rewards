@@ -507,7 +507,7 @@ pub struct CallOptionDistributor {
     pub claims_bitmask_account: Pubkey,
 
     /// Informational for front end use; improves performance
-    
+
     /// Mint of the price token
     pub price_mint: Pubkey,
     /// Decimals of the price mint
