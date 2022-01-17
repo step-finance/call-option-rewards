@@ -133,6 +133,8 @@ describe('merkle-call-options', () => {
     assert.equal(dist.maxNumNodes, 1);
     assert.equal(dist.numNodesClaimed.toString(), new anchor.BN(0).toString());
     assert.equal(dist.claimsBitmaskAccount.toString(), claimsMask1.toString());
+    assert.equal(dist.priceMint.toString(), priceMint.toString());
+    assert.equal(dist.decimalsPrice, 6);
 
     dist = await program.account.callOptionDistributor.fetch(distAddress2);
     assert.equal(dist.writer.toString(), program.provider.wallet.publicKey.toString());
@@ -148,6 +150,8 @@ describe('merkle-call-options', () => {
     assert.equal(dist.maxNumNodes, 5_000);
     assert.equal(dist.numNodesClaimed.toString(), new anchor.BN(0).toString());
     assert.equal(dist.claimsBitmaskAccount.toString(), claimsMask2.toString());
+    assert.equal(dist.priceMint.toString(), priceMint.toString());
+    assert.equal(dist.decimalsPrice, 6);
   });
 
   it('Claim with wrong bitmask account fails', async () => {
@@ -247,6 +251,8 @@ describe('merkle-call-options', () => {
     assert.equal(dist.maxNumNodes, 1);
     assert.equal(dist.numNodesClaimed.toString(), new anchor.BN(1).toString());
     assert.equal(dist.claimsBitmaskAccount.toString(), claimsMask1.toString());
+    assert.equal(dist.priceMint.toString(), priceMint.toString());
+    assert.equal(dist.decimalsPrice, 6);
   });
 
   it('Second claim of same node fails', async () => {

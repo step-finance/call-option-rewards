@@ -8,9 +8,9 @@ use std::mem;
 pub mod merkle_proof;
 
 #[cfg(not(feature = "test-id"))]
-declare_id!("tsTaDvb83Zv8fTm5HKZb4Lk9TQdPfYcSieqtV5JLgPk");
+declare_id!("TSTRWEbxZThF6gVguT9vjieShpJsC1Ln9PBARCnGzxv");
 #[cfg(feature = "test-id")]
-declare_id!("tsTaDvb83Zv8fTm5HKZb4Lk9TQdPfYcSieqtV5JLgPk");
+declare_id!("TSTRWEbxZThF6gVguT9vjieShpJsC1Ln9PBARCnGzxv");
 
 #[program]
 pub mod merkle_call_options {
@@ -49,6 +49,9 @@ pub mod merkle_call_options {
         distributor.num_nodes_claimed = 0;
 
         distributor.claims_bitmask_account = ctx.accounts.claims_bitmask_account.key();
+
+        distributor.price_mint = ctx.accounts.price_mint.key();
+        distributor.decimals_price = ctx.accounts.price_mint.decimals;
 
         //create ix to xfer max_total_claim to vault
         let cpi_accounts = Transfer {
@@ -502,6 +505,13 @@ pub struct CallOptionDistributor {
     pub num_nodes_claimed: u64,
     /// A bitmask of indexes claimed
     pub claims_bitmask_account: Pubkey,
+
+    /// Informational for front end use; improves performance
+    
+    /// Mint of the price token
+    pub price_mint: Pubkey,
+    /// Decimals of the price mint
+    pub decimals_price: u8,
 }
 impl CallOptionDistributor {
     //used to provide the space for the account on init, which is default + bytes in the string
