@@ -14,7 +14,7 @@ no-idl = []
 verbose = []
 cpi = ["no-entrypoint"]
 default = []
-local-testing = []
+local-testing = ["test-id"]
 test-id = []
 
 [dependencies]

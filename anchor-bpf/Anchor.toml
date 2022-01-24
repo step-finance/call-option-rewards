@@ -14,4 +14,4 @@ wallet = "~/.config/solana/id.json"
 test = "mocha -t 1000000 tests/"
 
 [programs.localnet]
-merkle_call_options = "tsTaDvb83Zv8fTm5HKZb4Lk9TQdPfYcSieqtV5JLgPk"
+merkle_call_options = "TSTRWEbxZThF6gVguT9vjieShpJsC1Ln9PBARCnGzxv"
