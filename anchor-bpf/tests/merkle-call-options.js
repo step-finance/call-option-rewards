@@ -11,6 +11,12 @@ describe('merkle-call-options', () => {
   const program = anchor.workspace.MerkleCallOptions;
 
   let ownerKeypair;
+  let ownerRewardAccount;
+  let ownerPriceAccount;
+
+  let writerKeypair;
+  let writerRewardAccount;
+  let writerPriceAccount;
 
   let userKeypair;
   let userRewardAccount;
@@ -27,6 +33,10 @@ describe('merkle-call-options', () => {
 
   it('Setup', async () => {
     ownerKeypair = new anchor.web3.Keypair();
+    await program.provider.connection.requestAirdrop(ownerKeypair.publicKey, 10_000_000_000);
+
+    writerKeypair = new anchor.web3.Keypair();
+    await program.provider.connection.requestAirdrop(writerKeypair.publicKey, 10_000_000_000);
 
     userKeypair = anchor.web3.Keypair.fromSecretKey(new Uint8Array(JSON.parse(fs.readFileSync("tests/data/DrWW4z9awhp6gg1gk3jPHqG68toDwxWjhiUmiZZ62gMh.json"))));
     await program.provider.connection.requestAirdrop(userKeypair.publicKey, 10_000_000_000);
@@ -46,6 +56,10 @@ describe('merkle-call-options', () => {
       .createAssociatedTokenAccount(userKeypair.publicKey);
     userRewardAccount2 = await new Token(program.provider.connection, rewardMint, TOKEN_PROGRAM_ID, userKeypair2)
       .createAssociatedTokenAccount(userKeypair2.publicKey);
+    ownerRewardAccount = await new Token(program.provider.connection, rewardMint, TOKEN_PROGRAM_ID, ownerKeypair)
+      .createAssociatedTokenAccount(ownerKeypair.publicKey);
+    writerRewardAccount = await new Token(program.provider.connection, rewardMint, TOKEN_PROGRAM_ID, writerKeypair)
+        .createAssociatedTokenAccount(writerKeypair.publicKey);
 
     const [_priceMint, _priceVault] = await serumCmn.createMintAndVault(
       program.provider,
@@ -60,6 +74,10 @@ describe('merkle-call-options', () => {
       .createAssociatedTokenAccount(userKeypair.publicKey);
     userPayAccount2 = await new Token(program.provider.connection, priceMint, TOKEN_PROGRAM_ID, userKeypair2)
       .createAssociatedTokenAccount(userKeypair2.publicKey);
+    ownerPriceAccount = await new Token(program.provider.connection, priceMint, TOKEN_PROGRAM_ID, ownerKeypair)
+      .createAssociatedTokenAccount(ownerKeypair.publicKey);
+    writerPriceAccount = await new Token(program.provider.connection, priceMint, TOKEN_PROGRAM_ID, writerKeypair)
+        .createAssociatedTokenAccount(writerKeypair.publicKey);
     
     let xfer = Token.createTransferInstruction(TOKEN_PROGRAM_ID, priceVault, userPayAccount, program.provider.wallet.publicKey, [], 5_000_000_000);
     let tx = new anchor.web3.Transaction();
@@ -92,6 +110,7 @@ describe('merkle-call-options', () => {
     [distAddress1,claimsMask1,distRewardsVault1,distPriceVault1] = await createDistributor(
       1, 
       program, 
+      writerKeypair,
       rewardMint, 
       rewardVault, 
       priceMint,
@@ -107,6 +126,7 @@ describe('merkle-call-options', () => {
     [distAddress2,claimsMask2,distRewardsVault2,distPriceVault2] = await createDistributor(
       2, 
       program, 
+      writerKeypair,
       rewardMint, 
       rewardVault, 
       priceMint,
@@ -120,7 +140,7 @@ describe('merkle-call-options', () => {
     );
 
     let dist = await program.account.callOptionDistributor.fetch(distAddress1);
-    assert.equal(dist.writer.toString(), program.provider.wallet.publicKey.toString());
+    assert.equal(dist.writer.toString(), writerKeypair.publicKey.toString());
     assert.equal(dist.rewardMint.toString(), rewardMint.toString());
     assert.equal(dist.index, 1);
     assert.equal(dist.decimalsReward, 9);
@@ -137,7 +157,7 @@ describe('merkle-call-options', () => {
     assert.equal(dist.decimalsPrice, 6);
 
     dist = await program.account.callOptionDistributor.fetch(distAddress2);
-    assert.equal(dist.writer.toString(), program.provider.wallet.publicKey.toString());
+    assert.equal(dist.writer.toString(), writerKeypair.publicKey.toString());
     assert.equal(dist.rewardMint.toString(), rewardMint.toString());
     assert.equal(dist.index, 2);
     assert.equal(dist.decimalsReward, 9);
@@ -162,6 +182,7 @@ describe('merkle-call-options', () => {
       await exerciseOption(
         1, 
         program, 
+        writerKeypair.publicKey,
         rewardMint, 
         
         //wrong
@@ -189,6 +210,7 @@ describe('merkle-call-options', () => {
       await exerciseOption(
         1, 
         program, 
+        writerKeypair.publicKey,
         rewardMint, 
         claimsMask1, 
 
@@ -220,6 +242,7 @@ describe('merkle-call-options', () => {
     await exerciseOption(
       1, 
       program, 
+      writerKeypair.publicKey,
       rewardMint, 
       claimsMask1, 
       distRewardsVault1, 
@@ -238,7 +261,7 @@ describe('merkle-call-options', () => {
 
     //validate expected fields on distributor
     let dist = await program.account.callOptionDistributor.fetch(distAddress1);
-    assert.equal(dist.writer.toString(), program.provider.wallet.publicKey.toString());
+    assert.equal(dist.writer.toString(), writerKeypair.publicKey.toString());
     assert.equal(dist.rewardMint.toString(), rewardMint.toString());
     assert.equal(dist.index, 1);
     assert.equal(dist.decimalsReward, 9);
@@ -263,6 +286,7 @@ describe('merkle-call-options', () => {
       await exerciseOption(
         1, 
         program, 
+        writerKeypair.publicKey,
         rewardMint, 
         claimsMask1, 
         distRewardsVault1, 
@@ -287,6 +311,7 @@ describe('merkle-call-options', () => {
       await exerciseOption(
         2, 
         program, 
+        writerKeypair.publicKey,
         rewardMint, 
         claimsMask2, 
         distRewardsVault2, 
@@ -317,6 +342,7 @@ describe('merkle-call-options', () => {
     await exerciseOption(
       2, 
       program, 
+      writerKeypair.publicKey,
       rewardMint, 
       claimsMask2, 
       distRewardsVault2, 
@@ -342,6 +368,7 @@ describe('merkle-call-options', () => {
       await exerciseOption(
         2, 
         program, 
+        writerKeypair.publicKey,
         rewardMint, 
         claimsMask2, 
         distRewardsVault2, 
@@ -368,6 +395,7 @@ describe('merkle-call-options', () => {
     await exerciseOption(
       2, 
       program, 
+      writerKeypair.publicKey,
       rewardMint, 
       claimsMask2, 
       distRewardsVault2, 
@@ -404,6 +432,7 @@ describe('merkle-call-options', () => {
       await exerciseOption(
         2, 
         program, 
+        writerKeypair.publicKey,
         rewardMint, 
         claimsMask2, 
         distRewardsVault2, 
@@ -426,13 +455,13 @@ describe('merkle-call-options', () => {
       await closeOption(
         1, 
         program, 
-        ownerKeypair,
+        writerKeypair,
         claimsMask1, 
         rewardMint, 
         distRewardsVault1, 
         distPriceVault1, 
-        rewardVault, 
-        priceVault, 
+        writerRewardAccount, 
+        writerPriceAccount, 
       );
       assert(false, 'should not have allowed early close');
     } catch { /*expected*/ }
@@ -443,21 +472,40 @@ describe('merkle-call-options', () => {
     await wait(8); //let expire
   });
 
-  it('Close distributor 1 with wrong owner fails', async () => {
+  it('Close distributor 1 with wrong writer fails', async () => {
 
     try {
       await closeOption(
         1, 
         program, 
-        program.wallet.payer,
+        ownerKeypair,
         claimsMask1, 
         rewardMint, 
         distRewardsVault1, 
         distPriceVault1, 
-        rewardVault, 
-        priceVault, 
+        writerRewardAccount, 
+        writerPriceAccount, 
       );
-      assert(false, 'should not have allowed closing by wrong owner');
+      assert(false, 'should not have allowed closing by wrong writer');
+    } catch { /*expected*/ }
+
+  });
+
+  it('Close distributor 1 with wrong token accounts fails', async () => {
+
+    try {
+      await closeOption(
+        1, 
+        program, 
+        writerKeypair,
+        claimsMask1, 
+        rewardMint, 
+        distRewardsVault1, 
+        distPriceVault1, 
+        userRewardAccount1, 
+        userPayAccount1, 
+      );
+      assert(false, 'should not have allowed closing with non owner or writer token accounts');
     } catch { /*expected*/ }
 
   });
@@ -467,13 +515,13 @@ describe('merkle-call-options', () => {
     await closeOption(
       1, 
       program, 
-      ownerKeypair,
+      writerKeypair,
       claimsMask1, 
       rewardMint, 
       distRewardsVault1, 
       distPriceVault1, 
-      rewardVault, 
-      priceVault, 
+      writerRewardAccount, 
+      ownerPriceAccount, 
     );
 
   });
@@ -483,26 +531,26 @@ describe('merkle-call-options', () => {
     await closeOption(
       2, 
       program, 
-      ownerKeypair,
+      writerKeypair,
       claimsMask2, 
       rewardMint, 
       distRewardsVault2, 
       distPriceVault2, 
-      rewardVault, 
-      priceVault, 
+      ownerRewardAccount, 
+      writerPriceAccount, 
     );
 
   });
 
 });
 
-async function closeOption(index, program, owner, claimsAcct, rewardMint, rewardVault, priceVault, userRewardAccount, userPriceAccount) {
+async function closeOption(index, program, writer, claimsAcct, rewardMint, rewardVault, priceVault, refundRewardAccount, refundPriceAccount) {
   const buff = new ArrayBuffer(2);
   const view = new DataView(buff);
   view.setInt16(0, index, true);
   [_distAddress, _distBump] = await anchor.web3.PublicKey.findProgramAddress(
     [
-      program.provider.wallet.publicKey.toBuffer(),
+      writer.publicKey.toBuffer(),
       rewardMint.toBuffer(),
       buff
     ],
@@ -513,31 +561,27 @@ async function closeOption(index, program, owner, claimsAcct, rewardMint, reward
   await program.rpc.close(
     {
       accounts: {
-        owner: owner.publicKey,
+        writer: writer.publicKey,
         distributor: distAddress,
         claimsBitmaskAccount: claimsAcct,
-        refundee: program.provider.wallet.publicKey,
         rewardVault: rewardVault,
         priceVault: priceVault,
-        ownerRewardTokenAccount: userRewardAccount,
-        ownerPriceTokenAccount: userPriceAccount,
-        writer: program.provider.wallet.publicKey,
+        refundRewardTokenAccount: refundRewardAccount,
+        refundPriceTokenAccount: refundPriceAccount,
         tokenProgram: TOKEN_PROGRAM_ID,
       },
-      signers: [
-        owner,
-      ]
+      signers: [writer]
     }
   );
 }
 
-async function exerciseOption(index, program, rewardMint, claimsAcct, rewardVault, priceVault, userKeypair, userRewardAccount, userPaymentAccount, claimIndex, authorizedAmount, exerciseAmount, proof) {
+async function exerciseOption(index, program, writer, rewardMint, claimsAcct, rewardVault, priceVault, userKeypair, userRewardAccount, userPaymentAccount, claimIndex, authorizedAmount, exerciseAmount, proof) {
   const buff = new ArrayBuffer(2);
   const view = new DataView(buff);
   view.setInt16(0, index, true);
   [_distAddress, _distBump] = await anchor.web3.PublicKey.findProgramAddress(
     [
-      program.provider.wallet.publicKey.toBuffer(),
+      writer.toBuffer(),
       rewardMint.toBuffer(),
       buff
     ],
@@ -569,13 +613,13 @@ async function exerciseOption(index, program, rewardMint, claimsAcct, rewardVaul
   );
 }
 
-async function createDistributor(index, program, rewardMint, rewardVault, priceMint, owner, dataLocation, merkle, price, maxClaim, nodeCount, expiry) {
+async function createDistributor(index, program, writer, rewardMint, rewardVault, priceMint, owner, dataLocation, merkle, price, maxClaim, nodeCount, expiry) {
   const buff = new ArrayBuffer(2);
   const view = new DataView(buff);
   view.setInt16(0, index, true);
   [_distAddress, _distBump] = await anchor.web3.PublicKey.findProgramAddress(
     [
-      program.provider.wallet.publicKey.toBuffer(),
+      writer.publicKey.toBuffer(),
       rewardMint.toBuffer(),
       buff
     ],
@@ -615,7 +659,7 @@ async function createDistributor(index, program, rewardMint, rewardVault, priceM
     nodeCount,
     {
       accounts: {
-        writer: program.provider.wallet.publicKey,
+        writer: writer.publicKey,
         rewardMint: rewardMint,
         priceMint: priceMint,
         distributor: distAddress,
@@ -635,7 +679,7 @@ async function createDistributor(index, program, rewardMint, rewardVault, priceM
           claimsBitmaskAccountKey
         )
       ],
-      signers: [claimsBitmaskAccountKey],
+      signers: [writer, claimsBitmaskAccountKey],
     }
   );
 
