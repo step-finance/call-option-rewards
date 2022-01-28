@@ -182,7 +182,6 @@ pub mod merkle_call_options {
     pub fn close(ctx: Context<Close>) -> ProgramResult {
         let distributor = &ctx.accounts.distributor;
 
-        //empty reward vault
         let seeds = &[
             distributor.writer.as_ref(),
             distributor.reward_mint.as_ref(),
@@ -190,12 +189,14 @@ pub mod merkle_call_options {
             &[distributor.bump],
         ];
         let signer = &[&seeds[..]];
+
+        //empty reward vault
         token::transfer(
             CpiContext::new(
                 ctx.accounts.token_program.to_account_info(),
                 Transfer {
                     from: ctx.accounts.reward_vault.to_account_info(),
-                    to: ctx.accounts.owner_reward_token_account.to_account_info(),
+                    to: ctx.accounts.refund_reward_token_account.to_account_info(),
                     authority: distributor.to_account_info(),
                 },
             )
@@ -208,26 +209,19 @@ pub mod merkle_call_options {
                 token::CloseAccount {
                     account: ctx.accounts.reward_vault.to_account_info(),
                     authority: distributor.to_account_info(),
-                    destination: ctx.accounts.refundee.to_account_info(),
+                    destination: ctx.accounts.writer.to_account_info(),
                 },
             )
             .with_signer(signer),
         )?;
 
         //empty price vault
-        let seeds = &[
-            distributor.writer.as_ref(),
-            distributor.reward_mint.as_ref(),
-            &distributor.index.to_le_bytes(),
-            &[distributor.bump],
-        ];
-        let signer = &[&seeds[..]];
         token::transfer(
             CpiContext::new(
                 ctx.accounts.token_program.to_account_info(),
                 Transfer {
                     from: ctx.accounts.price_vault.to_account_info(),
-                    to: ctx.accounts.owner_price_token_account.to_account_info(),
+                    to: ctx.accounts.refund_price_token_account.to_account_info(),
                     authority: distributor.to_account_info(),
                 },
             )
@@ -240,7 +234,7 @@ pub mod merkle_call_options {
                 token::CloseAccount {
                     account: ctx.accounts.price_vault.to_account_info(),
                     authority: distributor.to_account_info(),
-                    destination: ctx.accounts.refundee.to_account_info(),
+                    destination: ctx.accounts.writer.to_account_info(),
                 },
             )
             .with_signer(signer),
@@ -277,7 +271,7 @@ pub struct NewDistributor<'info> {
     /// Writer of the call options. Required to sign to ensure derivation of distributor is secure.
     pub writer: Signer<'info>,
 
-    /// Owner of the distribution, allowed to close.
+    /// Owner of the distribution, may receive payment for options
     pub owner: UncheckedAccount<'info>,
 
     /// The mint to distribute.
@@ -409,15 +403,15 @@ pub struct Exercise<'info> {
 #[derive(Accounts)]
 pub struct Close<'info> {
     /// Writer of the distribution.
-    pub writer: UncheckedAccount<'info>,
+    #[account(mut)]
+    pub writer: Signer<'info>,
 
     #[account(
         mut,
-        close = refundee,
+        close = writer,
+        has_one = writer,
         has_one = claims_bitmask_account
             @ ErrorCode::WrongClaimsBitmask,
-        has_one = owner
-            @ ErrorCode::WrongOwner,
         constraint = distributor.expiry <= clock::Clock::get().unwrap().unix_timestamp.try_into().unwrap()
             @ ErrorCode::OptionNotExpired,
     )]
@@ -425,12 +419,9 @@ pub struct Close<'info> {
 
     #[account(
         mut,
-        close = refundee,
+        close = writer,
     )]
     pub claims_bitmask_account: AccountLoader<'info, CallOptionDistributorClaimsMask>,
-
-    /// Receives the rent.
-    pub refundee: Signer<'info>,
 
     #[account(
         mut,
@@ -453,15 +444,18 @@ pub struct Close<'info> {
     pub price_vault: Box<Account<'info, TokenAccount>>,
 
     /// Account to send the unused reward tokens to.
-    #[account(mut)]
-    pub owner_reward_token_account: Box<Account<'info, TokenAccount>>,
+    #[account(
+        mut,
+        constraint = refund_reward_token_account.owner == writer.key() || refund_reward_token_account.owner == distributor.owner,
+    )]
+    pub refund_reward_token_account: Box<Account<'info, TokenAccount>>,
 
     /// Account to send the paid price tokens to.
-    #[account(mut)]
-    pub owner_price_token_account: Box<Account<'info, TokenAccount>>,
-
-    /// Owner of the distribution.
-    pub owner: Signer<'info>,
+    #[account(
+        mut,
+        constraint = refund_price_token_account.owner == writer.key() || refund_price_token_account.owner == distributor.owner,
+    )]
+    pub refund_price_token_account: Box<Account<'info, TokenAccount>>,
 
     pub token_program: Program<'info, Token>,
 }
@@ -480,7 +474,7 @@ pub struct CallOptionDistributor {
     /// Bump seed for this account
     pub bump: u8,
 
-    /// The pubkey of the owner of the options (allowed to close).
+    /// The pubkey of the owner of the options (can receive refunded tokens).
     pub owner: Pubkey,
     /// we store the decimals of the mint so our maths during claim doesn't need the mint
     pub decimals_reward: u8,
