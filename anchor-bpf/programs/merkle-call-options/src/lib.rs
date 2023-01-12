@@ -272,6 +272,7 @@ pub struct NewDistributor<'info> {
     pub writer: Signer<'info>,
 
     /// Owner of the distribution, may receive payment for options
+    /// CHECK: no
     pub owner: UncheckedAccount<'info>,
 
     /// The mint to distribute.
@@ -287,7 +288,7 @@ pub struct NewDistributor<'info> {
             reward_mint.key().as_ref(),
             &index.to_le_bytes()
         ],
-        bump = bump,
+        bump,
         payer = payer,
         space = CallOptionDistributor::size_of(data_location),
     )]
@@ -297,6 +298,7 @@ pub struct NewDistributor<'info> {
     pub claims_bitmask_account: AccountLoader<'info, CallOptionDistributorClaimsMask>,
 
     /// Payer to create the distributor.
+    #[account(mut)]
     pub payer: Signer<'info>,
 
     /// Authority to transfer from the "from" token account.
